@@ -31,13 +31,19 @@ export function CycleCountdown({
   compact?: boolean;
 }) {
   const t = useTranslations();
-  const [label, setLabel] = useState<string | null>(() =>
-    formatRemaining(new Date(endsAt).getTime() - Date.now(), t)
-  );
+  // Start as null on both server and client — the real, time-sensitive value
+  // is only ever computed client-side (after mount), so the server-rendered
+  // HTML and the first client render always match. Computing it eagerly in
+  // useState's initializer would make the server's snapshot (render time)
+  // drift from the client's (hydration time) by a second or more, which is
+  // exactly the hydration mismatch this previously caused.
+  const [label, setLabel] = useState<string | null | "ended">(null);
 
   useEffect(() => {
-    const tick = () =>
-      setLabel(formatRemaining(new Date(endsAt).getTime() - Date.now(), t));
+    const tick = () => {
+      const remaining = formatRemaining(new Date(endsAt).getTime() - Date.now(), t);
+      setLabel(remaining ?? "ended");
+    };
 
     tick();
     const interval = setInterval(tick, 1000);
@@ -45,14 +51,14 @@ export function CycleCountdown({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [endsAt]);
 
-  if (!label) {
+  if (label === "ended") {
     return <span>{t("deals.cycleEnded")}</span>;
   }
 
   return (
     <span className="font-mono">
       {!compact && <>{t("deals.endsIn")} </>}
-      {label}
+      {label ?? "--:--:--"}
     </span>
   );
 }
