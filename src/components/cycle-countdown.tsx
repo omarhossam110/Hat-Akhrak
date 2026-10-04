@@ -22,7 +22,14 @@ function formatRemaining(ms: number, t: (key: string) => string) {
   return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
 }
 
-export function CycleCountdown({ endsAt }: { endsAt: string }) {
+/** @param compact - omit the "Ends in" prefix, for use inside a small badge. */
+export function CycleCountdown({
+  endsAt,
+  compact = false,
+}: {
+  endsAt: string;
+  compact?: boolean;
+}) {
   const t = useTranslations();
   const [label, setLabel] = useState<string | null>(() =>
     formatRemaining(new Date(endsAt).getTime() - Date.now(), t)
@@ -39,12 +46,13 @@ export function CycleCountdown({ endsAt }: { endsAt: string }) {
   }, [endsAt]);
 
   if (!label) {
-    return <span className="text-neutral-500">{t("deals.cycleEnded")}</span>;
+    return <span>{t("deals.cycleEnded")}</span>;
   }
 
   return (
-    <span className="font-mono font-semibold text-navy-900">
-      {t("deals.endsIn")} {label}
+    <span className="font-mono">
+      {!compact && <>{t("deals.endsIn")} </>}
+      {label}
     </span>
   );
 }

@@ -3,7 +3,9 @@
     "appName": "Hat Akhrak",
     "tagline": "Buy in bulk, pay like a crowd",
     "language": "العربية",
-    "egp": "EGP"
+    "egp": "EGP",
+    "searchPlaceholder": "Search for a deal...",
+    "viewAll": "View all"
   },
   "nav": {
     "home": "Home",
@@ -15,19 +17,24 @@
     "myOrders": "My Orders"
   },
   "home": {
-    "heroTitle": "Buy wholesale — the price drops as more people join",
-    "heroSubtitle": "Join a group-buying cycle. The more buyers, the lower the price for everyone.",
-    "cta": "Browse current deals"
+    "heroNumber": "2,140+",
+    "heroTitle": "More people. Lower price.",
+    "heroDesc": "Bring your group together, hit the next tier, and buy at a better price.",
+    "heroMetric": "people saved money this week",
+    "exploreCta": "Explore deals",
+    "sideNote": "Verified merchants • Group pricing • Secure checkout"
   },
   "deals": {
+    "openDeals": "Open deals",
     "pageTitle": "Current Deals",
     "pageSubtitle": "Every deal runs a group-buying cycle — the price drops as more buyers join",
     "perUnit": "per unit",
-    "buyersJoined": "{count} buyers joined",
+    "buyersCount": "{sold}/{total} buyers",
     "unitsLeft": "{count} units left",
     "endsIn": "Ends in",
     "cycleEnded": "Cycle ended",
     "joinNow": "Join now",
+    "viewDeal": "View deal",
     "tier": "Tier {number}",
     "currentTier": "Current price",
     "days": "d",

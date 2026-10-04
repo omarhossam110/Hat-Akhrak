@@ -1,58 +1,54 @@
 @import "tailwindcss";
 
 :root {
-  /* Brand palette — navy/black + orange, Amazon-style trust/corporate feel */
-  --color-navy-950: #0a0e1a;
-  --color-navy-900: #0f1526;
-  --color-navy-800: #161d33;
-  --color-navy-700: #1f2a45;
-  --color-navy-600: #2c3b5e;
-  --color-navy-500: #3d4f78;
+  /* Design tokens — matches the approved Hi-Fi wireframe exactly. */
+  --color-ink: #101828;
+  --color-ink-2: #1d2939;
+  --color-muted: #667085;
+  --color-line: #eaecf0;
+  --color-paper: #f7f8fa;
 
-  --color-orange-600: #e8580c;
-  --color-orange-500: #f4740f;
-  --color-orange-400: #ff8c2e;
-  --color-orange-300: #ffb066;
+  --color-brand: #ff8a00;
+  --color-brand-2: #ffb000;
+  --color-brand-soft: #fff3e3;
 
-  --color-neutral-50: #f8f9fb;
-  --color-neutral-100: #eef0f4;
-  --color-neutral-200: #dde1e8;
-  --color-neutral-500: #6b7280;
-  --color-neutral-700: #374151;
+  --color-success: #12b76a;
+  --color-success-soft: #ecfdf3;
+  --color-danger: #f04438;
+  --color-danger-soft: #fef3f2;
+  --color-info: #2e90fa;
+  --color-info-soft: #eff8ff;
 
-  --color-success: #1a9c5d;
-  --color-danger: #d1403a;
-  --color-warning: #e3a008;
+  --shadow-card: 0 10px 30px rgba(16, 24, 40, 0.07);
+  --shadow-card-lg: 0 20px 55px rgba(16, 24, 40, 0.12);
 
-  --background: var(--color-neutral-50);
-  --foreground: var(--color-navy-950);
+  --background: var(--color-paper);
+  --foreground: var(--color-ink);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
-  --color-navy-950: var(--color-navy-950);
-  --color-navy-900: var(--color-navy-900);
-  --color-navy-800: var(--color-navy-800);
-  --color-navy-700: var(--color-navy-700);
-  --color-navy-600: var(--color-navy-600);
-  --color-navy-500: var(--color-navy-500);
+  --color-ink: var(--color-ink);
+  --color-ink-2: var(--color-ink-2);
+  --color-muted: var(--color-muted);
+  --color-line: var(--color-line);
+  --color-paper: var(--color-paper);
 
-  --color-orange-600: var(--color-orange-600);
-  --color-orange-500: var(--color-orange-500);
-  --color-orange-400: var(--color-orange-400);
-  --color-orange-300: var(--color-orange-300);
-
-  --color-neutral-50: var(--color-neutral-50);
-  --color-neutral-100: var(--color-neutral-100);
-  --color-neutral-200: var(--color-neutral-200);
-  --color-neutral-500: var(--color-neutral-500);
-  --color-neutral-700: var(--color-neutral-700);
+  --color-brand: var(--color-brand);
+  --color-brand-2: var(--color-brand-2);
+  --color-brand-soft: var(--color-brand-soft);
 
   --color-success: var(--color-success);
+  --color-success-soft: var(--color-success-soft);
   --color-danger: var(--color-danger);
-  --color-warning: var(--color-warning);
+  --color-danger-soft: var(--color-danger-soft);
+  --color-info: var(--color-info);
+  --color-info-soft: var(--color-info-soft);
+
+  --shadow-card: var(--shadow-card);
+  --shadow-card-lg: var(--shadow-card-lg);
 
   --font-sans: "Plus Jakarta Sans", sans-serif;
   --font-arabic: "Tajawal", sans-serif;
@@ -69,4 +65,25 @@ body {
 
 [dir="ltr"] body {
   font-family: "Plus Jakarta Sans", "Tajawal", system-ui, sans-serif;
+}
+
+/* Product-art gradients — one per deal "slot", cycling like the wireframe's art-a..d */
+.product-art-a {
+  background: linear-gradient(145deg, #172033, #31548b);
+}
+.product-art-b {
+  background: linear-gradient(145deg, #172b29, #138a77);
+}
+.product-art-c {
+  background: linear-gradient(145deg, #241b31, #a04a22);
+}
+.product-art-d {
+  background: linear-gradient(145deg, #1f1b3a, #6d28d9);
+}
+
+.hero-main-bg {
+  background:
+    radial-gradient(circle at 85% 20%, rgba(255, 190, 60, 0.42), transparent 28%),
+    radial-gradient(circle at 70% 100%, rgba(255, 255, 255, 0.1), transparent 30%),
+    linear-gradient(135deg, #121a28, #273447);
 }

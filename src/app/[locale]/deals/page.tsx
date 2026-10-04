@@ -6,13 +6,13 @@ export default async function DealsPage() {
   const t = await getTranslations();
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
-      <h1 className="text-2xl font-extrabold text-navy-950 sm:text-3xl">
+    <div className="mx-auto max-w-[1180px] px-[22px] py-[30px]">
+      <h1 className="text-[28px] font-extrabold tracking-tight sm:text-[34px]">
         {t("deals.pageTitle")}
       </h1>
-      <p className="mt-2 text-neutral-600">{t("deals.pageSubtitle")}</p>
+      <p className="mt-1.5 text-muted">{t("deals.pageSubtitle")}</p>
 
-      <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {mockDeals.map((card) => (
           <DealCard key={card.deal.id} card={card} />
         ))}

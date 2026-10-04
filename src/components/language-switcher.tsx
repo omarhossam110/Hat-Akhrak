@@ -1,17 +1,17 @@
 "use client";
 
-import { useLocale, useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { useParams } from "next/navigation";
 
 export function LanguageSwitcher() {
-  const t = useTranslations();
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
   const params = useParams();
 
   const nextLocale = locale === "ar" ? "en" : "ar";
+  const shortLabel = locale === "ar" ? "EN" : "ع";
 
   return (
     <button
@@ -23,10 +23,10 @@ export function LanguageSwitcher() {
           { locale: nextLocale }
         );
       }}
-      className="text-sm font-medium text-neutral-200 hover:text-orange-400 transition"
+      className="h-[42px] min-w-[42px] rounded-xl border border-line bg-white px-3 text-xs font-extrabold text-ink transition hover:border-[#ffc46d] hover:bg-[#fffaf3]"
       aria-label="Switch language"
     >
-      {t("common.language")}
+      {shortLabel}
     </button>
   );
 }

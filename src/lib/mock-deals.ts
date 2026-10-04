@@ -10,7 +10,8 @@ export interface MockDealCard {
   tiers: DealTier[];
   cycle: Cycle;
   merchant: { business_name: string; is_verified: boolean };
-  gradient: string;
+  icon: string;
+  artVariant: "a" | "b" | "c" | "d";
 }
 
 const hoursFromNow = (h: number) => new Date(Date.now() + h * 3600_000).toISOString();
@@ -53,7 +54,8 @@ export const mockDeals: MockDealCard[] = [
       created_at: new Date().toISOString(),
     },
     merchant: { business_name: "TechZone", is_verified: true },
-    gradient: "from-orange-500 to-navy-700",
+    icon: "🎧",
+    artVariant: "a",
   },
   {
     deal: {
@@ -92,7 +94,8 @@ export const mockDeals: MockDealCard[] = [
       created_at: new Date().toISOString(),
     },
     merchant: { business_name: "HomeStyle", is_verified: true },
-    gradient: "from-navy-700 to-navy-950",
+    icon: "🍳",
+    artVariant: "b",
   },
   {
     deal: {
@@ -131,6 +134,47 @@ export const mockDeals: MockDealCard[] = [
       created_at: new Date().toISOString(),
     },
     merchant: { business_name: "Kitchen Plus", is_verified: false },
-    gradient: "from-orange-400 to-orange-600",
+    icon: "🧃",
+    artVariant: "c",
+  },
+  {
+    deal: {
+      id: "d4",
+      merchant_id: "m1",
+      title: "شاحن سريع 65 وات",
+      title_ar: "شاحن سريع 65 وات",
+      title_en: "65W Fast Charger",
+      description: null,
+      images: [],
+      wholesale_unit_price: 650,
+      total_stock: 20,
+      remaining_stock: 18,
+      status: "active",
+      created_at: new Date().toISOString(),
+      cancelled_at: null,
+    },
+    tiers: [
+      { id: "t10", deal_id: "d4", tier_number: 1, min_buyers: 5, max_buyers: 9, price_per_unit: 1250 },
+      { id: "t11", deal_id: "d4", tier_number: 2, min_buyers: 10, max_buyers: 14, price_per_unit: 1050 },
+      { id: "t12", deal_id: "d4", tier_number: 3, min_buyers: 15, max_buyers: 20, price_per_unit: 890 },
+    ],
+    cycle: {
+      id: "c4",
+      deal_id: "d4",
+      cycle_number: 1,
+      status: "active",
+      stock_allocated: 20,
+      units_sold: 2,
+      final_tier_reached: null,
+      started_at: new Date().toISOString(),
+      ends_at: hoursFromNow(51),
+      freeze_at: hoursFromNow(27),
+      cancel_reason: null,
+      cancelled_by: null,
+      created_at: new Date().toISOString(),
+    },
+    merchant: { business_name: "TechZone", is_verified: true },
+    icon: "⚡",
+    artVariant: "d",
   },
 ];
