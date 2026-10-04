@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+:root {
+  /* Brand palette — navy/black + orange, Amazon-style trust/corporate feel */
+  --color-navy-950: #0a0e1a;
+  --color-navy-900: #0f1526;
+  --color-navy-800: #161d33;
+  --color-navy-700: #1f2a45;
+  --color-navy-600: #2c3b5e;
+  --color-navy-500: #3d4f78;
+
+  --color-orange-600: #e8580c;
+  --color-orange-500: #f4740f;
+  --color-orange-400: #ff8c2e;
+  --color-orange-300: #ffb066;
+
+  --color-neutral-50: #f8f9fb;
+  --color-neutral-100: #eef0f4;
+  --color-neutral-200: #dde1e8;
+  --color-neutral-500: #6b7280;
+  --color-neutral-700: #374151;
+
+  --color-success: #1a9c5d;
+  --color-danger: #d1403a;
+  --color-warning: #e3a008;
+
+  --background: var(--color-neutral-50);
+  --foreground: var(--color-navy-950);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-navy-950: var(--color-navy-950);
+  --color-navy-900: var(--color-navy-900);
+  --color-navy-800: var(--color-navy-800);
+  --color-navy-700: var(--color-navy-700);
+  --color-navy-600: var(--color-navy-600);
+  --color-navy-500: var(--color-navy-500);
+
+  --color-orange-600: var(--color-orange-600);
+  --color-orange-500: var(--color-orange-500);
+  --color-orange-400: var(--color-orange-400);
+  --color-orange-300: var(--color-orange-300);
+
+  --color-neutral-50: var(--color-neutral-50);
+  --color-neutral-100: var(--color-neutral-100);
+  --color-neutral-200: var(--color-neutral-200);
+  --color-neutral-500: var(--color-neutral-500);
+  --color-neutral-700: var(--color-neutral-700);
+
+  --color-success: var(--color-success);
+  --color-danger: var(--color-danger);
+  --color-warning: var(--color-warning);
+
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+  --font-arabic: "Tajawal", sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+[dir="rtl"] body {
+  font-family: "Tajawal", "Plus Jakarta Sans", system-ui, sans-serif;
+}
+
+[dir="ltr"] body {
+  font-family: "Plus Jakarta Sans", "Tajawal", system-ui, sans-serif;
+}
