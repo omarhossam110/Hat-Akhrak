@@ -2,7 +2,8 @@
   "common": {
     "appName": "هات آخرك",
     "tagline": "اشتري بالجملة… وانت لوحدك",
-    "language": "English"
+    "language": "English",
+    "egp": "جنيه"
   },
   "nav": {
     "home": "الرئيسية",
@@ -17,5 +18,22 @@
     "heroTitle": "اشتري بالجملة بسعر يقل كل ما ننضم أكتر",
     "heroSubtitle": "انضم لدورة شراء جماعي، وكل ما زاد عدد المشترين قل السعر على الكل",
     "cta": "شوف العروض الحالية"
+  },
+  "deals": {
+    "pageTitle": "العروض الحالية",
+    "pageSubtitle": "كل عرض ليه دورة شراء جماعي — السعر بينزل كل ما زاد عدد المشترين",
+    "perUnit": "للوحدة",
+    "buyersJoined": "{count} مشترين انضموا",
+    "unitsLeft": "{count} وحدة متاحة",
+    "endsIn": "باقي",
+    "cycleEnded": "الدورة خلصت",
+    "joinNow": "اشترك دلوقتي",
+    "tier": "المرحلة {number}",
+    "currentTier": "السعر الحالي",
+    "days": "ي",
+    "hours": "س",
+    "minutes": "د",
+    "seconds": "ث",
+    "verifiedMerchant": "تاجر موثّق"
   }
 }

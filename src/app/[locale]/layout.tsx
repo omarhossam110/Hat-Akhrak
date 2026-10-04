@@ -3,6 +3,8 @@ import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 import "@fontsource/plus-jakarta-sans/400.css";
 import "@fontsource/plus-jakarta-sans/500.css";
 import "@fontsource/plus-jakarta-sans/700.css";
@@ -40,7 +42,9 @@ export default async function LocaleLayout({
     <html lang={locale} dir={dir} className="h-full antialiased">
       <body className="min-h-full flex flex-col bg-background text-foreground">
         <NextIntlClientProvider messages={messages}>
-          {children}
+          <SiteHeader />
+          <main className="flex-1">{children}</main>
+          <SiteFooter />
         </NextIntlClientProvider>
       </body>
     </html>
