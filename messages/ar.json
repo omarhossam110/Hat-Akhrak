@@ -53,5 +53,15 @@
     "noticeTail": "الانضمام في آخر 24 ساعة غير قابل للإلغاء.",
     "notFoundTitle": "الصفقة دي غير موجودة",
     "backToDeals": "رجوع للعروض"
+  },
+  "merchantProfile": {
+    "rating": "التقييم",
+    "reviews": "تقييم",
+    "completedDeals": "صفقة مكتملة",
+    "memberSince": "عضو منذ",
+    "openDealsTitle": "صفقات مفتوحة من هذا المورد",
+    "noOpenDeals": "لا توجد صفقات مفتوحة حاليًا من هذا المورد",
+    "notFoundTitle": "المورد غير موجود",
+    "backToDeals": "رجوع للعروض"
   }
 }

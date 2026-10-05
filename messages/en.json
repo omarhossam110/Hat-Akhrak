@@ -53,5 +53,15 @@
     "noticeTail": "Joining during the final 24h can't be cancelled.",
     "notFoundTitle": "This deal doesn't exist",
     "backToDeals": "Back to deals"
+  },
+  "merchantProfile": {
+    "rating": "Rating",
+    "reviews": "reviews",
+    "completedDeals": "Completed deals",
+    "memberSince": "Member since",
+    "openDealsTitle": "Open deals from this merchant",
+    "noOpenDeals": "This merchant has no open deals right now",
+    "notFoundTitle": "This merchant doesn't exist",
+    "backToDeals": "Back to deals"
   }
 }

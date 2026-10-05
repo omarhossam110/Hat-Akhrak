@@ -60,7 +60,7 @@ export default async function DealDetailsPage({
           </div>
 
           <Link
-            href="/merchants"
+            href={`/merchants/${deal.merchant_id}`}
             className="mb-3.5 inline-block text-xs font-extrabold text-brand"
           >
             {t("deals.soldBy")} {merchant.business_name} ✓
