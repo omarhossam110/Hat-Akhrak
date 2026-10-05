@@ -64,7 +64,7 @@ export async function DealCard({ card }: { card: MockDealCard }) {
             <CycleCountdown endsAt={cycle.ends_at} compact />
           </span>
           <Link
-            href="/deals"
+            href={`/deals/${deal.id}`}
             className="rounded-xl bg-brand px-[15px] py-[11px] text-xs font-black text-[#151515] transition hover:brightness-95"
           >
             {t("deals.viewDeal")}

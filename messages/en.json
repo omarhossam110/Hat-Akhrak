@@ -41,6 +41,17 @@
     "hours": "h",
     "minutes": "m",
     "seconds": "s",
-    "verifiedMerchant": "Verified merchant"
+    "verifiedMerchant": "Verified merchant",
+    "groupDeal": "Group deal",
+    "soldBy": "Sold by",
+    "priceTiers": "Price tiers",
+    "buyers": "buyers",
+    "deposit": "Deposit",
+    "quantity": "Quantity",
+    "limited": "Limited",
+    "noticeLead": "Cycle closes in",
+    "noticeTail": "Joining during the final 24h can't be cancelled.",
+    "notFoundTitle": "This deal doesn't exist",
+    "backToDeals": "Back to deals"
   }
 }

@@ -9,9 +9,20 @@ export interface MockDealCard {
   deal: Deal;
   tiers: DealTier[];
   cycle: Cycle;
-  merchant: { business_name: string; is_verified: boolean };
+  merchant: {
+    business_name: string;
+    is_verified: boolean;
+    rating: number;
+    review_count: number;
+  };
   icon: string;
   artVariant: "a" | "b" | "c" | "d";
+  /**
+   * Illustrative deposit amount (variable per product, covers potential
+   * refusal costs per the spec) — real value will come from the deposit
+   * formula once it's implemented server-side.
+   */
+  depositAmount: number;
 }
 
 const hoursFromNow = (h: number) => new Date(Date.now() + h * 3600_000).toISOString();
@@ -53,9 +64,10 @@ export const mockDeals: MockDealCard[] = [
       cancelled_by: null,
       created_at: new Date().toISOString(),
     },
-    merchant: { business_name: "TechZone", is_verified: true },
+    merchant: { business_name: "TechZone", is_verified: true, rating: 4.8, review_count: 126 },
     icon: "🎧",
     artVariant: "a",
+    depositAmount: 60,
   },
   {
     deal: {
@@ -93,9 +105,10 @@ export const mockDeals: MockDealCard[] = [
       cancelled_by: null,
       created_at: new Date().toISOString(),
     },
-    merchant: { business_name: "HomeStyle", is_verified: true },
+    merchant: { business_name: "HomeStyle", is_verified: true, rating: 4.6, review_count: 54 },
     icon: "🍳",
     artVariant: "b",
+    depositAmount: 150,
   },
   {
     deal: {
@@ -133,9 +146,10 @@ export const mockDeals: MockDealCard[] = [
       cancelled_by: null,
       created_at: new Date().toISOString(),
     },
-    merchant: { business_name: "Kitchen Plus", is_verified: false },
+    merchant: { business_name: "Kitchen Plus", is_verified: false, rating: 4.2, review_count: 19 },
     icon: "🧃",
     artVariant: "c",
+    depositAmount: 45,
   },
   {
     deal: {
@@ -173,8 +187,13 @@ export const mockDeals: MockDealCard[] = [
       cancelled_by: null,
       created_at: new Date().toISOString(),
     },
-    merchant: { business_name: "TechZone", is_verified: true },
+    merchant: { business_name: "TechZone", is_verified: true, rating: 4.8, review_count: 126 },
     icon: "⚡",
     artVariant: "d",
+    depositAmount: 110,
   },
 ];
+
+export function getDealById(id: string): MockDealCard | undefined {
+  return mockDeals.find((card) => card.deal.id === id);
+}

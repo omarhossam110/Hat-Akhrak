@@ -41,6 +41,17 @@
     "hours": "س",
     "minutes": "د",
     "seconds": "ث",
-    "verifiedMerchant": "تاجر موثّق"
+    "verifiedMerchant": "تاجر موثّق",
+    "groupDeal": "تجميع جماعي",
+    "soldBy": "بواسطة",
+    "priceTiers": "الشرائح السعرية",
+    "buyers": "مشترك",
+    "deposit": "العربون",
+    "quantity": "الكمية",
+    "limited": "كمية محدودة",
+    "noticeLead": "السايكل هتقفل خلال",
+    "noticeTail": "الانضمام في آخر 24 ساعة غير قابل للإلغاء.",
+    "notFoundTitle": "الصفقة دي غير موجودة",
+    "backToDeals": "رجوع للعروض"
   }
 }
