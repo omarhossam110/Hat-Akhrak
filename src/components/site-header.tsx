@@ -38,11 +38,18 @@ export async function SiteHeader() {
         <div className="ms-auto flex items-center gap-2">
           <LanguageSwitcher />
           <Link
-            href="/orders"
+            href="/login"
             className="grid h-[42px] min-w-[42px] place-items-center rounded-xl border border-line bg-white text-ink transition hover:border-[#ffc46d] hover:bg-[#fffaf3]"
-            aria-label="profile"
+            aria-label={t("nav.login")}
           >
             👤
+          </Link>
+          <Link
+            href="/orders"
+            className="grid h-[42px] min-w-[42px] place-items-center rounded-xl border border-line bg-white text-ink transition hover:border-[#ffc46d] hover:bg-[#fffaf3]"
+            aria-label={t("nav.myOrders")}
+          >
+            🛒
           </Link>
         </div>
       </div>

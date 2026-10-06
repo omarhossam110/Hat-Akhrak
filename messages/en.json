@@ -63,5 +63,16 @@
     "noOpenDeals": "This merchant has no open deals right now",
     "notFoundTitle": "This merchant doesn't exist",
     "backToDeals": "Back to deals"
+  },
+  "auth": {
+    "guestNote": "👋 You'll need to sign up or log in first to complete your purchase.",
+    "login": "Log In",
+    "signup": "Sign Up",
+    "name": "Full name",
+    "phone": "Mobile number",
+    "email": "Email address",
+    "password": "Password",
+    "loginBtn": "Log In",
+    "signupBtn": "Create Account"
   }
 }

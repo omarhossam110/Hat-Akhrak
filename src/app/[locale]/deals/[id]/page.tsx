@@ -127,7 +127,7 @@ export default async function DealDetailsPage({
               ))}
             </select>
             <Link
-              href="/signup"
+              href={`/signup?redirect=${encodeURIComponent(`/deals/${deal.id}`)}`}
               className="block w-full rounded-xl bg-brand px-4 py-[11px] text-center text-xs font-black text-[#151515] transition hover:brightness-95"
             >
               {t("deals.joinNow")} →
