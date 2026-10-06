@@ -90,5 +90,26 @@
     "emptyTitle": "لسه معملت أي طلب",
     "emptyDesc": "لما تنضم لصفقة، هتلاقيها هنا بكل تفاصيلها وحالتها.",
     "emptyCta": "استكشف الصفقات"
+  },
+  "merchantDashboard": {
+    "title": "داشبورد المورد",
+    "alert": "آخر سايكلين فشلوا — أقل من 5 مشتركين. راجع التسعير أو كمية الستوك.",
+    "statTotalDeals": "إجمالي الصفقات",
+    "statUnitsSold": "قطعة مباعة",
+    "statRevenue": "الإيرادات",
+    "newDeal": "صفقة جديدة",
+    "product": "المنتج",
+    "stock": "الستوك",
+    "currentCycle": "السايكل الحالية",
+    "status": "الحالة",
+    "history": "السجل",
+    "tier": "{number}/20 • Tier {tier}",
+    "noTier": "لسه معملتش شريحة",
+    "statusActive": "نشطة",
+    "statusNeedsStock": "تحتاج ستوك",
+    "statusPaused": "متوقفة",
+    "cycleSucceeded": "نجحت",
+    "cycleFailed": "فشلت (أقل من 5)",
+    "cycleActive": "جارية"
   }
 }

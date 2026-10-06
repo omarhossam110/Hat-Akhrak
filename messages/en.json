@@ -90,5 +90,26 @@
     "emptyTitle": "No orders yet",
     "emptyDesc": "Once you join a deal, it'll show up here with its full status.",
     "emptyCta": "Explore deals"
+  },
+  "merchantDashboard": {
+    "title": "Merchant Dashboard",
+    "alert": "Last 2 cycles failed — under 5 buyers. Review pricing or stock.",
+    "statTotalDeals": "Total deals",
+    "statUnitsSold": "Units sold",
+    "statRevenue": "Revenue",
+    "newDeal": "New deal",
+    "product": "Product",
+    "stock": "Stock",
+    "currentCycle": "Current cycle",
+    "status": "Status",
+    "history": "History",
+    "tier": "{number}/20 • Tier {tier}",
+    "noTier": "No tier reached yet",
+    "statusActive": "Active",
+    "statusNeedsStock": "Needs stock",
+    "statusPaused": "Paused",
+    "cycleSucceeded": "Succeeded",
+    "cycleFailed": "Failed (under 5)",
+    "cycleActive": "Active"
   }
 }
