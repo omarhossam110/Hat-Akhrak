@@ -111,5 +111,16 @@
     "cycleSucceeded": "نجحت",
     "cycleFailed": "فشلت (أقل من 5)",
     "cycleActive": "جارية"
+  },
+  "addDeal": {
+    "eyebrow": "للموردين",
+    "title": "إضافة صفقة جديدة",
+    "desc": "أنشئ صفقة جماعية، والنظام يحسب الشرائح والعربون تلقائيًا.",
+    "fieldProductName": "اسم المنتج",
+    "fieldTotalStock": "الكمية الإجمالية",
+    "fieldWholesalePrice": "سعر الجملة للقطعة",
+    "stockHint": "الكمية لازم تكون من مضاعفات 5",
+    "autoNote": "العربون المقترح: {amount} جنيه — محسوب تلقائيًا من السعر والكمية.",
+    "publishBtn": "نشر الصفقة"
   }
 }

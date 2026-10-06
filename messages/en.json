@@ -111,5 +111,16 @@
     "cycleSucceeded": "Succeeded",
     "cycleFailed": "Failed (under 5)",
     "cycleActive": "Active"
+  },
+  "addDeal": {
+    "eyebrow": "For merchants",
+    "title": "Add New Deal",
+    "desc": "Create a group deal. Tiers and deposit are calculated automatically.",
+    "fieldProductName": "Product name",
+    "fieldTotalStock": "Total stock",
+    "fieldWholesalePrice": "Wholesale unit price",
+    "stockHint": "Stock must be a multiple of 5",
+    "autoNote": "Suggested deposit: {amount} EGP — calculated automatically from price and quantity.",
+    "publishBtn": "Publish Deal"
   }
 }
