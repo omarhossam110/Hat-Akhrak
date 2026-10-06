@@ -74,5 +74,21 @@
     "password": "كلمة المرور",
     "loginBtn": "تسجيل الدخول",
     "signupBtn": "إنشاء الحساب"
+  },
+  "orders": {
+    "title": "طلباتي",
+    "ordersCount": "{count} طلبات",
+    "product": "المنتج",
+    "status": "الحالة",
+    "amount": "المبلغ",
+    "action": "الإجراء",
+    "statusRunning": "جارية",
+    "statusDelivered": "تم التسليم",
+    "statusRefunded": "مستردة",
+    "actionCancel": "إلغاء",
+    "actionInvoice": "الفاتورة",
+    "emptyTitle": "لسه معملت أي طلب",
+    "emptyDesc": "لما تنضم لصفقة، هتلاقيها هنا بكل تفاصيلها وحالتها.",
+    "emptyCta": "استكشف الصفقات"
   }
 }

@@ -74,5 +74,21 @@
     "password": "Password",
     "loginBtn": "Log In",
     "signupBtn": "Create Account"
+  },
+  "orders": {
+    "title": "My Orders",
+    "ordersCount": "{count} orders",
+    "product": "Product",
+    "status": "Status",
+    "amount": "Amount",
+    "action": "Action",
+    "statusRunning": "Running",
+    "statusDelivered": "Delivered",
+    "statusRefunded": "Refunded",
+    "actionCancel": "Cancel",
+    "actionInvoice": "Invoice",
+    "emptyTitle": "No orders yet",
+    "emptyDesc": "Once you join a deal, it'll show up here with its full status.",
+    "emptyCta": "Explore deals"
   }
 }
