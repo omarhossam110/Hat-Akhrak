@@ -155,5 +155,17 @@
     "adminControlsTitle": "أدوات الإدارة",
     "adminControlsDesc": "إجراءات حساسة ومراجعة التسويات والصفقات في مكان واحد.",
     "emergencyCancel": "إلغاء اضطراري"
+  },
+  "payment": {
+    "stepDeal": "الصفقة",
+    "stepPayment": "الدفع",
+    "stepDone": "التأكيد",
+    "title": "تأكيد الدفع",
+    "methodNote": "هتنتقل لبوابة دفع خارجية لإتمام العملية.",
+    "payNow": "ادفع الآن",
+    "amountDueNow": "المطلوب الآن",
+    "subUnits": "{qty} قطعة × {amount} جنيه عربون",
+    "secureNote": "دفع آمن ومشفّر عبر مزود الدفع",
+    "notFoundTitle": "الصفقة دي غير موجودة"
   }
 }

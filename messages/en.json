@@ -155,5 +155,17 @@
     "adminControlsTitle": "Admin controls",
     "adminControlsDesc": "Sensitive actions, settlements and deal review in one place.",
     "emergencyCancel": "Emergency cancel"
+  },
+  "payment": {
+    "stepDeal": "Deal",
+    "stepPayment": "Payment",
+    "stepDone": "Done",
+    "title": "Confirm Payment",
+    "methodNote": "You'll be redirected to an external payment gateway.",
+    "payNow": "Pay now",
+    "amountDueNow": "Amount due now",
+    "subUnits": "{qty} unit(s) × EGP {amount} deposit",
+    "secureNote": "Secure encrypted payment via provider",
+    "notFoundTitle": "This deal doesn't exist"
   }
 }
