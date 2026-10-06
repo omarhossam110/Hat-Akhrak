@@ -138,5 +138,10 @@
     "tiersTitle": "Retroactive pricing example",
     "tiersDesc": "Everyone in the same cycle pays the same final price, even buyers who joined on day one.",
     "cta": "Explore deals"
+  },
+  "merchantsList": {
+    "title": "Merchants",
+    "subtitle": "All the merchants selling group deals on Hat Akhrak",
+    "viewProfile": "View profile"
   }
 }
