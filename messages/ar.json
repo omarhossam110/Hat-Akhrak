@@ -143,5 +143,17 @@
     "title": "التجار",
     "subtitle": "كل الموردين اللي بيبيعوا صفقات جماعية على هات آخرك",
     "viewProfile": "عرض الصفحة"
+  },
+  "superAdmin": {
+    "title": "كشف حساب الموردين",
+    "settlementPill": "تسوية",
+    "merchant": "المورد",
+    "completed": "مكتملة",
+    "collected": "محصّل",
+    "commission": "العمولة",
+    "owed": "مستحق",
+    "adminControlsTitle": "أدوات الإدارة",
+    "adminControlsDesc": "إجراءات حساسة ومراجعة التسويات والصفقات في مكان واحد.",
+    "emergencyCancel": "إلغاء اضطراري"
   }
 }

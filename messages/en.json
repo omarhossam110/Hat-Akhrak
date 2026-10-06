@@ -143,5 +143,17 @@
     "title": "Merchants",
     "subtitle": "All the merchants selling group deals on Hat Akhrak",
     "viewProfile": "View profile"
+  },
+  "superAdmin": {
+    "title": "Merchant Ledger",
+    "settlementPill": "Settlement",
+    "merchant": "Merchant",
+    "completed": "Completed",
+    "collected": "Collected",
+    "commission": "Commission",
+    "owed": "Owed",
+    "adminControlsTitle": "Admin controls",
+    "adminControlsDesc": "Sensitive actions, settlements and deal review in one place.",
+    "emergencyCancel": "Emergency cancel"
   }
 }
