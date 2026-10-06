@@ -122,5 +122,21 @@
     "stockHint": "Stock must be a multiple of 5",
     "autoNote": "Suggested deposit: {amount} EGP — calculated automatically from price and quantity.",
     "publishBtn": "Publish Deal"
+  },
+  "howItWorks": {
+    "eyebrow": "How it works",
+    "title": "How does Hat Akhrak work?",
+    "desc": "This isn't ordinary shopping — the more people join the same deal, the lower the price gets for everyone who joined, automatically, with no manual steps.",
+    "step1Title": "Pick a deal and join",
+    "step1Desc": "Browse open deals and join a buying cycle by paying a small deposit — the rest is settled later based on the final price.",
+    "step2Title": "Bring your group",
+    "step2Desc": "The more buyers join the cycle, the lower the price drops to the next tier — and pricing is retroactive, so it applies to everyone who joined from day one.",
+    "step3Title": "The cycle closes",
+    "step3Desc": "When the cycle's 72-hour window ends or it hits max buyers, the final price is locked in based on the highest tier the cycle reached.",
+    "step4Title": "Pay the balance and receive it",
+    "step4Desc": "Pay the remaining balance online at delivery (no cash on delivery), then you have 48 hours to inspect the item and confirm it's in good shape.",
+    "tiersTitle": "Retroactive pricing example",
+    "tiersDesc": "Everyone in the same cycle pays the same final price, even buyers who joined on day one.",
+    "cta": "Explore deals"
   }
 }
