@@ -30,10 +30,12 @@ export interface Profile {
   phone: string | null;
   /** This customer's own shareable invite code (e.g. "OMAR-4821"). */
   referral_code: string;
-  /** The referral_code of whoever invited this customer, if any. */
+  /**
+   * The referral_code of whoever invited this customer, if any. No reward
+   * mechanic is attached yet (e.g. wallet credit) — that's still being
+   * designed; this column just tracks who invited whom for now.
+   */
   referred_by: string | null;
-  /** Accumulated referral reward credit, usable toward a future deposit. */
-  wallet_credit: number;
   created_at: string;
 }
 

@@ -89,7 +89,7 @@
     "password": "Password",
     "loginBtn": "Log In",
     "signupBtn": "Create Account",
-    "referralBanner": "A friend invited you (code {code}) — they'll get their reward once you complete your first order"
+    "referralBanner": "A friend invited you (code {code})"
   },
   "orders": {
     "title": "My Orders",
@@ -107,16 +107,14 @@
     "emptyDesc": "Once you join a deal, it'll show up here with its full status.",
     "emptyCta": "Explore deals",
     "inviteTitle": "Invite a friend",
-    "inviteDesc": "Share your invite link with friends — once they complete their first order, you get {amount} EGP credit toward any future deposit",
-    "inviteCreditLabel": "credit earned",
+    "inviteDesc": "Share your invite link with friends so they can join Hat Akhrak and buy in bulk with you",
     "inviteLinkLabel": "Your invite link",
     "copyButton": "Copy",
     "copied": "Copied ✓",
     "inviteShareMessage": "Join Hat Akhrak and buy in bulk with your friends! Use my invite code {code} from this link:",
     "inviteFriendsTitle": "Friends you've invited",
     "friendStatusInvited": "Not signed up yet",
-    "friendStatusJoined": "Signed up",
-    "friendStatusRewarded": "Purchased ✓"
+    "friendStatusJoined": "Signed up"
   },
   "merchantDashboard": {
     "title": "Merchant Dashboard",

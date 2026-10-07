@@ -89,7 +89,7 @@
     "password": "كلمة المرور",
     "loginBtn": "تسجيل الدخول",
     "signupBtn": "إنشاء الحساب",
-    "referralBanner": "تم دعوتك بواسطة صديق (كود {code}) — هياخد مكافأته لما تكمل أول طلب ليك"
+    "referralBanner": "تم دعوتك بواسطة صديق (كود {code})"
   },
   "orders": {
     "title": "طلباتي",
@@ -107,16 +107,14 @@
     "emptyDesc": "لما تنضم لصفقة، هتلاقيها هنا بكل تفاصيلها وحالتها.",
     "emptyCta": "استكشف الصفقات",
     "inviteTitle": "ادعُ صديق",
-    "inviteDesc": "ابعت لينك الدعوة بتاعك لصحابك، وكل ما حد منهم يكمل أول طلب ليه هتاخد {amount} جنيه رصيد تستخدمه في أي عربون جاي",
-    "inviteCreditLabel": "رصيد مكتسب",
+    "inviteDesc": "ابعت لينك الدعوة بتاعك لصحابك عشان ينضموا لهات آخرك ويشتروا بالجملة معاك",
     "inviteLinkLabel": "رابط الدعوة",
     "copyButton": "نسخ",
     "copied": "اتنسخ ✓",
     "inviteShareMessage": "انضم لهات آخرك واشتري بالجملة مع صحابك! استخدم كود الدعوة بتاعي {code} من اللينك ده:",
     "inviteFriendsTitle": "الأصحاب اللي دعيتهم",
     "friendStatusInvited": "لسه مسجلش",
-    "friendStatusJoined": "سجّل",
-    "friendStatusRewarded": "اشترى ✓"
+    "friendStatusJoined": "سجّل"
   },
   "merchantDashboard": {
     "title": "داشبورد المورد",
