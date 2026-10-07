@@ -71,12 +71,42 @@ create table public.merchants (
 create unique index merchants_user_id_idx on public.merchants (user_id);
 
 -- =========================================================================
+-- CATEGORIES
+-- =========================================================================
+
+-- Amazon/Noon-style product categories, seeded with a base set below.
+-- Super admins can add further categories manually from the Super Admin
+-- page (is_custom distinguishes those from the seeded base set, though
+-- both behave identically — it's informational only).
+create table public.categories (
+  id uuid primary key default gen_random_uuid(),
+  slug text not null unique,
+  name_ar text not null,
+  name_en text not null,
+  is_custom boolean not null default false,
+  created_at timestamptz not null default now()
+);
+
+insert into public.categories (slug, name_ar, name_en) values
+  ('electronics', 'إلكترونيات', 'Electronics'),
+  ('mobiles-accessories', 'موبايلات واكسسوارات', 'Mobiles & Accessories'),
+  ('fashion', 'أزياء', 'Fashion'),
+  ('home-kitchen', 'المنزل والمطبخ', 'Home & Kitchen'),
+  ('beauty-personal-care', 'الجمال والعناية الشخصية', 'Beauty & Personal Care'),
+  ('groceries', 'سوبر ماركت', 'Groceries'),
+  ('toys-kids', 'ألعاب ومستلزمات أطفال', 'Toys & Kids'),
+  ('sports-outdoors', 'رياضة وأدوات خارجية', 'Sports & Outdoors'),
+  ('books-stationery', 'كتب وقرطاسية', 'Books & Stationery'),
+  ('watches-accessories', 'إكسسوارات وساعات', 'Accessories & Watches');
+
+-- =========================================================================
 -- DEALS
 -- =========================================================================
 
 create table public.deals (
   id uuid primary key default gen_random_uuid(),
   merchant_id uuid not null references public.merchants (id) on delete cascade,
+  category_id uuid references public.categories (id) on delete set null,
   title text not null,
   title_ar text,
   title_en text,
@@ -93,6 +123,8 @@ create table public.deals (
   cancelled_at timestamptz,
   constraint remaining_stock_within_total check (remaining_stock <= total_stock)
 );
+
+create index deals_category_id_idx on public.deals (category_id);
 
 -- Per-deal tier pricing. Tier bands are fixed platform-wide:
 --   tier 1 =  5-9 buyers
@@ -260,6 +292,7 @@ create table public.merchant_alerts (
 
 alter table public.profiles enable row level security;
 alter table public.merchants enable row level security;
+alter table public.categories enable row level security;
 alter table public.deals enable row level security;
 alter table public.deal_tiers enable row level security;
 alter table public.cycles enable row level security;
@@ -279,6 +312,14 @@ create policy "profiles_select_own_or_admin" on public.profiles
 
 create policy "profiles_update_own" on public.profiles
   for update using (id = auth.uid());
+
+-- Categories: public read; only super admins can add/edit (manual category
+-- management from the Super Admin page).
+create policy "categories_public_read" on public.categories for select using (true);
+create policy "categories_admin_write" on public.categories
+  for insert with check (public.current_role() = 'super_admin');
+create policy "categories_admin_update" on public.categories
+  for update using (public.current_role() = 'super_admin');
 
 -- Deals & tiers: public read (guests browse without an account).
 create policy "deals_public_read" on public.deals for select using (true);

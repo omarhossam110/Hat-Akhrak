@@ -52,7 +52,18 @@
     "noticeLead": "Cycle closes in",
     "noticeTail": "Joining during the final 24h can't be cancelled.",
     "notFoundTitle": "This deal doesn't exist",
-    "backToDeals": "Back to deals"
+    "backToDeals": "Back to deals",
+    "filters": {
+      "categoryLabel": "Category",
+      "categoryAll": "All categories",
+      "timeLabel": "Newest & oldest",
+      "timeNewest": "Newest",
+      "timeOldest": "Oldest",
+      "buyersLabel": "Buyers count",
+      "buyersMost": "Most buyers",
+      "buyersFewest": "Fewest buyers",
+      "noResults": "No deals match this filter right now"
+    }
   },
   "merchantProfile": {
     "rating": "Rating",
@@ -154,7 +165,17 @@
     "owed": "Owed",
     "adminControlsTitle": "Admin controls",
     "adminControlsDesc": "Sensitive actions, settlements and deal review in one place.",
-    "emergencyCancel": "Emergency cancel"
+    "emergencyCancel": "Emergency cancel",
+    "categories": {
+      "title": "Product Categories",
+      "customBadge": "Added manually",
+      "addTitle": "Add a new category",
+      "nameArLabel": "Category name (Arabic)",
+      "nameEnLabel": "Category name (English)",
+      "nameArPlaceholder": "e.g. مستلزمات حيوانات",
+      "nameEnPlaceholder": "e.g. Pet Supplies",
+      "addButton": "Add category"
+    }
   },
   "payment": {
     "stepDeal": "Deal",

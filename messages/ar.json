@@ -52,7 +52,18 @@
     "noticeLead": "السايكل هتقفل خلال",
     "noticeTail": "الانضمام في آخر 24 ساعة غير قابل للإلغاء.",
     "notFoundTitle": "الصفقة دي غير موجودة",
-    "backToDeals": "رجوع للعروض"
+    "backToDeals": "رجوع للعروض",
+    "filters": {
+      "categoryLabel": "الكاتيجوري",
+      "categoryAll": "كل الكاتيجوريز",
+      "timeLabel": "الأحدث والأقدم",
+      "timeNewest": "الأحدث",
+      "timeOldest": "الأقدم",
+      "buyersLabel": "عدد المشتركين",
+      "buyersMost": "الأكثر مشتركين",
+      "buyersFewest": "الأقل مشتركين",
+      "noResults": "مفيش عروض مطابقة للفلتر ده دلوقتي"
+    }
   },
   "merchantProfile": {
     "rating": "التقييم",
@@ -154,7 +165,17 @@
     "owed": "مستحق",
     "adminControlsTitle": "أدوات الإدارة",
     "adminControlsDesc": "إجراءات حساسة ومراجعة التسويات والصفقات في مكان واحد.",
-    "emergencyCancel": "إلغاء اضطراري"
+    "emergencyCancel": "إلغاء اضطراري",
+    "categories": {
+      "title": "تصنيفات المنتجات",
+      "customBadge": "مضافة يدويًا",
+      "addTitle": "إضافة تصنيف جديد",
+      "nameArLabel": "اسم التصنيف (عربي)",
+      "nameEnLabel": "اسم التصنيف (إنجليزي)",
+      "nameArPlaceholder": "مثال: مستلزمات حيوانات",
+      "nameEnPlaceholder": "e.g. Pet Supplies",
+      "addButton": "إضافة التصنيف"
+    }
   },
   "payment": {
     "stepDeal": "الصفقة",

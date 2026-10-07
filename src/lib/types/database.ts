@@ -49,9 +49,19 @@ export type MerchantPublicProfile = Pick<
   "id" | "business_name" | "is_verified" | "rating" | "member_since"
 >;
 
+export interface Category {
+  id: string;
+  slug: string;
+  name_ar: string;
+  name_en: string;
+  is_custom: boolean;
+  created_at: string;
+}
+
 export interface Deal {
   id: string;
   merchant_id: string;
+  category_id: string | null;
   title: string;
   title_ar: string | null;
   title_en: string | null;
@@ -145,6 +155,7 @@ export interface Database {
     Tables: {
       profiles: { Row: Profile; Insert: Partial<Profile>; Update: Partial<Profile> };
       merchants: { Row: Merchant; Insert: Partial<Merchant>; Update: Partial<Merchant> };
+      categories: { Row: Category; Insert: Partial<Category>; Update: Partial<Category> };
       deals: { Row: Deal; Insert: Partial<Deal>; Update: Partial<Deal> };
       deal_tiers: { Row: DealTier; Insert: Partial<DealTier>; Update: Partial<DealTier> };
       cycles: { Row: Cycle; Insert: Partial<Cycle>; Update: Partial<Cycle> };

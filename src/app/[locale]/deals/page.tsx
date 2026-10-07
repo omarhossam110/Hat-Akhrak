@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { mockDeals } from "@/lib/mock-deals";
-import { DealCard } from "@/components/deal-card";
+import { mockCategories } from "@/lib/mock-categories";
+import { DealsExplorer } from "@/components/deals-explorer";
 
 export default async function DealsPage() {
   const t = await getTranslations();
@@ -12,11 +13,7 @@ export default async function DealsPage() {
       </h1>
       <p className="mt-1.5 text-muted">{t("deals.pageSubtitle")}</p>
 
-      <div className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {mockDeals.map((card) => (
-          <DealCard key={card.deal.id} card={card} />
-        ))}
-      </div>
+      <DealsExplorer deals={mockDeals} categories={mockCategories} />
     </div>
   );
 }

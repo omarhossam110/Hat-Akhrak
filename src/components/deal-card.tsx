@@ -1,11 +1,13 @@
-import { getTranslations, getLocale } from "next-intl/server";
+"use client";
+
+import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { MockDealCard } from "@/lib/mock-deals";
 import { CycleCountdown } from "@/components/cycle-countdown";
 
-export async function DealCard({ card }: { card: MockDealCard }) {
-  const t = await getTranslations();
-  const locale = await getLocale();
+export function DealCard({ card }: { card: MockDealCard }) {
+  const t = useTranslations();
+  const locale = useLocale();
 
   const { deal, tiers, cycle, merchant, icon, artVariant } = card;
   const title = locale === "ar" ? deal.title_ar ?? deal.title : deal.title_en ?? deal.title;
