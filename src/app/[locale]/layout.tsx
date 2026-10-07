@@ -54,7 +54,7 @@ export default async function LocaleLayout({
   `;
 
   return (
-    <html lang={locale} dir={dir} className="h-full antialiased">
+    <html lang={locale} dir={dir} className="h-full antialiased" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
