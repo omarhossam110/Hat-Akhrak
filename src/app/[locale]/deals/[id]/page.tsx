@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { getDealById } from "@/lib/mock-deals";
 import { CycleCountdown } from "@/components/cycle-countdown";
+import { WhatsAppShareButton } from "@/components/whatsapp-share-button";
 
 export default async function DealDetailsPage({
   params,
@@ -46,8 +47,14 @@ export default async function DealDetailsPage({
 
         {/* Info card */}
         <div className="rounded-[22px] border border-line bg-surface p-[22px] shadow-[var(--shadow-card)]">
-          <div className="mb-1.5 text-xs font-extrabold text-brand">
-            {t("deals.groupDeal")} • {t("deals.verifiedMerchant")}
+          <div className="mb-1.5 flex items-center justify-between gap-2">
+            <div className="text-xs font-extrabold text-brand">
+              {t("deals.groupDeal")} • {t("deals.verifiedMerchant")}
+            </div>
+            <WhatsAppShareButton
+              path={`/deals/${deal.id}`}
+              message={t("deals.shareMessage", { title })}
+            />
           </div>
           <h1 className="mb-1.5 text-[26px] font-extrabold tracking-tight sm:text-[30px]">
             {title}

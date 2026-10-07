@@ -6,6 +6,14 @@ import { DealCard } from "@/components/deal-card";
 export default async function HomePage() {
   const t = await getTranslations();
 
+  const endingSoon = [...mockDeals]
+    .sort((a, b) => new Date(a.cycle.ends_at).getTime() - new Date(b.cycle.ends_at).getTime())
+    .slice(0, 3);
+
+  const trending = [...mockDeals]
+    .sort((a, b) => b.cycle.units_sold - a.cycle.units_sold)
+    .slice(0, 3);
+
   return (
     <div className="mx-auto max-w-[1180px] px-[22px] py-[30px]">
       {/* Hero */}
@@ -50,6 +58,36 @@ export default async function HomePage() {
           </div>
         </aside>
       </section>
+
+      {/* Ending soon */}
+      <div className="mb-3.5 mt-[27px] flex items-end justify-between">
+        <h2 className="flex items-center gap-1.5 text-[19px] font-bold tracking-tight">
+          <span aria-hidden>⏱</span> {t("home.endingSoonTitle")}
+        </h2>
+        <Link href="/deals" className="text-xs font-extrabold text-brand">
+          {t("common.viewAll")} →
+        </Link>
+      </div>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {endingSoon.map((card) => (
+          <DealCard key={card.deal.id} card={card} />
+        ))}
+      </div>
+
+      {/* Trending */}
+      <div className="mb-3.5 mt-[27px] flex items-end justify-between">
+        <h2 className="flex items-center gap-1.5 text-[19px] font-bold tracking-tight">
+          <span aria-hidden>🔥</span> {t("home.trendingTitle")}
+        </h2>
+        <Link href="/deals" className="text-xs font-extrabold text-brand">
+          {t("common.viewAll")} →
+        </Link>
+      </div>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {trending.map((card) => (
+          <DealCard key={card.deal.id} card={card} />
+        ))}
+      </div>
 
       {/* Open deals */}
       <div className="mb-3.5 mt-[27px] flex items-end justify-between">

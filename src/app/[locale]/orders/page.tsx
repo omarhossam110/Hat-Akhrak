@@ -2,6 +2,8 @@ import { getTranslations } from "next-intl/server";
 import { getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { mockOrders } from "@/lib/mock-orders";
+import { mockReferralProgram } from "@/lib/mock-referrals";
+import { InviteFriends } from "@/components/invite-friends";
 import type { OrderStatus } from "@/lib/types/database";
 
 const STATUS_STYLES: Record<
@@ -114,6 +116,8 @@ export default async function OrdersPage() {
           </table>
         </div>
       )}
+
+      <InviteFriends program={mockReferralProgram} />
     </div>
   );
 }

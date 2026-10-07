@@ -4,6 +4,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { MockDealCard } from "@/lib/mock-deals";
 import { CycleCountdown } from "@/components/cycle-countdown";
+import { WhatsAppShareButton } from "@/components/whatsapp-share-button";
 
 export function DealCard({ card }: { card: MockDealCard }) {
   const t = useTranslations();
@@ -32,6 +33,13 @@ export function DealCard({ card }: { card: MockDealCard }) {
             ✓ {t("deals.verifiedMerchant")}
           </b>
         )}
+        <div className="absolute start-3 top-3">
+          <WhatsAppShareButton
+            path={`/deals/${deal.id}`}
+            message={t("deals.shareMessage", { title })}
+            compact
+          />
+        </div>
       </div>
 
       <div className="p-[17px]">

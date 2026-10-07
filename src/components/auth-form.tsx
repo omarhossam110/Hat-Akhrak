@@ -6,9 +6,11 @@ import { Link, useRouter } from "@/i18n/navigation";
 export function AuthForm({
   mode,
   redirectTo,
+  referralCode,
 }: {
   mode: "login" | "signup";
   redirectTo?: string;
+  referralCode?: string;
 }) {
   const t = useTranslations();
   const router = useRouter();
@@ -29,6 +31,12 @@ export function AuthForm({
       {redirectTo && (
         <div className="mb-[18px] flex items-start gap-2.5 rounded-[13px] bg-info-soft p-3.5 text-[11px] leading-relaxed text-info-text">
           {t("auth.guestNote")}
+        </div>
+      )}
+
+      {isSignup && referralCode && (
+        <div className="mb-[18px] flex items-start gap-2.5 rounded-[13px] bg-brand-soft p-3.5 text-[11px] leading-relaxed text-brand-text-strong">
+          🎁 {t("auth.referralBanner", { code: referralCode })}
         </div>
       )}
 

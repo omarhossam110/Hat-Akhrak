@@ -22,7 +22,9 @@
     "heroDesc": "اجمع ناسك، وصلوا للمرحلة الأعلى، وخدوا نفس المنتج بسعر الجملة.",
     "heroMetric": "شخص وفّروا فلوسهم الأسبوع ده",
     "exploreCta": "استكشف الصفقات",
-    "sideNote": "موفرين موثّقين • أسعار جماعية • دفع آمن"
+    "sideNote": "موفرين موثّقين • أسعار جماعية • دفع آمن",
+    "endingSoonTitle": "هتقفل قريب",
+    "trendingTitle": "الأكثر رواجًا"
   },
   "deals": {
     "openDeals": "الصفقات المفتوحة",
@@ -63,7 +65,9 @@
       "buyersMost": "الأكثر مشتركين",
       "buyersFewest": "الأقل مشتركين",
       "noResults": "مفيش عروض مطابقة للفلتر ده دلوقتي"
-    }
+    },
+    "shareWhatsapp": "شارك",
+    "shareMessage": "شوف العرض ده على هات آخرك: {title}"
   },
   "merchantProfile": {
     "rating": "التقييم",
@@ -84,7 +88,8 @@
     "email": "البريد الإلكتروني",
     "password": "كلمة المرور",
     "loginBtn": "تسجيل الدخول",
-    "signupBtn": "إنشاء الحساب"
+    "signupBtn": "إنشاء الحساب",
+    "referralBanner": "تم دعوتك بواسطة صديق (كود {code}) — هياخد مكافأته لما تكمل أول طلب ليك"
   },
   "orders": {
     "title": "طلباتي",
@@ -100,7 +105,18 @@
     "actionInvoice": "الفاتورة",
     "emptyTitle": "لسه معملت أي طلب",
     "emptyDesc": "لما تنضم لصفقة، هتلاقيها هنا بكل تفاصيلها وحالتها.",
-    "emptyCta": "استكشف الصفقات"
+    "emptyCta": "استكشف الصفقات",
+    "inviteTitle": "ادعُ صديق",
+    "inviteDesc": "ابعت لينك الدعوة بتاعك لصحابك، وكل ما حد منهم يكمل أول طلب ليه هتاخد {amount} جنيه رصيد تستخدمه في أي عربون جاي",
+    "inviteCreditLabel": "رصيد مكتسب",
+    "inviteLinkLabel": "رابط الدعوة",
+    "copyButton": "نسخ",
+    "copied": "اتنسخ ✓",
+    "inviteShareMessage": "انضم لهات آخرك واشتري بالجملة مع صحابك! استخدم كود الدعوة بتاعي {code} من اللينك ده:",
+    "inviteFriendsTitle": "الأصحاب اللي دعيتهم",
+    "friendStatusInvited": "لسه مسجلش",
+    "friendStatusJoined": "سجّل",
+    "friendStatusRewarded": "اشترى ✓"
   },
   "merchantDashboard": {
     "title": "داشبورد المورد",

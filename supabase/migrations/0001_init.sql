@@ -46,6 +46,14 @@ create table public.profiles (
   role user_role not null default 'customer',
   full_name text not null,
   phone text,
+  -- This customer's own shareable invite code, generated at signup.
+  referral_code text not null unique,
+  -- The referral_code of whoever invited this customer, if any.
+  referred_by text references public.profiles (referral_code),
+  -- Accumulated referral reward credit, usable toward a future deposit.
+  -- Credited once a referred friend completes their first paid order
+  -- (see merchant_alerts-style notification in the app layer, not here).
+  wallet_credit numeric(10, 2) not null default 0,
   created_at timestamptz not null default now()
 );
 

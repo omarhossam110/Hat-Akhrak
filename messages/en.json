@@ -22,7 +22,9 @@
     "heroDesc": "Bring your group together, hit the next tier, and buy at a better price.",
     "heroMetric": "people saved money this week",
     "exploreCta": "Explore deals",
-    "sideNote": "Verified merchants • Group pricing • Secure checkout"
+    "sideNote": "Verified merchants • Group pricing • Secure checkout",
+    "endingSoonTitle": "Ending soon",
+    "trendingTitle": "Trending now"
   },
   "deals": {
     "openDeals": "Open deals",
@@ -63,7 +65,9 @@
       "buyersMost": "Most buyers",
       "buyersFewest": "Fewest buyers",
       "noResults": "No deals match this filter right now"
-    }
+    },
+    "shareWhatsapp": "Share",
+    "shareMessage": "Check out this deal on Hat Akhrak: {title}"
   },
   "merchantProfile": {
     "rating": "Rating",
@@ -84,7 +88,8 @@
     "email": "Email address",
     "password": "Password",
     "loginBtn": "Log In",
-    "signupBtn": "Create Account"
+    "signupBtn": "Create Account",
+    "referralBanner": "A friend invited you (code {code}) — they'll get their reward once you complete your first order"
   },
   "orders": {
     "title": "My Orders",
@@ -100,7 +105,18 @@
     "actionInvoice": "Invoice",
     "emptyTitle": "No orders yet",
     "emptyDesc": "Once you join a deal, it'll show up here with its full status.",
-    "emptyCta": "Explore deals"
+    "emptyCta": "Explore deals",
+    "inviteTitle": "Invite a friend",
+    "inviteDesc": "Share your invite link with friends — once they complete their first order, you get {amount} EGP credit toward any future deposit",
+    "inviteCreditLabel": "credit earned",
+    "inviteLinkLabel": "Your invite link",
+    "copyButton": "Copy",
+    "copied": "Copied ✓",
+    "inviteShareMessage": "Join Hat Akhrak and buy in bulk with your friends! Use my invite code {code} from this link:",
+    "inviteFriendsTitle": "Friends you've invited",
+    "friendStatusInvited": "Not signed up yet",
+    "friendStatusJoined": "Signed up",
+    "friendStatusRewarded": "Purchased ✓"
   },
   "merchantDashboard": {
     "title": "Merchant Dashboard",

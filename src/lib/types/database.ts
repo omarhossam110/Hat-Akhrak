@@ -28,6 +28,12 @@ export interface Profile {
   role: UserRole;
   full_name: string;
   phone: string | null;
+  /** This customer's own shareable invite code (e.g. "OMAR-4821"). */
+  referral_code: string;
+  /** The referral_code of whoever invited this customer, if any. */
+  referred_by: string | null;
+  /** Accumulated referral reward credit, usable toward a future deposit. */
+  wallet_credit: number;
   created_at: string;
 }
 
