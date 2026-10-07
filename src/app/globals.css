@@ -1,26 +1,85 @@
 @import "tailwindcss";
 
 :root {
-  /* Design tokens — matches the approved Hi-Fi wireframe exactly. */
+  /* Design tokens — matches the approved Hi-Fi wireframe exactly (light mode values). */
   --color-ink: #101828;
   --color-ink-2: #1d2939;
   --color-muted: #667085;
+  --color-muted-2: #98a2b3;
   --color-line: #eaecf0;
   --color-paper: #f7f8fa;
+  --color-surface: #ffffff;
+  --color-surface-2: #f9fafb;
 
   --color-brand: #ff8a00;
   --color-brand-2: #ffb000;
   --color-brand-soft: #fff3e3;
+  --color-brand-text-strong: #9a4d00;
 
   --color-success: #12b76a;
   --color-success-soft: #ecfdf3;
   --color-danger: #f04438;
   --color-danger-soft: #fef3f2;
+  --color-danger-border: #fecdca;
   --color-info: #2e90fa;
   --color-info-soft: #eff8ff;
+  --color-info-text: #175cd3;
+  --color-warning: #b54708;
+  --color-warning-soft: #fffaeb;
+  --color-neutral: #475467;
+  --color-neutral-soft: #f2f4f7;
+
+  --color-notice-bg: #fffaf3;
+  --color-notice-border: #ffe0b2;
+  --color-hover-soft: #fffaf3;
+  --color-hover-border: #ffc46d;
+  --color-focus-border: #ffbd66;
+  --color-focus-ring: #fff1df;
 
   --shadow-card: 0 10px 30px rgba(16, 24, 40, 0.07);
   --shadow-card-lg: 0 20px 55px rgba(16, 24, 40, 0.12);
+
+  --background: var(--color-paper);
+  --foreground: var(--color-ink);
+}
+
+:root[data-theme="dark"] {
+  --color-ink: #f2f4f7;
+  --color-ink-2: #e4e7ec;
+  --color-muted: #94a3b8;
+  --color-muted-2: #667085;
+  --color-line: #27303f;
+  --color-paper: #0b0f17;
+  --color-surface: #141a24;
+  --color-surface-2: #1b2230;
+
+  --color-brand: #ff9d2e;
+  --color-brand-2: #ffb844;
+  --color-brand-soft: #3a2615;
+  --color-brand-text-strong: #ffc488;
+
+  --color-success: #32d583;
+  --color-success-soft: #113328;
+  --color-danger: #f97066;
+  --color-danger-soft: #3a1b1b;
+  --color-danger-border: #5c2626;
+  --color-info: #53b1fd;
+  --color-info-soft: #122a42;
+  --color-info-text: #84caff;
+  --color-warning: #fdb022;
+  --color-warning-soft: #3a2c0f;
+  --color-neutral: #cbd3df;
+  --color-neutral-soft: #222938;
+
+  --color-notice-bg: #2c2110;
+  --color-notice-border: #5a3f17;
+  --color-hover-soft: #241a0d;
+  --color-hover-border: #a9691f;
+  --color-focus-border: #a9691f;
+  --color-focus-ring: #3a2615;
+
+  --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.35);
+  --shadow-card-lg: 0 20px 55px rgba(0, 0, 0, 0.5);
 
   --background: var(--color-paper);
   --foreground: var(--color-ink);
@@ -33,19 +92,36 @@
   --color-ink: var(--color-ink);
   --color-ink-2: var(--color-ink-2);
   --color-muted: var(--color-muted);
+  --color-muted-2: var(--color-muted-2);
   --color-line: var(--color-line);
   --color-paper: var(--color-paper);
+  --color-surface: var(--color-surface);
+  --color-surface-2: var(--color-surface-2);
 
   --color-brand: var(--color-brand);
   --color-brand-2: var(--color-brand-2);
   --color-brand-soft: var(--color-brand-soft);
+  --color-brand-text-strong: var(--color-brand-text-strong);
 
   --color-success: var(--color-success);
   --color-success-soft: var(--color-success-soft);
   --color-danger: var(--color-danger);
   --color-danger-soft: var(--color-danger-soft);
+  --color-danger-border: var(--color-danger-border);
   --color-info: var(--color-info);
   --color-info-soft: var(--color-info-soft);
+  --color-info-text: var(--color-info-text);
+  --color-warning: var(--color-warning);
+  --color-warning-soft: var(--color-warning-soft);
+  --color-neutral: var(--color-neutral);
+  --color-neutral-soft: var(--color-neutral-soft);
+
+  --color-notice-bg: var(--color-notice-bg);
+  --color-notice-border: var(--color-notice-border);
+  --color-hover-soft: var(--color-hover-soft);
+  --color-hover-border: var(--color-hover-border);
+  --color-focus-border: var(--color-focus-border);
+  --color-focus-ring: var(--color-focus-ring);
 
   --shadow-card: var(--shadow-card);
   --shadow-card-lg: var(--shadow-card-lg);

@@ -32,13 +32,13 @@ export default async function HowItWorksPage() {
         {steps.map((step, i) => (
           <div
             key={step.title}
-            className="relative rounded-[18px] border border-line bg-white p-[18px] shadow-[var(--shadow-card)]"
+            className="relative rounded-[18px] border border-line bg-surface p-[18px] shadow-[var(--shadow-card)]"
           >
             <div className="mb-3.5 flex items-center gap-3">
               <span className="grid h-11 w-11 place-items-center rounded-[13px] bg-brand-soft text-xl">
                 {step.icon}
               </span>
-              <span className="font-sans text-xs font-extrabold text-[#98a2b3]">
+              <span className="font-sans text-xs font-extrabold text-muted-2">
                 {String(i + 1).padStart(2, "0")}
               </span>
             </div>
@@ -48,7 +48,7 @@ export default async function HowItWorksPage() {
         ))}
       </div>
 
-      <div className="rounded-[22px] border border-line bg-white p-[22px] shadow-[var(--shadow-card)]">
+      <div className="rounded-[22px] border border-line bg-surface p-[22px] shadow-[var(--shadow-card)]">
         <h2 className="mb-1.5 text-base font-extrabold">{t("howItWorks.tiersTitle")}</h2>
         <p className="mb-4 text-xs text-muted">{t("howItWorks.tiersDesc")}</p>
         <div className="grid grid-cols-3 gap-2">
@@ -58,7 +58,7 @@ export default async function HowItWorksPage() {
               className={`rounded-[14px] border text-center ${
                 i === 1
                   ? "border-2 border-success bg-success-soft p-[11px]"
-                  : "border-line bg-white p-3"
+                  : "border-line bg-surface p-3"
               }`}
             >
               <small className="mb-1 block text-[10px] text-muted">

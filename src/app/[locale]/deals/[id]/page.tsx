@@ -33,7 +33,7 @@ export default async function DealDetailsPage({
       </Link>
       <div className="grid grid-cols-1 gap-[18px] lg:grid-cols-[1fr_0.78fr]">
         {/* Big product art */}
-        <div className="rounded-[22px] border border-line bg-white p-[22px] shadow-[var(--shadow-card)]">
+        <div className="rounded-[22px] border border-line bg-surface p-[22px] shadow-[var(--shadow-card)]">
           <div
             className={`product-art-${artVariant} relative grid h-[300px] place-items-center rounded-[20px] text-[90px] text-white sm:h-[430px] sm:text-[125px]`}
           >
@@ -45,14 +45,14 @@ export default async function DealDetailsPage({
         </div>
 
         {/* Info card */}
-        <div className="rounded-[22px] border border-line bg-white p-[22px] shadow-[var(--shadow-card)]">
+        <div className="rounded-[22px] border border-line bg-surface p-[22px] shadow-[var(--shadow-card)]">
           <div className="mb-1.5 text-xs font-extrabold text-brand">
             {t("deals.groupDeal")} • {t("deals.verifiedMerchant")}
           </div>
           <h1 className="mb-1.5 text-[26px] font-extrabold tracking-tight sm:text-[30px]">
             {title}
           </h1>
-          <div className="mb-5 text-xs text-[#b54708]">
+          <div className="mb-5 text-xs text-warning">
             ★★★★★{" "}
             <span className="text-muted">
               {merchant.rating} • {merchant.review_count}
@@ -72,7 +72,7 @@ export default async function DealDetailsPage({
               {activeTier?.price_per_unit} {t("common.egp")}
             </span>
             {activeTier !== firstTier && (
-              <span className="text-[11px] text-[#98a2b3] line-through">
+              <span className="text-[11px] text-muted-2 line-through">
                 {firstTier.price_per_unit} {t("common.egp")}
               </span>
             )}
@@ -90,7 +90,7 @@ export default async function DealDetailsPage({
                   className={`rounded-[14px] border text-center ${
                     reached
                       ? "border-2 border-success bg-success-soft p-[11px]"
-                      : "border-line bg-white p-3"
+                      : "border-line bg-surface p-3"
                   }`}
                 >
                   <small className="mb-1 block text-[10px] text-muted">
@@ -106,7 +106,7 @@ export default async function DealDetailsPage({
             })}
           </div>
 
-          <div className="rounded-[17px] border border-[#ffe0b2] bg-[#fffaf3] p-[15px]">
+          <div className="rounded-[17px] border border-notice-border bg-notice-bg p-[15px]">
             <div className="mb-2.5 flex items-center justify-between text-xs">
               <b>{t("deals.deposit")}</b>
               <strong className="font-sans">
@@ -118,7 +118,7 @@ export default async function DealDetailsPage({
             </label>
             <select
               id="qty"
-              className="mb-2.5 w-full rounded-xl border border-line bg-white p-[11px] outline-none"
+              className="mb-2.5 w-full rounded-xl border border-line bg-surface p-[11px] outline-none"
             >
               {Array.from({ length: maxQty }, (_, i) => i + 1).map((n) => (
                 <option key={n} value={n}>
@@ -134,7 +134,7 @@ export default async function DealDetailsPage({
             </Link>
           </div>
 
-          <div className="mt-3 rounded-[13px] bg-brand-soft p-3.5 text-[11px] leading-relaxed text-[#9a4d00]">
+          <div className="mt-3 rounded-[13px] bg-brand-soft p-3.5 text-[11px] leading-relaxed text-brand-text-strong">
             ⚠ {t("deals.noticeLead")}{" "}
             <CycleCountdown endsAt={cycle.ends_at} compact /> —{" "}
             {t("deals.noticeTail")}

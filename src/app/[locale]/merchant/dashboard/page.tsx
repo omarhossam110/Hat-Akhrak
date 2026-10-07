@@ -19,7 +19,7 @@ export default async function MerchantDashboardPage() {
   return (
     <div className="mx-auto max-w-[1180px] px-[22px] py-[30px]">
       {merchantHasAlert && (
-        <div className="mb-4 rounded-[15px] border border-[#fecdca] bg-danger-soft p-3.5 text-xs text-[#b42318]">
+        <div className="mb-4 rounded-[15px] border border-danger-border bg-danger-soft p-3.5 text-xs text-danger">
           ⚠ {t("merchantDashboard.alert")}
         </div>
       )}
@@ -28,7 +28,7 @@ export default async function MerchantDashboardPage() {
         {stats.map((stat) => (
           <div
             key={stat.label}
-            className="rounded-[18px] border border-line bg-white p-[17px] shadow-[var(--shadow-card)]"
+            className="rounded-[18px] border border-line bg-surface p-[17px] shadow-[var(--shadow-card)]"
           >
             <div className="mb-3.5 text-xl">{stat.icon}</div>
             <b className="block font-sans text-[23px]">{stat.value}</b>

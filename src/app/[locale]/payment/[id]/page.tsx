@@ -34,12 +34,12 @@ export default async function PaymentPage({
           <div key={step.label} className="flex flex-1 items-center last:flex-none">
             <div
               className={`flex items-center gap-1.5 text-[11px] font-extrabold ${
-                step.active ? "text-ink" : "text-[#98a2b3]"
+                step.active ? "text-ink" : "text-muted-2"
               }`}
             >
               <span
                 className={`grid h-[26px] w-[26px] place-items-center rounded-full ${
-                  step.active ? "bg-brand text-[#111]" : "bg-[#f2f4f7]"
+                  step.active ? "bg-brand text-[#111]" : "bg-neutral-soft"
                 }`}
               >
                 {i + 1}
@@ -52,14 +52,14 @@ export default async function PaymentPage({
       </div>
 
       <div className="mx-auto grid max-w-[850px] grid-cols-1 gap-4 lg:grid-cols-[1fr_0.75fr]">
-        <div className="rounded-[22px] border border-line bg-white p-[22px] shadow-[var(--shadow-card)]">
+        <div className="rounded-[22px] border border-line bg-surface p-[22px] shadow-[var(--shadow-card)]">
           <h1 className="mb-1.5 text-2xl font-extrabold tracking-tight">{t("payment.title")}</h1>
           <p className="mb-1.5 text-xs font-bold text-ink">{title}</p>
           <p className="text-xs text-muted">{t("payment.methodNote")}</p>
           <PayNowButton />
         </div>
 
-        <div className="rounded-[22px] border border-line bg-white p-7 text-center shadow-[var(--shadow-card)]">
+        <div className="rounded-[22px] border border-line bg-surface p-7 text-center shadow-[var(--shadow-card)]">
           <div className="text-[11px] text-muted">{t("payment.amountDueNow")}</div>
           <strong className="my-1 block font-sans text-[40px]">
             {amountDue} {t("common.egp")}

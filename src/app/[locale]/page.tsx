@@ -32,7 +32,7 @@ export default async function HomePage() {
           </Link>
         </div>
 
-        <aside className="flex flex-col justify-between rounded-[28px] border border-line bg-white p-[25px] shadow-[var(--shadow-card)]">
+        <aside className="flex flex-col justify-between rounded-[28px] border border-line bg-surface p-[25px] shadow-[var(--shadow-card)]">
           <div className="flex items-center justify-between">
             <div>
               <strong className="font-sans text-[30px]">{t("home.heroNumber")}</strong>

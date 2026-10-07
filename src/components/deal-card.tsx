@@ -20,7 +20,7 @@ export async function DealCard({ card }: { card: MockDealCard }) {
     : firstTier;
 
   return (
-    <article className="group overflow-hidden rounded-[22px] border border-line bg-white shadow-[0_5px_20px_rgba(16,24,40,0.04)] transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card-lg)]">
+    <article className="group overflow-hidden rounded-[22px] border border-line bg-surface shadow-[0_5px_20px_rgba(16,24,40,0.04)] transition-all hover:-translate-y-1 hover:shadow-[var(--shadow-card-lg)]">
       <div
         className={`product-art-${artVariant} relative grid h-[175px] place-items-center text-[66px] text-white`}
       >
@@ -41,13 +41,13 @@ export async function DealCard({ card }: { card: MockDealCard }) {
             {activeTier?.price_per_unit} {t("common.egp")}
           </span>
           {activeTier !== firstTier && (
-            <span className="text-[11px] text-[#98a2b3] line-through">
+            <span className="text-[11px] text-muted-2 line-through">
               {firstTier.price_per_unit} {t("common.egp")}
             </span>
           )}
         </div>
 
-        <div className="mt-3.5 mb-[7px] h-2 overflow-hidden rounded-full bg-[#f2f4f7]">
+        <div className="mt-3.5 mb-[7px] h-2 overflow-hidden rounded-full bg-neutral-soft">
           <span
             className="block h-full rounded-full bg-gradient-to-r from-brand to-brand-2"
             style={{ width: `${progressPct}%` }}
@@ -59,7 +59,7 @@ export async function DealCard({ card }: { card: MockDealCard }) {
         </div>
 
         <div className="mt-3.5 flex items-center justify-between">
-          <span className="flex items-center gap-1 rounded-lg bg-[#fff7ed] px-2 py-1.5 text-[10px] font-extrabold text-[#b54708]">
+          <span className="flex items-center gap-1 rounded-lg bg-warning-soft px-2 py-1.5 text-[10px] font-extrabold text-warning">
             <span aria-hidden>⏱</span>
             <CycleCountdown endsAt={cycle.ends_at} compact />
           </span>

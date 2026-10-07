@@ -22,7 +22,7 @@ export default async function MerchantsListPage() {
             <Link
               key={merchant.id}
               href={`/merchants/${merchant.id}`}
-              className="group flex flex-col rounded-[22px] border border-line bg-white p-[18px] shadow-[0_5px_20px_rgba(16,24,40,.04)] transition hover:-translate-y-1 hover:shadow-[var(--shadow-card-lg)]"
+              className="group flex flex-col rounded-[22px] border border-line bg-surface p-[18px] shadow-[0_5px_20px_rgba(16,24,40,.04)] transition hover:-translate-y-1 hover:shadow-[var(--shadow-card-lg)]"
             >
               <div className="mb-3.5 flex items-center gap-3">
                 <div

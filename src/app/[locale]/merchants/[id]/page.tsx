@@ -19,7 +19,7 @@ export default async function MerchantProfilePage({
 
   return (
     <div className="mx-auto max-w-[1180px] px-[22px] py-[30px]">
-      <div className="rounded-[22px] border border-line bg-white p-[22px] shadow-[var(--shadow-card)]">
+      <div className="rounded-[22px] border border-line bg-surface p-[22px] shadow-[var(--shadow-card)]">
         <div className="flex items-center gap-4">
           <div
             className={`product-art-${merchant.avatarVariant} grid h-16 w-16 shrink-0 place-items-center rounded-2xl text-[26px] text-white`}
@@ -71,7 +71,7 @@ export default async function MerchantProfilePage({
           ))}
         </div>
       ) : (
-        <p className="rounded-[22px] border border-line bg-white p-8 text-center text-sm text-muted">
+        <p className="rounded-[22px] border border-line bg-surface p-8 text-center text-sm text-muted">
           {t("merchantProfile.noOpenDeals")}
         </p>
       )}

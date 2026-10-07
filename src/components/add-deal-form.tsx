@@ -35,7 +35,7 @@ export function AddDealForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-[620px] rounded-[22px] border border-line bg-white p-[22px] shadow-[var(--shadow-card)]">
+    <form onSubmit={handleSubmit} className="max-w-[620px] rounded-[22px] border border-line bg-surface p-[22px] shadow-[var(--shadow-card)]">
       <div className="mb-1.5 text-xs font-extrabold uppercase tracking-wide text-brand">
         {t("addDeal.eyebrow")}
       </div>
@@ -44,19 +44,19 @@ export function AddDealForm() {
 
       <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2">
         <div className="sm:col-span-2">
-          <label htmlFor="productName" className="mb-1.5 block text-[11px] font-extrabold text-[#475467]">
+          <label htmlFor="productName" className="mb-1.5 block text-[11px] font-extrabold text-neutral">
             {t("addDeal.fieldProductName")}
           </label>
           <input
             id="productName"
             value={productName}
             onChange={(e) => setProductName(e.target.value)}
-            className="h-11 w-full rounded-xl border border-line px-3 outline-none focus:border-[#ffbd66] focus:shadow-[0_0_0_3px_#fff1df]"
+            className="h-11 w-full rounded-xl border border-line px-3 outline-none focus:border-focus-border focus:shadow-[0_0_0_3px_var(--color-focus-ring)]"
             placeholder="..."
           />
         </div>
         <div>
-          <label htmlFor="totalStock" className="mb-1.5 block text-[11px] font-extrabold text-[#475467]">
+          <label htmlFor="totalStock" className="mb-1.5 block text-[11px] font-extrabold text-neutral">
             {t("addDeal.fieldTotalStock")}
           </label>
           <input
@@ -66,7 +66,7 @@ export function AddDealForm() {
             step={5}
             value={totalStock}
             onChange={(e) => setTotalStock(e.target.value)}
-            className="h-11 w-full rounded-xl border border-line px-3 outline-none focus:border-[#ffbd66] focus:shadow-[0_0_0_3px_#fff1df]"
+            className="h-11 w-full rounded-xl border border-line px-3 outline-none focus:border-focus-border focus:shadow-[0_0_0_3px_var(--color-focus-ring)]"
             placeholder="200"
           />
           {stockInvalid && (
@@ -74,7 +74,7 @@ export function AddDealForm() {
           )}
         </div>
         <div>
-          <label htmlFor="wholesalePrice" className="mb-1.5 block text-[11px] font-extrabold text-[#475467]">
+          <label htmlFor="wholesalePrice" className="mb-1.5 block text-[11px] font-extrabold text-neutral">
             {t("addDeal.fieldWholesalePrice")}
           </label>
           <input
@@ -83,7 +83,7 @@ export function AddDealForm() {
             min={0}
             value={wholesalePrice}
             onChange={(e) => setWholesalePrice(e.target.value)}
-            className="h-11 w-full rounded-xl border border-line px-3 outline-none focus:border-[#ffbd66] focus:shadow-[0_0_0_3px_#fff1df]"
+            className="h-11 w-full rounded-xl border border-line px-3 outline-none focus:border-focus-border focus:shadow-[0_0_0_3px_var(--color-focus-ring)]"
             placeholder={t("common.egp") === "جنيه" ? "600 جنيه" : "EGP 600"}
           />
         </div>

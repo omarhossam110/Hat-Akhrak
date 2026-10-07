@@ -6,8 +6,8 @@ import type { MerchantDealRow } from "@/lib/mock-merchant-dashboard";
 
 const STATUS_STYLES: Record<MerchantDealRow["status"], string> = {
   active: "bg-success-soft text-success",
-  needs_stock: "bg-[#fffaeb] text-[#b54708]",
-  paused: "bg-[#f2f4f7] text-[#475467]",
+  needs_stock: "bg-warning-soft text-warning",
+  paused: "bg-neutral-soft text-neutral",
 };
 
 const OUTCOME_STYLES: Record<string, string> = {
@@ -29,7 +29,7 @@ export function MerchantDealsTable({ rows }: { rows: MerchantDealRow[] }) {
         : t("merchantDashboard.statusPaused");
 
   return (
-    <div className="overflow-hidden rounded-[22px] border border-line bg-white shadow-[var(--shadow-card)]">
+    <div className="overflow-hidden rounded-[22px] border border-line bg-surface shadow-[var(--shadow-card)]">
       <div className="overflow-auto">
         <table className="w-full min-w-[680px] text-start text-sm">
           <thead>
@@ -82,7 +82,7 @@ export function MerchantDealsTable({ rows }: { rows: MerchantDealRow[] }) {
                   {isOpen && (
                     <tr className="border-b border-line">
                       <td colSpan={5} className="bg-paper px-5 py-3">
-                        <div className="space-y-1.5 rounded-[14px] bg-white p-3.5">
+                        <div className="space-y-1.5 rounded-[14px] bg-surface p-3.5">
                           {row.history.map((item) => (
                             <div
                               key={item.id}

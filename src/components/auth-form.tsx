@@ -27,18 +27,18 @@ export function AuthForm({
   return (
     <div className="mx-auto max-w-[420px]">
       {redirectTo && (
-        <div className="mb-[18px] flex items-start gap-2.5 rounded-[13px] bg-info-soft p-3.5 text-[11px] leading-relaxed text-[#175cd3]">
+        <div className="mb-[18px] flex items-start gap-2.5 rounded-[13px] bg-info-soft p-3.5 text-[11px] leading-relaxed text-info-text">
           {t("auth.guestNote")}
         </div>
       )}
 
-      <div className="rounded-[22px] border border-line bg-white p-[22px] shadow-[var(--shadow-card)]">
-        <div className="mb-5 flex gap-1.5 rounded-[13px] bg-[#f2f4f7] p-1.5">
+      <div className="rounded-[22px] border border-line bg-surface p-[22px] shadow-[var(--shadow-card)]">
+        <div className="mb-5 flex gap-1.5 rounded-[13px] bg-neutral-soft p-1.5">
           <Link
             href={`/login${query}`}
             className={`flex-1 rounded-[9px] p-2.5 text-center text-xs font-extrabold transition ${
               !isSignup
-                ? "bg-white text-ink shadow-[0_3px_10px_rgba(16,24,40,0.08)]"
+                ? "bg-surface text-ink shadow-[0_3px_10px_rgba(16,24,40,0.08)]"
                 : "text-muted"
             }`}
           >
@@ -48,7 +48,7 @@ export function AuthForm({
             href={`/signup${query}`}
             className={`flex-1 rounded-[9px] p-2.5 text-center text-xs font-extrabold transition ${
               isSignup
-                ? "bg-white text-ink shadow-[0_3px_10px_rgba(16,24,40,0.08)]"
+                ? "bg-surface text-ink shadow-[0_3px_10px_rgba(16,24,40,0.08)]"
                 : "text-muted"
             }`}
           >
@@ -91,7 +91,7 @@ function Field({
     <div className="mb-3">
       <label
         htmlFor={name}
-        className="mb-1.5 block text-[11px] font-extrabold text-[#475467]"
+        className="mb-1.5 block text-[11px] font-extrabold text-neutral"
       >
         {label}
       </label>
@@ -100,7 +100,7 @@ function Field({
         name={name}
         type={type}
         required
-        className="h-11 w-full rounded-xl border border-line px-3 outline-none transition focus:border-[#ffbd66] focus:shadow-[0_0_0_3px_#fff1df]"
+        className="h-11 w-full rounded-xl border border-line px-3 outline-none transition focus:border-focus-border focus:shadow-[0_0_0_3px_var(--color-focus-ring)]"
       />
     </div>
   );

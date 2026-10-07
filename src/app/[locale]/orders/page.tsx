@@ -8,9 +8,9 @@ const STATUS_STYLES: Record<
   "running" | "delivered" | "refunded",
   string
 > = {
-  running: "bg-[#fffaeb] text-[#b54708]",
+  running: "bg-warning-soft text-warning",
   delivered: "bg-success-soft text-success",
-  refunded: "bg-[#f2f4f7] text-[#475467]",
+  refunded: "bg-neutral-soft text-neutral",
 };
 
 function statusGroup(status: OrderStatus): "running" | "delivered" | "refunded" {
@@ -30,14 +30,14 @@ export default async function OrdersPage() {
           {t("orders.title")}
         </h1>
         {mockOrders.length > 0 && (
-          <span className="rounded-full bg-info-soft px-3 py-1.5 text-xs font-extrabold text-[#175cd3]">
+          <span className="rounded-full bg-info-soft px-3 py-1.5 text-xs font-extrabold text-info-text">
             {t("orders.ordersCount", { count: mockOrders.length })}
           </span>
         )}
       </div>
 
       {mockOrders.length === 0 ? (
-        <div className="flex flex-col items-center gap-3 rounded-[22px] border border-line bg-white px-6 py-16 text-center shadow-[var(--shadow-card)]">
+        <div className="flex flex-col items-center gap-3 rounded-[22px] border border-line bg-surface px-6 py-16 text-center shadow-[var(--shadow-card)]">
           <span className="text-[44px]">🧾</span>
           <h2 className="text-base font-extrabold">{t("orders.emptyTitle")}</h2>
           <p className="max-w-[360px] text-sm text-muted">
@@ -51,7 +51,7 @@ export default async function OrdersPage() {
           </Link>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-[22px] border border-line bg-white shadow-[var(--shadow-card)]">
+        <div className="overflow-hidden rounded-[22px] border border-line bg-surface shadow-[var(--shadow-card)]">
           <table className="w-full text-start text-sm">
             <thead>
               <tr className="border-b border-line bg-paper text-xs font-bold text-muted">
