@@ -3,9 +3,12 @@ import { Link } from "@/i18n/navigation";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { NavTabs } from "@/components/nav-tabs";
+import { NotificationsBell } from "@/components/notifications-bell";
+import { buildNotifications } from "@/lib/mock-notifications";
 
 export async function SiteHeader() {
   const t = await getTranslations();
+  const notifications = buildNotifications();
 
   const navItems = [
     { href: "/", label: t("nav.home") },
@@ -39,6 +42,14 @@ export async function SiteHeader() {
         <div className="ms-auto flex items-center gap-2">
           <LanguageSwitcher />
           <ThemeToggle />
+          <NotificationsBell notifications={notifications} />
+          <Link
+            href="/wishlist"
+            className="grid h-[42px] min-w-[42px] place-items-center rounded-xl border border-line bg-surface text-ink transition hover:border-hover-border hover:bg-hover-soft"
+            aria-label={t("nav.wishlist")}
+          >
+            🤍
+          </Link>
           <Link
             href="/login"
             className="grid h-[42px] min-w-[42px] place-items-center rounded-xl border border-line bg-surface text-ink transition hover:border-hover-border hover:bg-hover-soft"

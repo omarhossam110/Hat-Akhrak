@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import type { MockDealCard } from "@/lib/mock-deals";
 import { CycleCountdown } from "@/components/cycle-countdown";
 import { WhatsAppShareButton } from "@/components/whatsapp-share-button";
+import { WishlistButton } from "@/components/wishlist-button";
 
 export function DealCard({ card }: { card: MockDealCard }) {
   const t = useTranslations();
@@ -33,7 +34,8 @@ export function DealCard({ card }: { card: MockDealCard }) {
             ✓ {t("deals.verifiedMerchant")}
           </b>
         )}
-        <div className="absolute start-3 top-3">
+        <div className="absolute start-3 top-3 flex items-center gap-1.5">
+          <WishlistButton dealId={deal.id} />
           <WhatsAppShareButton
             path={`/deals/${deal.id}`}
             message={t("deals.shareMessage", { title })}

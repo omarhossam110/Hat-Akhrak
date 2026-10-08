@@ -7,6 +7,8 @@ import {
   approveMerchantApplicationAction,
   rejectMerchantApplicationAction,
 } from "@/lib/actions/merchant-applications";
+import { mockDeals } from "@/lib/mock-deals";
+import { AdminAnalytics } from "@/components/admin-analytics";
 
 export default async function SuperAdminPage() {
   const t = await getTranslations();
@@ -16,6 +18,8 @@ export default async function SuperAdminPage() {
     <div className="mx-auto max-w-[1180px] px-[22px] py-[30px]">
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_260px]">
         <div className="flex flex-col gap-4">
+          <AdminAnalytics ledger={merchantLedger} deals={mockDeals} categories={mockCategories} />
+
           <div className="rounded-[22px] border border-line bg-surface p-[22px] shadow-[var(--shadow-card)]">
           <div className="mb-2.5 flex items-center justify-between">
             <h1 className="text-[19px] font-bold tracking-tight">{t("superAdmin.title")}</h1>

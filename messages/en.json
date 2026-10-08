@@ -14,7 +14,11 @@
     "merchants": "Merchants",
     "login": "Log In",
     "signup": "Sign Up",
-    "myOrders": "My Orders"
+    "myOrders": "My Orders",
+    "faq": "FAQ",
+    "terms": "Terms & Conditions",
+    "privacy": "Privacy Policy",
+    "wishlist": "Wishlist"
   },
   "home": {
     "heroNumber": "2,140+",
@@ -64,7 +68,10 @@
       "buyersLabel": "Buyers count",
       "buyersMost": "Most buyers",
       "buyersFewest": "Fewest buyers",
-      "noResults": "No deals match this filter right now"
+      "noResults": "No deals match this filter right now",
+      "priceLabel": "Price",
+      "priceMin": "Min",
+      "priceMax": "Max"
     },
     "shareWhatsapp": "Share",
     "shareMessage": "Check out this deal on Hat Akhrak: {title}"
@@ -201,6 +208,16 @@
       "statusRejected": "Rejected",
       "approve": "Approve",
       "reject": "Reject"
+    },
+    "analytics": {
+      "title": "Analytics & Charts",
+      "totalCollected": "Total collected",
+      "totalCommission": "Total commission",
+      "totalDeals": "Completed deals",
+      "collectedByMerchant": "Collected by merchant",
+      "dealsByCategory": "Deals by category",
+      "dealsCount": "{count} deals",
+      "noData": "Not enough data to show yet"
     }
   },
   "payment": {
@@ -229,5 +246,90 @@
     "submittedTitle": "Application received",
     "submittedDesc": "We'll review your business details and get back to you soon. You can check back here for updates.",
     "backHome": "Back to home"
+  },
+  "wishlist": {
+    "title": "Wishlist",
+    "subtitle": "Deals you've saved so you can come back to them easily",
+    "emptyTitle": "Your wishlist is empty",
+    "emptyDesc": "Tap the heart on any deal to save it here",
+    "emptyCta": "Browse deals",
+    "add": "Add to wishlist",
+    "remove": "Remove from wishlist",
+    "saved": "Saved"
+  },
+  "reviews": {
+    "title": "Customer Reviews",
+    "countLabel": "{count} reviews",
+    "empty": "No reviews yet for this deal — be the first to review it",
+    "formTitle": "Share your experience",
+    "fieldName": "Your name",
+    "fieldRating": "Your rating",
+    "fieldComment": "Tell us about your experience with the product...",
+    "submitBtn": "Submit review"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "empty": "No new notifications right now",
+    "markAllRead": "Mark all as read",
+    "endingSoon": "\"{title}\" is closing soon — order before time runs out",
+    "orderBalancePaid": "Balance paid for order \"{title}\"",
+    "orderDelivered": "Your order \"{title}\" was delivered",
+    "orderCompleted": "Your order \"{title}\" is complete",
+    "orderRefunded": "Your order \"{title}\" was refunded"
+  },
+  "faq": {
+    "eyebrow": "Got questions?",
+    "title": "Frequently Asked Questions",
+    "desc": "Everything you need to know about group buying on Hat Akhrak",
+    "q1": "How does group buying work?",
+    "a1": "You join a deal with other buyers, and as more people join, the price drops to the next tier. When the cycle closes, everyone pays the final price the deal reached.",
+    "q2": "Is the deposit refundable?",
+    "a2": "If you cancel with enough time before the cycle closes, your deposit is refunded. Cancelling in the last 24 hours of the cycle isn't available — this is made clear before you pay.",
+    "q3": "When will my order arrive?",
+    "a3": "Once the cycle closes and you pay the remaining balance, the merchant starts preparing and shipping orders; timing varies by product and merchant.",
+    "q4": "Why does the price change between tiers?",
+    "a4": "A deal starts at a slightly higher price, and once enough buyers join to reach a tier, the price drops for everyone — rewarding participation and sharing.",
+    "q5": "Can I become a merchant and sell on the platform?",
+    "a5": "Yes — sign up as a new merchant from the \"Sell with us\" page, and our team will review your application before your account is activated.",
+    "q6": "Are merchants on the platform verified?",
+    "a6": "Merchants with a \"Verified merchant\" badge have been reviewed by our team; newer merchants may still be pending review.",
+    "q7": "How do I contact support if there's an issue?",
+    "a7": "You can open a dispute from the My Orders page if there's a problem with delivery or the product, and our team will review it."
+  },
+  "terms": {
+    "eyebrow": "Legal",
+    "title": "Terms & Conditions",
+    "updatedAt": "Last updated: October 2026",
+    "section1Title": "Acceptance of terms",
+    "section1Body": "By using the Hat Akhrak platform, you agree to these terms and conditions in full. If you don't agree with any part of them, please don't use the platform.",
+    "section2Title": "Nature of the service",
+    "section2Body": "Hat Akhrak is an intermediary platform that groups buyers together to buy wholesale at a lower price from verified merchants; the platform is not the direct seller of the products.",
+    "section3Title": "Accounts and registration",
+    "section3Body": "You're responsible for the accuracy of your information when registering and for keeping your login details confidential; any activity from your account is your responsibility.",
+    "section4Title": "Group-buying cycles and deposits",
+    "section4Body": "When you join a deal, you pay a deposit that secures your place in the cycle; the remaining balance is determined once the cycle closes, based on the last price tier reached.",
+    "section5Title": "Cancellation and refunds",
+    "section5Body": "You may cancel your participation and get your deposit refunded up until 24 hours before the cycle closes; after that, joining is considered final and non-cancellable.",
+    "section6Title": "Merchant responsibility",
+    "section6Body": "Merchants registered on the platform are responsible for product quality and agreed delivery timelines; any dispute is handled by the Hat Akhrak team per the dispute-resolution policy.",
+    "section7Title": "Changes to these terms",
+    "section7Body": "We may update these terms and conditions from time to time, and we'll announce any material change on the platform before it takes effect."
+  },
+  "privacy": {
+    "eyebrow": "Your privacy matters",
+    "title": "Privacy Policy",
+    "updatedAt": "Last updated: October 2026",
+    "section1Title": "Data we collect",
+    "section1Body": "We collect basic information such as your name, phone number and email when you register, along with order and payment data as you use the platform.",
+    "section2Title": "Why we collect it",
+    "section2Body": "We use your data to connect you with merchants, process your orders and payments, and send you important notifications about order and deal status.",
+    "section3Title": "Sharing data with merchants",
+    "section3Body": "We only share the delivery details needed for your order with the merchant; your full financial data is never made available to them.",
+    "section4Title": "Data security",
+    "section4Body": "We use technical safeguards to protect your data from unauthorized access, including encryption of payment data.",
+    "section5Title": "Your rights over your data",
+    "section5Body": "You can request to review, correct or delete your personal data at any time by contacting our support team.",
+    "section6Title": "Changes to this policy",
+    "section6Body": "We may update this privacy policy from time to time, and we'll announce any significant change before it takes effect."
   }
 }

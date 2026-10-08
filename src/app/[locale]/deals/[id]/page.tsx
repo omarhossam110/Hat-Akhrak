@@ -2,8 +2,11 @@ import { getTranslations, getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { getDealById } from "@/lib/mock-deals";
+import { getReviewsByDealId, getAverageRating } from "@/lib/mock-reviews";
 import { CycleCountdown } from "@/components/cycle-countdown";
 import { WhatsAppShareButton } from "@/components/whatsapp-share-button";
+import { WishlistButton } from "@/components/wishlist-button";
+import { DealReviews } from "@/components/deal-reviews";
 
 export default async function DealDetailsPage({
   params,
@@ -23,6 +26,8 @@ export default async function DealDetailsPage({
     : tiers[0];
   const firstTier = tiers[0];
   const maxQty = Math.min(2, deal.remaining_stock);
+  const reviews = getReviewsByDealId(deal.id);
+  const { average, count } = getAverageRating(deal.id);
 
   return (
     <div className="mx-auto max-w-[1180px] px-[22px] py-[30px]">
@@ -51,10 +56,13 @@ export default async function DealDetailsPage({
             <div className="text-xs font-extrabold text-brand">
               {t("deals.groupDeal")} • {t("deals.verifiedMerchant")}
             </div>
-            <WhatsAppShareButton
-              path={`/deals/${deal.id}`}
-              message={t("deals.shareMessage", { title })}
-            />
+            <div className="flex items-center gap-2">
+              <WishlistButton dealId={deal.id} />
+              <WhatsAppShareButton
+                path={`/deals/${deal.id}`}
+                message={t("deals.shareMessage", { title })}
+              />
+            </div>
           </div>
           <h1 className="mb-1.5 text-[26px] font-extrabold tracking-tight sm:text-[30px]">
             {title}
@@ -148,6 +156,8 @@ export default async function DealDetailsPage({
           </div>
         </div>
       </div>
+
+      <DealReviews dealId={deal.id} reviews={reviews} average={average} count={count} />
     </div>
   );
 }
