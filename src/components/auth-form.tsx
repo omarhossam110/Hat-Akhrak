@@ -82,6 +82,13 @@ export function AuthForm({
           </button>
         </form>
       </div>
+
+      <p className="mt-4 text-center text-xs text-muted">
+        {t("auth.merchantCta")}{" "}
+        <Link href="/merchant/signup" className="font-extrabold text-brand">
+          {t("auth.merchantCtaLink")} →
+        </Link>
+      </p>
     </div>
   );
 }

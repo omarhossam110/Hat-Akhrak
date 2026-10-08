@@ -64,6 +64,26 @@ export function getMerchantById(id: string) {
   return mockMerchants.find((m) => m.id === id);
 }
 
+const AVATAR_VARIANTS: MockMerchantProfile["avatarVariant"][] = ["a", "b", "c", "d"];
+
+/** Promotes an approved merchant application into the public merchant list. */
+export function addMerchant(businessName: string): MockMerchantProfile {
+  const merchant: MockMerchantProfile = {
+    id: `m-${Date.now()}`,
+    business_name: businessName,
+    is_verified: true,
+    rating: 0,
+    review_count: 0,
+    completed_deals: 0,
+    member_since: String(new Date().getFullYear()),
+    bio_ar: "تاجر جديد انضم لهات آخرك.",
+    bio_en: "A new merchant on Hat Akhrak.",
+    avatarVariant: AVATAR_VARIANTS[mockMerchants.length % AVATAR_VARIANTS.length],
+  };
+  mockMerchants.push(merchant);
+  return merchant;
+}
+
 export function getDealsByMerchant(id: string) {
   return mockDeals.filter((card) => card.deal.merchant_id === id);
 }

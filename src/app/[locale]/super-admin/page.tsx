@@ -2,6 +2,11 @@ import { getTranslations, getLocale } from "next-intl/server";
 import { merchantLedger } from "@/lib/mock-admin-ledger";
 import { mockCategories } from "@/lib/mock-categories";
 import { addCategoryAction } from "@/lib/actions/categories";
+import { mockMerchantApplications } from "@/lib/mock-merchant-applications";
+import {
+  approveMerchantApplicationAction,
+  rejectMerchantApplicationAction,
+} from "@/lib/actions/merchant-applications";
 
 export default async function SuperAdminPage() {
   const t = await getTranslations();
@@ -49,6 +54,72 @@ export default async function SuperAdminPage() {
               </tbody>
             </table>
           </div>
+        </div>
+
+        <div className="rounded-[22px] border border-line bg-surface p-[22px] shadow-[var(--shadow-card)]">
+          <div className="mb-3.5 flex items-center justify-between">
+            <h2 className="text-[16px] font-bold tracking-tight">
+              {t("superAdmin.applications.title")}
+            </h2>
+            {mockMerchantApplications.some((a) => a.status === "pending") && (
+              <span className="inline-flex rounded-full bg-warning-soft px-2.5 py-1.5 text-[10px] font-extrabold text-warning">
+                {t("superAdmin.applications.pendingCount", {
+                  count: mockMerchantApplications.filter((a) => a.status === "pending").length,
+                })}
+              </span>
+            )}
+          </div>
+
+          {mockMerchantApplications.length === 0 ? (
+            <p className="text-xs text-muted">{t("superAdmin.applications.empty")}</p>
+          ) : (
+            <div className="flex flex-col gap-2.5">
+              {mockMerchantApplications.map((application) => (
+                <div
+                  key={application.id}
+                  className="rounded-xl border border-line p-3.5 text-xs"
+                >
+                  <div className="mb-1.5 flex flex-wrap items-center justify-between gap-2">
+                    <b className="text-[13px]">{application.businessName}</b>
+                    {application.status === "pending" ? (
+                      <span className="rounded-full bg-warning-soft px-2.5 py-1 text-[10px] font-extrabold text-warning">
+                        {t("superAdmin.applications.statusPending")}
+                      </span>
+                    ) : (
+                      <span className="rounded-full bg-neutral-soft px-2.5 py-1 text-[10px] font-extrabold text-neutral">
+                        {t("superAdmin.applications.statusRejected")}
+                      </span>
+                    )}
+                  </div>
+                  <p className="mb-2.5 text-muted">
+                    {application.ownerName} • {application.phone} • {application.email}
+                  </p>
+                  {application.status === "pending" && (
+                    <div className="flex gap-2">
+                      <form action={approveMerchantApplicationAction}>
+                        <input type="hidden" name="application_id" value={application.id} />
+                        <button
+                          type="submit"
+                          className="rounded-lg bg-success px-3 py-1.5 text-[11px] font-extrabold text-white transition hover:brightness-95"
+                        >
+                          {t("superAdmin.applications.approve")}
+                        </button>
+                      </form>
+                      <form action={rejectMerchantApplicationAction}>
+                        <input type="hidden" name="application_id" value={application.id} />
+                        <button
+                          type="submit"
+                          className="rounded-lg border border-line px-3 py-1.5 text-[11px] font-bold text-ink transition hover:bg-paper"
+                        >
+                          {t("superAdmin.applications.reject")}
+                        </button>
+                      </form>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <div className="rounded-[22px] border border-line bg-surface p-[22px] shadow-[var(--shadow-card)]">

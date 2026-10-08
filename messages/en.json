@@ -89,7 +89,9 @@
     "password": "Password",
     "loginBtn": "Log In",
     "signupBtn": "Create Account",
-    "referralBanner": "A friend invited you (code {code})"
+    "referralBanner": "A friend invited you (code {code})",
+    "merchantCta": "Want to sell your products on Hat Akhrak?",
+    "merchantCtaLink": "Register as a merchant"
   },
   "orders": {
     "title": "My Orders",
@@ -167,7 +169,8 @@
   "merchantsList": {
     "title": "Merchants",
     "subtitle": "All the merchants selling group deals on Hat Akhrak",
-    "viewProfile": "View profile"
+    "viewProfile": "View profile",
+    "sellWithUs": "Sell with us"
   },
   "superAdmin": {
     "title": "Merchant Ledger",
@@ -189,6 +192,15 @@
       "nameArPlaceholder": "e.g. مستلزمات حيوانات",
       "nameEnPlaceholder": "e.g. Pet Supplies",
       "addButton": "Add category"
+    },
+    "applications": {
+      "title": "Merchant applications",
+      "pendingCount": "{count} pending",
+      "empty": "No applications right now",
+      "statusPending": "Pending",
+      "statusRejected": "Rejected",
+      "approve": "Approve",
+      "reject": "Reject"
     }
   },
   "payment": {
@@ -202,5 +214,20 @@
     "subUnits": "{qty} unit(s) × EGP {amount} deposit",
     "secureNote": "Secure encrypted payment via provider",
     "notFoundTitle": "This deal doesn't exist"
+  },
+  "merchantSignup": {
+    "eyebrow": "Become a merchant",
+    "title": "Sell on Hat Akhrak",
+    "desc": "Fill in your business details and we'll review your application and get back to you. Once approved, you'll appear as a verified merchant and can start adding deals.",
+    "fieldBusinessName": "Business/store name",
+    "fieldOwnerName": "Owner's name",
+    "fieldPhone": "Phone number",
+    "fieldEmail": "Email",
+    "fieldTaxId": "Tax ID (optional for now)",
+    "reviewNote": "After you submit, the super admin reviews your details and approves them before your account becomes visible to customers — not instant activation.",
+    "submitBtn": "Submit application",
+    "submittedTitle": "Application received",
+    "submittedDesc": "We'll review your business details and get back to you soon. You can check back here for updates.",
+    "backHome": "Back to home"
   }
 }

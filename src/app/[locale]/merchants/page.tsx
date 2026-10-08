@@ -8,11 +8,19 @@ export default async function MerchantsListPage() {
 
   return (
     <div className="mx-auto max-w-[1180px] px-[22px] py-[30px]">
-      <div className="mb-6">
-        <h1 className="mb-1.5 text-[26px] font-extrabold tracking-tight sm:text-[30px]">
-          {t("merchantsList.title")}
-        </h1>
-        <p className="text-sm text-muted">{t("merchantsList.subtitle")}</p>
+      <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <h1 className="mb-1.5 text-[26px] font-extrabold tracking-tight sm:text-[30px]">
+            {t("merchantsList.title")}
+          </h1>
+          <p className="text-sm text-muted">{t("merchantsList.subtitle")}</p>
+        </div>
+        <Link
+          href="/merchant/signup"
+          className="rounded-xl bg-brand px-4 py-2.5 text-xs font-black text-[#151515] transition hover:brightness-95"
+        >
+          {t("merchantsList.sellWithUs")} →
+        </Link>
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">

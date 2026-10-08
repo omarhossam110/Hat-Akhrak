@@ -89,7 +89,9 @@
     "password": "كلمة المرور",
     "loginBtn": "تسجيل الدخول",
     "signupBtn": "إنشاء الحساب",
-    "referralBanner": "تم دعوتك بواسطة صديق (كود {code})"
+    "referralBanner": "تم دعوتك بواسطة صديق (كود {code})",
+    "merchantCta": "عايز تبيع منتجاتك على هات آخرك؟",
+    "merchantCtaLink": "سجّل كتاجر"
   },
   "orders": {
     "title": "طلباتي",
@@ -167,7 +169,8 @@
   "merchantsList": {
     "title": "التجار",
     "subtitle": "كل الموردين اللي بيبيعوا صفقات جماعية على هات آخرك",
-    "viewProfile": "عرض الصفحة"
+    "viewProfile": "عرض الصفحة",
+    "sellWithUs": "بيع معنا"
   },
   "superAdmin": {
     "title": "كشف حساب الموردين",
@@ -189,6 +192,15 @@
       "nameArPlaceholder": "مثال: مستلزمات حيوانات",
       "nameEnPlaceholder": "e.g. Pet Supplies",
       "addButton": "إضافة التصنيف"
+    },
+    "applications": {
+      "title": "طلبات تسجيل التجار",
+      "pendingCount": "{count} في الانتظار",
+      "empty": "مفيش طلبات تسجيل دلوقتي",
+      "statusPending": "في الانتظار",
+      "statusRejected": "مرفوض",
+      "approve": "موافقة",
+      "reject": "رفض"
     }
   },
   "payment": {
@@ -202,5 +214,20 @@
     "subUnits": "{qty} قطعة × {amount} جنيه عربون",
     "secureNote": "دفع آمن ومشفّر عبر مزود الدفع",
     "notFoundTitle": "الصفقة دي غير موجودة"
+  },
+  "merchantSignup": {
+    "eyebrow": "سجّل كتاجر",
+    "title": "بيع على هات آخرك",
+    "desc": "عبّي بيانات منشأتك وهنراجع الطلب ونرجع لك بالرد. بعد الموافقة هتظهر كتاجر موثّق وتقدر تضيف صفقاتك.",
+    "fieldBusinessName": "اسم المنشأة/المتجر",
+    "fieldOwnerName": "اسم صاحب المنشأة",
+    "fieldPhone": "رقم الموبايل",
+    "fieldEmail": "البريد الإلكتروني",
+    "fieldTaxId": "الرقم الضريبي (اختياري دلوقتي)",
+    "reviewNote": "بعد إرسال الطلب، السوبر أدمن هيراجع بياناتك ويوافق عليها قبل ما يظهر حسابك للعملاء — مش تفعيل فوري.",
+    "submitBtn": "إرسال الطلب",
+    "submittedTitle": "تم استلام طلبك",
+    "submittedDesc": "هنراجع بيانات منشأتك ونرجع لك بالرد قريبًا. تقدر تتابع حالة الطلب من هنا.",
+    "backHome": "رجوع للرئيسية"
   }
 }
