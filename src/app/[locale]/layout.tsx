@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { InlineScript } from "@/components/inline-script";
 import "@fontsource/plus-jakarta-sans/400.css";
 import "@fontsource/plus-jakarta-sans/500.css";
 import "@fontsource/plus-jakarta-sans/700.css";
@@ -51,7 +52,7 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} dir={dir} className="h-full antialiased" suppressHydrationWarning>
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <InlineScript html={themeInitScript} />
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-200">
         <NextIntlClientProvider messages={messages}>

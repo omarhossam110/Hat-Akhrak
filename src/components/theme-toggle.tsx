@@ -1,9 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 
 export function ThemeToggle() {
   const [isDark, setIsDark] = useState(false);
+
+  // Dev-only: React's Strict Mode remounts once and resets <html> to only
+  // the attributes it manages from JSX, clearing the data-theme the inline
+  // script set in <head>. Re-apply it before paint so dev doesn't flash
+  // back to light. No-op in production (nothing to re-apply there).
+  useLayoutEffect(() => {
+    try {
+      const stored = localStorage.getItem("theme");
+      if (stored === "dark") document.documentElement.setAttribute("data-theme", "dark");
+    } catch {
+      // localStorage unavailable — ignore, default theme stands
+    }
+  }, []);
 
   useEffect(() => {
     setIsDark(document.documentElement.getAttribute("data-theme") === "dark");
