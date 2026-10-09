@@ -29,7 +29,7 @@ export function NotificationsBell({ notifications }: { notifications: AppNotific
         onClick={() => setOpen((v) => !v)}
         aria-label={t("notifications.title")}
         aria-expanded={open}
-        className="relative grid h-[42px] min-w-[42px] place-items-center rounded-xl border border-line bg-surface text-ink transition hover:border-hover-border hover:bg-hover-soft"
+        className="relative grid h-9 min-w-9 place-items-center rounded-xl border border-line bg-surface text-ink transition hover:border-hover-border hover:bg-hover-soft sm:h-[42px] sm:min-w-[42px]"
       >
         🔔
         {unreadCount > 0 && (

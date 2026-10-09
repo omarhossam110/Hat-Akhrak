@@ -23,7 +23,7 @@ export function LanguageSwitcher() {
           { locale: nextLocale }
         );
       }}
-      className="h-[42px] min-w-[42px] rounded-xl border border-line bg-surface px-3 text-xs font-extrabold text-ink transition hover:border-hover-border hover:bg-hover-soft"
+      className="h-9 min-w-9 rounded-xl border border-line bg-surface px-2.5 text-xs font-extrabold text-ink transition hover:border-hover-border hover:bg-hover-soft sm:h-[42px] sm:min-w-[42px] sm:px-3"
       aria-label="Switch language"
     >
       {shortLabel}

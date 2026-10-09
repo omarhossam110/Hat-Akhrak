@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { submitMerchantApplicationAction } from "@/lib/actions/merchant-applications";
+import { LeadTracker } from "@/components/lead-tracker";
 
 export default async function MerchantSignupPage({
   searchParams,
@@ -11,6 +12,7 @@ export default async function MerchantSignupPage({
   if (submitted === "1") {
     return (
       <div className="mx-auto max-w-[480px] px-[22px] py-[50px] text-center">
+        <LeadTracker />
         <div className="rounded-[22px] border border-line bg-surface p-[30px] shadow-[var(--shadow-card)]">
           <div className="mb-3 text-[44px]">✅</div>
           <h1 className="mb-2 text-[20px] font-extrabold">

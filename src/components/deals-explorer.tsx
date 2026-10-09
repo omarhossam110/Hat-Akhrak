@@ -15,13 +15,16 @@ const selectClasses =
 export function DealsExplorer({
   deals,
   categories,
+  initialQuery = "",
 }: {
   deals: MockDealCard[];
   categories: Category[];
+  initialQuery?: string;
 }) {
   const t = useTranslations();
   const locale = useLocale();
 
+  const [query, setQuery] = useState(initialQuery);
   const [categoryId, setCategoryId] = useState<string>("all");
   const [timeSort, setTimeSort] = useState<TimeSort>("newest");
   const [buyersSort, setBuyersSort] = useState<BuyersSort | "none">("none");
@@ -37,6 +40,18 @@ export function DealsExplorer({
 
   const visibleDeals = useMemo(() => {
     let result = deals;
+
+    const term = query.trim().toLowerCase();
+    if (term) {
+      result = result.filter((card) => {
+        const title =
+          locale === "ar" ? card.deal.title_ar ?? card.deal.title : card.deal.title_en ?? card.deal.title;
+        return (
+          title.toLowerCase().includes(term) ||
+          card.merchant.business_name.toLowerCase().includes(term)
+        );
+      });
+    }
 
     if (categoryId !== "all") {
       result = result.filter((card) => card.deal.category_id === categoryId);
@@ -68,11 +83,25 @@ export function DealsExplorer({
     }
 
     return result;
-  }, [deals, categoryId, timeSort, buyersSort, minPrice, maxPrice]);
+  }, [deals, query, categoryId, timeSort, buyersSort, minPrice, maxPrice, locale]);
 
   return (
     <div>
       <div className="mt-7 flex flex-wrap gap-2.5">
+        <div className="relative min-w-[220px] flex-1">
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={t("deals.filters.searchLabel")}
+            aria-label={t("deals.filters.searchLabel")}
+            className="h-11 w-full rounded-xl border border-line bg-surface ps-9 pe-3.5 text-xs font-bold text-foreground outline-none transition focus:border-brand"
+          />
+          <span className="pointer-events-none absolute inset-y-0 start-3 flex items-center text-muted-2">
+            ⌕
+          </span>
+        </div>
+
         <select
           value={categoryId}
           onChange={(e) => setCategoryId(e.target.value)}

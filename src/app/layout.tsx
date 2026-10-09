@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import { getLocale } from "next-intl/server";
+import { MetaPixel } from "@/components/meta-pixel";
 import "@fontsource/plus-jakarta-sans/400.css";
 import "@fontsource/plus-jakarta-sans/500.css";
 import "@fontsource/plus-jakarta-sans/700.css";
@@ -42,6 +43,7 @@ export default async function RootLayout({
 }) {
   const locale = await getLocale();
   const dir = locale === "ar" ? "rtl" : "ltr";
+  const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
 
   return (
     <html lang={locale} dir={dir} className="h-full antialiased" suppressHydrationWarning>
@@ -49,6 +51,8 @@ export default async function RootLayout({
         <Script src="/theme-init.js" strategy="beforeInteractive" />
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-200">
+        {/* Guarded like the Supabase client: no-ops until a real pixel ID is configured. */}
+        {metaPixelId && <MetaPixel pixelId={metaPixelId} />}
         {children}
       </body>
     </html>

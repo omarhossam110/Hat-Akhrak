@@ -5,7 +5,9 @@
     "language": "العربية",
     "egp": "EGP",
     "searchPlaceholder": "Search for a deal...",
-    "viewAll": "View all"
+    "viewAll": "View all",
+    "searchNoResults": "No matching results",
+    "searchSeeAll": "See all results for \"{query}\""
   },
   "nav": {
     "home": "Home",
@@ -71,7 +73,8 @@
       "noResults": "No deals match this filter right now",
       "priceLabel": "Price",
       "priceMin": "Min",
-      "priceMax": "Max"
+      "priceMax": "Max",
+      "searchLabel": "Search by product or merchant..."
     },
     "shareWhatsapp": "Share",
     "shareMessage": "Check out this deal on Hat Akhrak: {title}"

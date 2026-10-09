@@ -5,7 +5,9 @@
     "language": "English",
     "egp": "جنيه",
     "searchPlaceholder": "ابحث عن صفقة...",
-    "viewAll": "عرض الكل"
+    "viewAll": "عرض الكل",
+    "searchNoResults": "مفيش نتائج مطابقة",
+    "searchSeeAll": "شوف كل نتائج \"{query}\""
   },
   "nav": {
     "home": "الرئيسية",
@@ -71,7 +73,8 @@
       "noResults": "مفيش عروض مطابقة للفلتر ده دلوقتي",
       "priceLabel": "السعر",
       "priceMin": "من",
-      "priceMax": "لحد"
+      "priceMax": "لحد",
+      "searchLabel": "ابحث عن اسم المنتج أو التاجر..."
     },
     "shareWhatsapp": "شارك",
     "shareMessage": "شوف العرض ده على هات آخرك: {title}"

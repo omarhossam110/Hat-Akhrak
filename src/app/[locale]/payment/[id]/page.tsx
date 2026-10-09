@@ -56,7 +56,7 @@ export default async function PaymentPage({
           <h1 className="mb-1.5 text-2xl font-extrabold tracking-tight">{t("payment.title")}</h1>
           <p className="mb-1.5 text-xs font-bold text-ink">{title}</p>
           <p className="text-xs text-muted">{t("payment.methodNote")}</p>
-          <PayNowButton />
+          <PayNowButton dealId={deal.id} amount={amountDue} />
         </div>
 
         <div className="rounded-[22px] border border-line bg-surface p-7 text-center shadow-[var(--shadow-card)]">

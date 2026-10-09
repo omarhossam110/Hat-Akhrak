@@ -7,6 +7,8 @@ import { CycleCountdown } from "@/components/cycle-countdown";
 import { WhatsAppShareButton } from "@/components/whatsapp-share-button";
 import { WishlistButton } from "@/components/wishlist-button";
 import { DealReviews } from "@/components/deal-reviews";
+import { ViewContentTracker } from "@/components/view-content-tracker";
+import { JoinNowLink } from "@/components/join-now-link";
 
 export default async function DealDetailsPage({
   params,
@@ -31,6 +33,7 @@ export default async function DealDetailsPage({
 
   return (
     <div className="mx-auto max-w-[1180px] px-[22px] py-[30px]">
+      <ViewContentTracker dealId={deal.id} title={title} value={activeTier?.price_per_unit ?? 0} />
       <Link
         href="/deals"
         className="mb-4 inline-block text-xs font-extrabold text-brand"
@@ -141,12 +144,13 @@ export default async function DealDetailsPage({
                 </option>
               ))}
             </select>
-            <Link
+            <JoinNowLink
               href={`/signup?redirect=${encodeURIComponent(`/payment/${deal.id}`)}`}
-              className="block w-full rounded-xl bg-brand px-4 py-[11px] text-center text-xs font-black text-[#151515] transition hover:brightness-95"
+              dealId={deal.id}
+              value={depositAmount}
             >
               {t("deals.joinNow")} →
-            </Link>
+            </JoinNowLink>
           </div>
 
           <div className="mt-3 rounded-[13px] bg-brand-soft p-3.5 text-[11px] leading-relaxed text-brand-text-strong">
