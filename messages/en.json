@@ -20,7 +20,9 @@
     "faq": "FAQ",
     "terms": "Terms & Conditions",
     "privacy": "Privacy Policy",
-    "wishlist": "Wishlist"
+    "wishlist": "Wishlist",
+    "merchantDashboard": "Dashboard",
+    "superAdmin": "Admin"
   },
   "home": {
     "heroNumber": "2,140+",
@@ -101,7 +103,12 @@
     "signupBtn": "Create Account",
     "referralBanner": "A friend invited you (code {code})",
     "merchantCta": "Want to sell your products on Hat Akhrak?",
-    "merchantCtaLink": "Register as a merchant"
+    "merchantCtaLink": "Register as a merchant",
+    "logout": "Log Out",
+    "forgotPasswordLink": "Forgot password?",
+    "errorGeneric": "Something went wrong. Please try again.",
+    "errorInvalidCredentials": "Incorrect email or password.",
+    "errorEmailTaken": "An account with this email already exists."
   },
   "orders": {
     "title": "My Orders",
@@ -248,7 +255,10 @@
     "submitBtn": "Submit application",
     "submittedTitle": "Application received",
     "submittedDesc": "We'll review your business details and get back to you soon. You can check back here for updates.",
-    "backHome": "Back to home"
+    "backHome": "Back to home",
+    "fieldPassword": "Password",
+    "errorGeneric": "Something went wrong submitting your application. Please try again.",
+    "errorEmailTaken": "An account with this email already exists — try logging in instead."
   },
   "wishlist": {
     "title": "Wishlist",
@@ -334,5 +344,24 @@
     "section5Body": "You can request to review, correct or delete your personal data at any time by contacting our support team.",
     "section6Title": "Changes to this policy",
     "section6Body": "We may update this privacy policy from time to time, and we'll announce any significant change before it takes effect."
+  },
+  "forgotPassword": {
+    "title": "Forgot your password?",
+    "desc": "Enter your email and we'll send you a reset link.",
+    "submitBtn": "Send reset link",
+    "successMessage": "If an account with that email exists, we've sent a reset link to it.",
+    "backToLogin": "Back to login"
+  },
+  "resetPassword": {
+    "title": "Reset your password",
+    "desc": "Choose a new password for your account.",
+    "newPasswordLabel": "New password",
+    "submitBtn": "Reset password",
+    "successMessage": "Your password has been reset. You can now log in with it.",
+    "successCta": "Go to login",
+    "errorInvalidToken": "This reset link is invalid or has expired. Request a new one.",
+    "errorPasswordTooShort": "Password must be at least 8 characters.",
+    "backToLogin": "Back to login",
+    "errorGeneric": "Something went wrong. Please try again."
   }
 }

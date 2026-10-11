@@ -7,10 +7,13 @@ import { NotificationsBell } from "@/components/notifications-bell";
 import { buildNotifications } from "@/lib/mock-notifications";
 import { HeaderSearch } from "@/components/header-search";
 import { mockDeals } from "@/lib/mock-deals";
+import { LogoutButton } from "@/components/logout-button";
+import { getSession } from "@/lib/auth/session";
 
 export async function SiteHeader() {
   const t = await getTranslations();
   const notifications = buildNotifications();
+  const session = await getSession();
 
   const navItems = [
     { href: "/", label: t("nav.home") },
@@ -18,6 +21,12 @@ export async function SiteHeader() {
     { href: "/how-it-works", label: t("nav.howItWorks") },
     { href: "/merchants", label: t("nav.merchants") },
     { href: "/orders", label: t("nav.myOrders") },
+    ...(session?.role === "merchant"
+      ? [{ href: "/merchant/dashboard", label: t("nav.merchantDashboard") }]
+      : []),
+    ...(session?.role === "super_admin"
+      ? [{ href: "/super-admin", label: t("nav.superAdmin") }]
+      : []),
   ];
 
   return (
@@ -44,13 +53,17 @@ export async function SiteHeader() {
           >
             🤍
           </Link>
-          <Link
-            href="/login"
-            className="grid h-9 min-w-9 place-items-center rounded-xl border border-line bg-surface text-ink transition hover:border-hover-border hover:bg-hover-soft sm:h-[42px] sm:min-w-[42px]"
-            aria-label={t("nav.login")}
-          >
-            👤
-          </Link>
+          {session ? (
+            <LogoutButton label={`${t("auth.logout")} (${session.email})`} />
+          ) : (
+            <Link
+              href="/login"
+              className="grid h-9 min-w-9 place-items-center rounded-xl border border-line bg-surface text-ink transition hover:border-hover-border hover:bg-hover-soft sm:h-[42px] sm:min-w-[42px]"
+              aria-label={t("nav.login")}
+            >
+              👤
+            </Link>
+          )}
           <Link
             href="/orders"
             className="hidden h-9 min-w-9 place-items-center rounded-xl border border-line bg-surface text-ink transition hover:border-hover-border hover:bg-hover-soft sm:grid sm:h-[42px] sm:min-w-[42px]"

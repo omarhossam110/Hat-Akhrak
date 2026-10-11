@@ -1,10 +1,24 @@
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
+import { redirect } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { merchantDeals, merchantHasAlert, merchantStats } from "@/lib/mock-merchant-dashboard";
 import { MerchantDealsTable } from "@/components/merchant-deals-table";
+import { getSession } from "@/lib/auth/session";
 
 export default async function MerchantDashboardPage() {
   const t = await getTranslations();
+  const locale = await getLocale();
+
+  const session = await getSession();
+  if (!session) {
+    redirect(`/${locale}/login?redirect=${encodeURIComponent("/merchant/dashboard")}`);
+  }
+  if (session.role !== "merchant") {
+    redirect(`/${locale}/`);
+  }
+
+  // NOTE: still showing mock deals/stats — only the merchant-role gate
+  // above is wired to the real backend so far, not the dashboard's data.
 
   const stats = [
     { icon: "📦", value: merchantStats.totalDeals, label: t("merchantDashboard.statTotalDeals") },

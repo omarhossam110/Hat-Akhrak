@@ -1,32 +1,22 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-import { getLocale } from "next-intl/server";
 import {
-  addMerchantApplication,
   getMerchantApplicationById,
   removeMerchantApplication,
   rejectMerchantApplication,
 } from "@/lib/mock-merchant-applications";
 import { addMerchant } from "@/lib/mock-merchants";
 
-/** Merchant self-signup: creates a pending application for the super admin to review. */
-export async function submitMerchantApplicationAction(formData: FormData) {
-  const businessName = String(formData.get("business_name") ?? "").trim();
-  const ownerName = String(formData.get("owner_name") ?? "").trim();
-  const phone = String(formData.get("phone") ?? "").trim();
-  const email = String(formData.get("email") ?? "").trim();
-  const taxId = String(formData.get("tax_id") ?? "").trim();
-  const locale = await getLocale();
-
-  if (!businessName || !ownerName || !phone || !email) return;
-
-  addMerchantApplication({ businessName, ownerName, phone, email, taxId });
-
-  revalidatePath("/[locale]/super-admin", "page");
-  redirect(`/${locale}/merchant/signup?submitted=1`);
-}
+// Merchant self-signup itself now lives in src/lib/actions/auth.ts
+// (merchantSignupAction) — it calls the real backend and creates an
+// actual login-capable account instead of just a mock "application" row.
+//
+// The approve/reject actions below are NOT wired to that yet: they still
+// read/write the in-memory mock application list, which real merchant
+// signups no longer populate. Super Admin's merchant-verification panel
+// needs to be rebuilt against a real "list unverified merchants" backend
+// endpoint (not built yet) before this file's actions mean anything again.
 
 /** Super Admin approves a pending application: promotes it into the public merchant list. */
 export async function approveMerchantApplicationAction(formData: FormData) {

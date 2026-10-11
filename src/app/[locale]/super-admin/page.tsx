@@ -1,4 +1,5 @@
 import { getTranslations, getLocale } from "next-intl/server";
+import { redirect } from "next/navigation";
 import { merchantLedger } from "@/lib/mock-admin-ledger";
 import { mockCategories } from "@/lib/mock-categories";
 import { addCategoryAction } from "@/lib/actions/categories";
@@ -9,10 +10,23 @@ import {
 } from "@/lib/actions/merchant-applications";
 import { mockDeals } from "@/lib/mock-deals";
 import { AdminAnalytics } from "@/components/admin-analytics";
+import { getSession } from "@/lib/auth/session";
 
 export default async function SuperAdminPage() {
   const t = await getTranslations();
   const locale = await getLocale();
+
+  const session = await getSession();
+  if (!session) {
+    redirect(`/${locale}/login?redirect=${encodeURIComponent("/super-admin")}`);
+  }
+  if (session.role !== "super_admin") {
+    redirect(`/${locale}/`);
+  }
+
+  // NOTE: everything below (ledger, applications, categories, analytics)
+  // still reads mock data — only this role gate is wired to the real
+  // backend so far.
 
   return (
     <div className="mx-auto max-w-[1180px] px-[22px] py-[30px]">

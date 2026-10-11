@@ -1,9 +1,11 @@
 import { getTranslations } from "next-intl/server";
 import { getLocale } from "next-intl/server";
+import { redirect } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { mockOrders } from "@/lib/mock-orders";
 import { mockReferralProgram } from "@/lib/mock-referrals";
 import { InviteFriends } from "@/components/invite-friends";
+import { getSession } from "@/lib/auth/session";
 import type { OrderStatus } from "@/lib/types/database";
 
 const STATUS_STYLES: Record<
@@ -24,6 +26,15 @@ function statusGroup(status: OrderStatus): "running" | "delivered" | "refunded" 
 export default async function OrdersPage() {
   const t = await getTranslations();
   const locale = await getLocale();
+
+  const session = await getSession();
+  if (!session) {
+    redirect(`/${locale}/login?redirect=${encodeURIComponent("/orders")}`);
+  }
+
+  // NOTE: still showing mock orders — the real backend's GET /orders/mine
+  // isn't wired up here yet, only auth is. This gate at least makes sure
+  // only a signed-in customer reaches this page.
 
   return (
     <div className="mx-auto max-w-[1180px] px-[22px] py-[30px]">

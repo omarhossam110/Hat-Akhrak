@@ -9,6 +9,7 @@ import { WishlistButton } from "@/components/wishlist-button";
 import { DealReviews } from "@/components/deal-reviews";
 import { ViewContentTracker } from "@/components/view-content-tracker";
 import { JoinNowLink } from "@/components/join-now-link";
+import { getSession } from "@/lib/auth/session";
 
 export default async function DealDetailsPage({
   params,
@@ -20,6 +21,7 @@ export default async function DealDetailsPage({
 
   const t = await getTranslations();
   const locale = await getLocale();
+  const session = await getSession();
 
   const { deal, tiers, cycle, merchant, icon, artVariant, depositAmount } = card;
   const title = locale === "ar" ? deal.title_ar ?? deal.title : deal.title_en ?? deal.title;
@@ -145,7 +147,11 @@ export default async function DealDetailsPage({
               ))}
             </select>
             <JoinNowLink
-              href={`/signup?redirect=${encodeURIComponent(`/payment/${deal.id}`)}`}
+              href={
+                session
+                  ? `/payment/${deal.id}`
+                  : `/signup?redirect=${encodeURIComponent(`/payment/${deal.id}`)}`
+              }
               dealId={deal.id}
               value={depositAmount}
             >
