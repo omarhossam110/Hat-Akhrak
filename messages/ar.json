@@ -154,7 +154,8 @@
     "statusPaused": "متوقفة",
     "cycleSucceeded": "نجحت",
     "cycleFailed": "فشلت (أقل من 5)",
-    "cycleActive": "جارية"
+    "cycleActive": "جارية",
+    "dealCreated": "تم نشر صفقتك بنجاح! هتظهر في قايمة صفقاتك قريبًا."
   },
   "addDeal": {
     "eyebrow": "للموردين",
@@ -165,7 +166,13 @@
     "fieldWholesalePrice": "سعر الجملة للقطعة",
     "stockHint": "الكمية لازم تكون من مضاعفات 5",
     "autoNote": "العربون المقترح: {amount} جنيه — محسوب تلقائيًا من السعر والكمية.",
-    "publishBtn": "نشر الصفقة"
+    "publishBtn": "نشر الصفقة",
+    "fieldCategory": "الفئة",
+    "categoryPlaceholder": "اختر فئة (اختياري)",
+    "errorGeneric": "حصل خطأ، حاول تاني.",
+    "errorNotVerified": "حسابك كتاجر لسه مش متفعّل — لازم سوبر أدمن يوافق عليه الأول قبل ما تقدر تنشر صفقات.",
+    "errorValidation": "تأكد من البيانات اللي داخلها وحاول تاني.",
+    "notVerifiedBanner": "حسابك لسه قيد المراجعة من فريقنا. هتقدر تضيف صفقات بمجرد ما يتم تفعيل حسابك."
   },
   "howItWorks": {
     "eyebrow": "إزاي تشتري",

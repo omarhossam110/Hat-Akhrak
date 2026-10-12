@@ -154,7 +154,8 @@
     "statusPaused": "Paused",
     "cycleSucceeded": "Succeeded",
     "cycleFailed": "Failed (under 5)",
-    "cycleActive": "Active"
+    "cycleActive": "Active",
+    "dealCreated": "Your deal was published successfully! It'll appear in your deals list soon."
   },
   "addDeal": {
     "eyebrow": "For merchants",
@@ -165,7 +166,13 @@
     "fieldWholesalePrice": "Wholesale unit price",
     "stockHint": "Stock must be a multiple of 5",
     "autoNote": "Suggested deposit: {amount} EGP — calculated automatically from price and quantity.",
-    "publishBtn": "Publish Deal"
+    "publishBtn": "Publish Deal",
+    "fieldCategory": "Category",
+    "categoryPlaceholder": "Choose a category (optional)",
+    "errorGeneric": "Something went wrong, please try again.",
+    "errorNotVerified": "Your merchant account isn't verified yet — a super admin needs to approve it before you can publish deals.",
+    "errorValidation": "Please check what you entered and try again.",
+    "notVerifiedBanner": "Your account is still under review by our team. You'll be able to add deals once it's approved."
   },
   "howItWorks": {
     "eyebrow": "How it works",

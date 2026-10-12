@@ -5,9 +5,12 @@ import { merchantDeals, merchantHasAlert, merchantStats } from "@/lib/mock-merch
 import { MerchantDealsTable } from "@/components/merchant-deals-table";
 import { getSession } from "@/lib/auth/session";
 
-export default async function MerchantDashboardPage() {
+export default async function MerchantDashboardPage({
+  searchParams,
+}: PageProps<"/[locale]/merchant/dashboard">) {
   const t = await getTranslations();
   const locale = await getLocale();
+  const { dealCreated } = await searchParams;
 
   const session = await getSession();
   if (!session) {
@@ -18,7 +21,11 @@ export default async function MerchantDashboardPage() {
   }
 
   // NOTE: still showing mock deals/stats — only the merchant-role gate
-  // above is wired to the real backend so far, not the dashboard's data.
+  // above, and the "deal created" banner below, are wired to anything
+  // real so far. The real deal (created via the now-real
+  // src/components/add-deal-form.tsx → POST /deals) exists in the
+  // backend, it just isn't listed in this table yet — that needs a
+  // merchant-scoped "my deals" endpoint this table can read from.
 
   const stats = [
     { icon: "📦", value: merchantStats.totalDeals, label: t("merchantDashboard.statTotalDeals") },
@@ -32,6 +39,12 @@ export default async function MerchantDashboardPage() {
 
   return (
     <div className="mx-auto max-w-[1180px] px-[22px] py-[30px]">
+      {dealCreated === "1" && (
+        <div className="mb-4 rounded-[15px] border border-success-border bg-success-soft p-3.5 text-xs text-success">
+          ✓ {t("merchantDashboard.dealCreated")}
+        </div>
+      )}
+
       {merchantHasAlert && (
         <div className="mb-4 rounded-[15px] border border-danger-border bg-danger-soft p-3.5 text-xs text-danger">
           ⚠ {t("merchantDashboard.alert")}

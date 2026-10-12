@@ -2,6 +2,7 @@ import { getLocale } from "next-intl/server";
 import { redirect } from "next/navigation";
 import { AddDealForm } from "@/components/add-deal-form";
 import { getSession } from "@/lib/auth/session";
+import { getCategories } from "@/lib/actions/categories";
 
 export default async function AddDealPage() {
   const locale = await getLocale();
@@ -14,9 +15,11 @@ export default async function AddDealPage() {
     redirect(`/${locale}/`);
   }
 
+  const categories = await getCategories();
+
   return (
     <div className="mx-auto max-w-[1180px] px-[22px] py-[30px]">
-      <AddDealForm />
+      <AddDealForm categories={categories} />
     </div>
   );
 }
