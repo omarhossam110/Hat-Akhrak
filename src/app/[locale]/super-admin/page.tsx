@@ -3,10 +3,10 @@ import { redirect } from "next/navigation";
 import { merchantLedger } from "@/lib/mock-admin-ledger";
 import { mockCategories } from "@/lib/mock-categories";
 import { addCategoryAction } from "@/lib/actions/categories";
-import { mockMerchantApplications } from "@/lib/mock-merchant-applications";
 import {
   approveMerchantApplicationAction,
   rejectMerchantApplicationAction,
+  getPendingMerchants,
 } from "@/lib/actions/merchant-applications";
 import { mockDeals } from "@/lib/mock-deals";
 import { AdminAnalytics } from "@/components/admin-analytics";
@@ -24,9 +24,11 @@ export default async function SuperAdminPage() {
     redirect(`/${locale}/`);
   }
 
-  // NOTE: everything below (ledger, applications, categories, analytics)
-  // still reads mock data — only this role gate is wired to the real
-  // backend so far.
+  // The merchant-applications panel below is now wired to the real
+  // backend (GET /merchants/pending). Ledger/categories/analytics still
+  // read mock data.
+  const { merchants: pendingMerchants } = await getPendingMerchants();
+  const pendingCount = pendingMerchants.filter((m) => m.status === "pending").length;
 
   return (
     <div className="mx-auto max-w-[1180px] px-[22px] py-[30px]">
@@ -79,20 +81,18 @@ export default async function SuperAdminPage() {
             <h2 className="text-[16px] font-bold tracking-tight">
               {t("superAdmin.applications.title")}
             </h2>
-            {mockMerchantApplications.some((a) => a.status === "pending") && (
+            {pendingCount > 0 && (
               <span className="inline-flex rounded-full bg-warning-soft px-2.5 py-1.5 text-[10px] font-extrabold text-warning">
-                {t("superAdmin.applications.pendingCount", {
-                  count: mockMerchantApplications.filter((a) => a.status === "pending").length,
-                })}
+                {t("superAdmin.applications.pendingCount", { count: pendingCount })}
               </span>
             )}
           </div>
 
-          {mockMerchantApplications.length === 0 ? (
+          {pendingMerchants.length === 0 ? (
             <p className="text-xs text-muted">{t("superAdmin.applications.empty")}</p>
           ) : (
             <div className="flex flex-col gap-2.5">
-              {mockMerchantApplications.map((application) => (
+              {pendingMerchants.map((application) => (
                 <div
                   key={application.id}
                   className="rounded-xl border border-line p-3.5 text-xs"
@@ -110,7 +110,8 @@ export default async function SuperAdminPage() {
                     )}
                   </div>
                   <p className="mb-2.5 text-muted">
-                    {application.ownerName} • {application.phone} • {application.email}
+                    {application.ownerName}
+                    {application.phone ? ` • ${application.phone}` : ""} • {application.email}
                   </p>
                   {application.status === "pending" && (
                     <div className="flex gap-2">

@@ -1,39 +1,88 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import {
-  getMerchantApplicationById,
-  removeMerchantApplication,
-  rejectMerchantApplication,
-} from "@/lib/mock-merchant-applications";
-import { addMerchant } from "@/lib/mock-merchants";
+import { BackendError, backendFetch } from "@/lib/backend/client";
+import { getSessionToken } from "@/lib/auth/session";
 
-// Merchant self-signup itself now lives in src/lib/actions/auth.ts
-// (merchantSignupAction) — it calls the real backend and creates an
-// actual login-capable account instead of just a mock "application" row.
-//
-// The approve/reject actions below are NOT wired to that yet: they still
-// read/write the in-memory mock application list, which real merchant
-// signups no longer populate. Super Admin's merchant-verification panel
-// needs to be rebuilt against a real "list unverified merchants" backend
-// endpoint (not built yet) before this file's actions mean anything again.
+// Wired to the real backend (GET /merchants/pending, PATCH /merchants/:id/
+// verify|reject) — the old in-memory mock application list is gone. Real
+// merchant signups (src/lib/actions/auth.ts's merchantSignupAction) create
+// an actual login-capable account right away, so "approving" here just
+// flips is_verified on that existing account rather than creating anything.
 
-/** Super Admin approves a pending application: promotes it into the public merchant list. */
+export type PendingMerchant = {
+  id: string;
+  businessName: string;
+  taxId: string | null;
+  ownerName: string;
+  email: string;
+  phone: string | null;
+  memberSince: string;
+  status: "pending" | "rejected";
+};
+
+/** Super Admin's review queue. Returns an empty list (rather than throwing)
+ * if the backend call fails, so a transient error doesn't take down the
+ * whole dashboard — the page can still render everything else. */
+export async function getPendingMerchants(): Promise<{
+  merchants: PendingMerchant[];
+  error?: string;
+}> {
+  const token = await getSessionToken();
+  if (!token) return { merchants: [], error: "errorGeneric" };
+
+  try {
+    const merchants = await backendFetch<PendingMerchant[]>("/merchants/pending", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return { merchants };
+  } catch {
+    return { merchants: [], error: "errorGeneric" };
+  }
+}
+
+/** Super Admin approves a pending (or previously-rejected) application:
+ * flips is_verified on the merchant's existing account. */
 export async function approveMerchantApplicationAction(formData: FormData) {
   const id = String(formData.get("application_id") ?? "");
-  const application = getMerchantApplicationById(id);
-  if (!application) return;
+  if (!id) return;
 
-  addMerchant(application.businessName);
-  removeMerchantApplication(id);
+  const token = await getSessionToken();
+  if (!token) return;
+
+  try {
+    await backendFetch(`/merchants/${id}/verify`, {
+      method: "PATCH",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  } catch {
+    // Stale UI state (already verified, deleted, etc.) — the revalidate
+    // below will refresh the list to whatever's actually true server-side.
+  }
 
   revalidatePath("/[locale]/super-admin", "page");
   revalidatePath("/[locale]/merchants", "page");
 }
 
-/** Super Admin rejects a pending application — it stays visible as "rejected", not deleted. */
+/** Super Admin rejects a pending application — it stays visible as
+ * "rejected", not deleted (the account itself still exists). */
 export async function rejectMerchantApplicationAction(formData: FormData) {
   const id = String(formData.get("application_id") ?? "");
-  rejectMerchantApplication(id);
+  if (!id) return;
+
+  const token = await getSessionToken();
+  if (!token) return;
+
+  try {
+    await backendFetch(`/merchants/${id}/reject`, {
+      method: "PATCH",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  } catch (err) {
+    if (!(err instanceof BackendError)) throw err;
+    // Stale UI state (already rejected/verified) — swallow and let the
+    // revalidate below reflect reality.
+  }
+
   revalidatePath("/[locale]/super-admin", "page");
 }
