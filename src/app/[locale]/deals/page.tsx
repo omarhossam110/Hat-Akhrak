@@ -1,5 +1,11 @@
 import { getTranslations } from "next-intl/server";
 import { mockDeals } from "@/lib/mock-deals";
+// Deliberately still the mock category list, not the real
+// GET /categories: the category filter has to match the ids on the
+// `deals` it's filtering, and those are still mockDeals (no merchant
+// deal-creation endpoint exists yet) — swap both together once deals are
+// wired to the backend. The Super Admin category panel already uses the
+// real list (src/lib/actions/categories.ts).
 import { mockCategories } from "@/lib/mock-categories";
 import { DealsExplorer } from "@/components/deals-explorer";
 

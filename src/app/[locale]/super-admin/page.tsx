@@ -2,7 +2,7 @@ import { getTranslations, getLocale } from "next-intl/server";
 import { redirect } from "next/navigation";
 import { merchantLedger } from "@/lib/mock-admin-ledger";
 import { mockCategories } from "@/lib/mock-categories";
-import { addCategoryAction } from "@/lib/actions/categories";
+import { addCategoryAction, getCategories } from "@/lib/actions/categories";
 import {
   approveMerchantApplicationAction,
   rejectMerchantApplicationAction,
@@ -24,11 +24,17 @@ export default async function SuperAdminPage() {
     redirect(`/${locale}/`);
   }
 
-  // The merchant-applications panel below is now wired to the real
-  // backend (GET /merchants/pending). Ledger/categories/analytics still
-  // read mock data.
+  // The merchant-applications panel is wired to the real backend (GET
+  // /merchants/pending). The categories panel below is wired too (real
+  // GET/POST /categories) — `realCategories` is deliberately separate from
+  // the `mockCategories` still passed into AdminAnalytics: that chart
+  // correlates categories against `mockDeals` by category_id, and deals
+  // themselves aren't wired to the backend yet (no merchant deal-creation
+  // endpoint exists), so mixing in real category UUIDs there would just
+  // zero out every bar. Ledger/deals/analytics still read mock data.
   const { merchants: pendingMerchants } = await getPendingMerchants();
   const pendingCount = pendingMerchants.filter((m) => m.status === "pending").length;
+  const realCategories = await getCategories();
 
   return (
     <div className="mx-auto max-w-[1180px] px-[22px] py-[30px]">
@@ -147,7 +153,7 @@ export default async function SuperAdminPage() {
           </h2>
 
           <div className="flex flex-wrap gap-2">
-            {mockCategories.map((cat) => (
+            {realCategories.map((cat) => (
               <span
                 key={cat.id}
                 className="inline-flex items-center gap-1.5 rounded-full bg-neutral-soft px-3 py-1.5 text-xs font-bold text-foreground"
