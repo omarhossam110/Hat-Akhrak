@@ -1,14 +1,13 @@
 import { getTranslations, getLocale } from "next-intl/server";
 import { redirect } from "next/navigation";
 import { merchantLedger } from "@/lib/mock-admin-ledger";
-import { mockCategories } from "@/lib/mock-categories";
 import { addCategoryAction, getCategories } from "@/lib/actions/categories";
 import {
   approveMerchantApplicationAction,
   rejectMerchantApplicationAction,
   getPendingMerchants,
 } from "@/lib/actions/merchant-applications";
-import { mockDeals } from "@/lib/mock-deals";
+import { getDeals } from "@/lib/actions/public-deals";
 import { AdminAnalytics } from "@/components/admin-analytics";
 import { getSession } from "@/lib/auth/session";
 
@@ -24,23 +23,18 @@ export default async function SuperAdminPage() {
     redirect(`/${locale}/`);
   }
 
-  // The merchant-applications panel is wired to the real backend (GET
-  // /merchants/pending). The categories panel below is wired too (real
-  // GET/POST /categories) — `realCategories` is deliberately separate from
-  // the `mockCategories` still passed into AdminAnalytics: that chart
-  // correlates categories against `mockDeals` by category_id, and deals
-  // themselves aren't wired to the backend yet (no merchant deal-creation
-  // endpoint exists), so mixing in real category UUIDs there would just
-  // zero out every bar. Ledger/deals/analytics still read mock data.
+  // Merchant applications, categories, and now deals are all wired to the
+  // real backend. Only the settlement ledger (merchantLedger) is still
+  // mock — there's no real payout/settlement accounting built yet.
   const { merchants: pendingMerchants } = await getPendingMerchants();
   const pendingCount = pendingMerchants.filter((m) => m.status === "pending").length;
-  const realCategories = await getCategories();
+  const [realCategories, realDeals] = await Promise.all([getCategories(), getDeals()]);
 
   return (
     <div className="mx-auto max-w-[1180px] px-[22px] py-[30px]">
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_260px]">
         <div className="flex flex-col gap-4">
-          <AdminAnalytics ledger={merchantLedger} deals={mockDeals} categories={mockCategories} />
+          <AdminAnalytics ledger={merchantLedger} deals={realDeals} categories={realCategories} />
 
           <div className="rounded-[22px] border border-line bg-surface p-[22px] shadow-[var(--shadow-card)]">
           <div className="mb-2.5 flex items-center justify-between">

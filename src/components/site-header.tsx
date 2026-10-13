@@ -6,13 +6,14 @@ import { NavTabs } from "@/components/nav-tabs";
 import { NotificationsBell } from "@/components/notifications-bell";
 import { buildNotifications } from "@/lib/mock-notifications";
 import { HeaderSearch } from "@/components/header-search";
-import { mockDeals } from "@/lib/mock-deals";
+import { getDeals } from "@/lib/actions/public-deals";
 import { LogoutButton } from "@/components/logout-button";
 import { getSession } from "@/lib/auth/session";
 
 export async function SiteHeader() {
   const t = await getTranslations();
-  const notifications = buildNotifications();
+  const deals = await getDeals();
+  const notifications = buildNotifications(deals);
   const session = await getSession();
 
   const navItems = [
@@ -40,7 +41,7 @@ export async function SiteHeader() {
           <span className="ms-1.5 inline-block h-2.5 w-2.5 rounded-full bg-brand" />
         </Link>
 
-        <HeaderSearch deals={mockDeals} />
+        <HeaderSearch deals={deals} />
 
         <div className="ms-auto flex items-center gap-1.5 sm:gap-2">
           <LanguageSwitcher />

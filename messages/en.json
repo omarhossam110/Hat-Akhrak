@@ -155,7 +155,9 @@
     "cycleSucceeded": "Succeeded",
     "cycleFailed": "Failed (under 5)",
     "cycleActive": "Active",
-    "dealCreated": "Your deal was published successfully! It'll appear in your deals list soon."
+    "dealCreated": "Your deal was published successfully! It'll appear in your deals list soon.",
+    "emptyTitle": "You haven't listed any deals yet",
+    "emptyDesc": "Once you add a deal, it will show up here with its stock and cycle status."
   },
   "addDeal": {
     "eyebrow": "For merchants",

@@ -1,12 +1,14 @@
-import { mockDeals } from "@/lib/mock-deals";
+import type { MockDealCard } from "@/lib/mock-deals";
 import { mockOrders } from "@/lib/mock-orders";
 
 /**
- * Derived, not stored: notifications are computed from the same mock
- * deals/orders data rather than a separate hand-authored list, so they
- * stay consistent with whatever the Deals/Orders pages already show.
- * Once real Supabase tables exist, this becomes a `notifications` table
- * populated by DB triggers (cycle ending soon, order status change).
+ * Derived, not stored: notifications are computed from real deals (passed
+ * in by the caller, now backed by GET /deals) plus mock orders (Orders
+ * itself isn't wired to the backend yet), rather than a separate
+ * hand-authored list, so the "ending soon" half stays consistent with
+ * whatever the Deals page actually shows. Once a real `orders` read exists
+ * too, this becomes a `notifications` table populated by DB triggers (cycle
+ * ending soon, order status change).
  */
 export type NotificationKind = "ending_soon" | "order_status";
 
@@ -21,10 +23,10 @@ export interface AppNotification {
 
 const ENDING_SOON_HOURS = 24;
 
-export function buildNotifications(): AppNotification[] {
+export function buildNotifications(deals: MockDealCard[]): AppNotification[] {
   const notifications: AppNotification[] = [];
 
-  for (const card of mockDeals) {
+  for (const card of deals) {
     const hoursLeft = (new Date(card.cycle.ends_at).getTime() - Date.now()) / 3_600_000;
     if (hoursLeft > 0 && hoursLeft <= ENDING_SOON_HOURS) {
       notifications.push({

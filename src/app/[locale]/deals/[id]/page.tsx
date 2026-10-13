@@ -1,7 +1,7 @@
 import { getTranslations, getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
-import { getDealById } from "@/lib/mock-deals";
+import { getDeal } from "@/lib/actions/public-deals";
 import { getReviewsByDealId, getAverageRating } from "@/lib/mock-reviews";
 import { CycleCountdown } from "@/components/cycle-countdown";
 import { WhatsAppShareButton } from "@/components/whatsapp-share-button";
@@ -15,7 +15,7 @@ export default async function DealDetailsPage({
   params,
 }: PageProps<"/[locale]/deals/[id]">) {
   const { id } = await params;
-  const card = getDealById(id);
+  const card = await getDeal(id);
 
   if (!card) notFound();
 

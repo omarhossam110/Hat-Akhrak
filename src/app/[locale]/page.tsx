@@ -1,16 +1,17 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { mockDeals } from "@/lib/mock-deals";
+import { getDeals } from "@/lib/actions/public-deals";
 import { DealCard } from "@/components/deal-card";
 
 export default async function HomePage() {
   const t = await getTranslations();
+  const deals = await getDeals();
 
-  const endingSoon = [...mockDeals]
+  const endingSoon = [...deals]
     .sort((a, b) => new Date(a.cycle.ends_at).getTime() - new Date(b.cycle.ends_at).getTime())
     .slice(0, 3);
 
-  const trending = [...mockDeals]
+  const trending = [...deals]
     .sort((a, b) => b.cycle.units_sold - a.cycle.units_sold)
     .slice(0, 3);
 
@@ -97,7 +98,7 @@ export default async function HomePage() {
         </Link>
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {mockDeals.map((card) => (
+        {deals.map((card) => (
           <DealCard key={card.deal.id} card={card} />
         ))}
       </div>

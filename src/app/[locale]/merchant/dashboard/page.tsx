@@ -1,7 +1,7 @@
 import { getTranslations, getLocale } from "next-intl/server";
 import { redirect } from "next/navigation";
 import { Link } from "@/i18n/navigation";
-import { merchantDeals, merchantHasAlert, merchantStats } from "@/lib/mock-merchant-dashboard";
+import { getMyDeals } from "@/lib/actions/merchant-deals";
 import { MerchantDealsTable } from "@/components/merchant-deals-table";
 import { getSession } from "@/lib/auth/session";
 
@@ -20,12 +20,7 @@ export default async function MerchantDashboardPage({
     redirect(`/${locale}/`);
   }
 
-  // NOTE: still showing mock deals/stats — only the merchant-role gate
-  // above, and the "deal created" banner below, are wired to anything
-  // real so far. The real deal (created via the now-real
-  // src/components/add-deal-form.tsx → POST /deals) exists in the
-  // backend, it just isn't listed in this table yet — that needs a
-  // merchant-scoped "my deals" endpoint this table can read from.
+  const { rows: merchantDeals, stats: merchantStats, hasAlert: merchantHasAlert } = await getMyDeals();
 
   const stats = [
     { icon: "📦", value: merchantStats.totalDeals, label: t("merchantDashboard.statTotalDeals") },
@@ -76,7 +71,20 @@ export default async function MerchantDashboardPage({
         </Link>
       </div>
 
-      <MerchantDealsTable rows={merchantDeals} />
+      {merchantDeals.length > 0 ? (
+        <MerchantDealsTable rows={merchantDeals} />
+      ) : (
+        <div className="rounded-[22px] border border-line bg-surface p-10 text-center shadow-[var(--shadow-card)]">
+          <p className="mb-1.5 font-bold">{t("merchantDashboard.emptyTitle")}</p>
+          <p className="mb-5 text-xs text-muted">{t("merchantDashboard.emptyDesc")}</p>
+          <Link
+            href="/merchant/deals/new"
+            className="inline-block rounded-xl bg-brand px-4 py-2.5 text-xs font-black text-[#151515] transition hover:brightness-95"
+          >
+            + {t("merchantDashboard.newDeal")}
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

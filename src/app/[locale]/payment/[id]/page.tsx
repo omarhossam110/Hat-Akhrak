@@ -1,6 +1,6 @@
 import { getTranslations, getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { getDealById } from "@/lib/mock-deals";
+import { getDeal } from "@/lib/actions/public-deals";
 import { PayNowButton } from "@/components/pay-now-button";
 
 export default async function PaymentPage({
@@ -9,7 +9,7 @@ export default async function PaymentPage({
 }: PageProps<"/[locale]/payment/[id]">) {
   const { id } = await params;
   const { qty } = await searchParams;
-  const card = getDealById(id);
+  const card = await getDeal(id);
 
   if (!card) notFound();
 
