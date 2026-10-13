@@ -1,10 +1,11 @@
 import { getTranslations, getLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { mockMerchants } from "@/lib/mock-merchants";
+import { getMerchants } from "@/lib/actions/public-merchants";
 
 export default async function MerchantsListPage() {
   const t = await getTranslations();
   const locale = await getLocale();
+  const merchants = await getMerchants();
 
   return (
     <div className="mx-auto max-w-[1180px] px-[22px] py-[30px]">
@@ -24,7 +25,7 @@ export default async function MerchantsListPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {mockMerchants.map((merchant) => {
+        {merchants.map((merchant) => {
           const bio = locale === "ar" ? merchant.bio_ar : merchant.bio_en;
           return (
             <Link

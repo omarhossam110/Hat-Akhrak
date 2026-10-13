@@ -1,20 +1,20 @@
 import { getTranslations, getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
-import { getMerchantById, getDealsByMerchant } from "@/lib/mock-merchants";
+import { getMerchant, getOpenDealsByMerchant } from "@/lib/actions/public-merchants";
 import { DealCard } from "@/components/deal-card";
 
 export default async function MerchantProfilePage({
   params,
 }: PageProps<"/[locale]/merchants/[id]">) {
   const { id } = await params;
-  const merchant = getMerchantById(id);
+  const merchant = await getMerchant(id);
 
   if (!merchant) notFound();
 
   const t = await getTranslations();
   const locale = await getLocale();
-  const deals = getDealsByMerchant(id);
+  const deals = await getOpenDealsByMerchant(id);
   const bio = locale === "ar" ? merchant.bio_ar : merchant.bio_en;
 
   return (
