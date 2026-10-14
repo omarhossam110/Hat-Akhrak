@@ -7,16 +7,17 @@ import { createDealAction, type AddDealFormState } from "@/lib/actions/deals";
 import type { Category } from "@/lib/types/database";
 
 /**
- * Illustrative-only preview — the real tier prices are computed
- * server-side from the take-rate matrix (hat-akhrak-backend's
- * src/modules/deals/pricing.ts) once the form is submitted. This mirrors
- * that formula's *shape* (a margin on top of wholesale price) just closely
- * enough to show the merchant a ballpark while typing, not the final
- * number.
+ * Illustrative-only preview — the real deposit is computed server-side
+ * (hat-akhrak-backend's src/modules/deals/pricing.ts computeDeposit(),
+ * same category/tier commission table the tier prices come from) once the
+ * form is submitted. This form has no category selected yet at typing time
+ * in a way that's wired to state, so it previews with the default
+ * category's Tier 1 rate (8.75%) rather than a guessed ratio — close to
+ * the real number for most categories, not the final one.
  */
 function estimateDeposit(wholesalePrice: number) {
   if (!wholesalePrice || wholesalePrice <= 0) return 0;
-  return Math.max(20, Math.round((wholesalePrice * 0.15) / 5) * 5);
+  return Math.round(wholesalePrice * 0.0875 * 100) / 100;
 }
 
 const ALLOWED_TOTAL_STOCK = [5, 10, 15, 20];

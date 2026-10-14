@@ -50,6 +50,7 @@ type BackendDeal = {
   cycles: BackendCycle[];
   currentCycle?: BackendCycle;
   currentPrice: number | null;
+  depositAmount: number;
 };
 
 // Cosmetic only — the backend has no icon/color-variant columns, so these
@@ -75,15 +76,6 @@ function hashIndex(id: string, mod: number) {
   let hash = 0;
   for (let i = 0; i < id.length; i++) hash = (hash * 31 + id.charCodeAt(i)) >>> 0;
   return hash % mod;
-}
-
-// Real deposit formula isn't implemented server-side yet (spec calls for
-// shipping+return+1%-admin-fee-based, product-specific) — same flagged gap
-// as the Orders DTO's TODO. Placeholder: ~15% of wholesale price, rounded
-// to the nearest 5 EGP, floor 20 EGP — close to the old mock data's ratios
-// (12–20% across its 6 sample deals) until the real formula lands.
-function estimateDeposit(wholesaleUnitPrice: number) {
-  return Math.max(20, Math.round((wholesaleUnitPrice * 0.15) / 5) * 5);
 }
 
 function toCard(row: BackendDeal): MockDealCard | null {
@@ -146,7 +138,10 @@ function toCard(row: BackendDeal): MockDealCard | null {
     },
     icon: (categorySlug && CATEGORY_ICONS[categorySlug]) || "🛍️",
     artVariant: ART_VARIANTS[hashIndex(row.id, ART_VARIANTS.length)],
-    depositAmount: estimateDeposit(wholesaleUnitPrice),
+    // Real formula now, computed server-side from the spec's commission
+    // table (see hat-akhrak-backend's pricing.ts computeDeposit()) — no
+    // longer a flat client-side guess.
+    depositAmount: row.depositAmount,
   };
 }
 

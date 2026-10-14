@@ -21,10 +21,11 @@ export interface MockDealCard {
   icon: string;
   artVariant: "a" | "b" | "c" | "d";
   /**
-   * Illustrative deposit amount (variable per product, covers potential
-   * refusal costs per the spec) — real value will come from the deposit
-   * formula once it's implemented server-side; see public-deals.ts's
-   * estimateDeposit() for the current placeholder.
+   * Deposit amount (variable per product, covers potential refusal costs
+   * per the spec) — computed server-side from the spec's category/tier
+   * commission table (hat-akhrak-backend's pricing.ts computeDeposit()),
+   * same source the tier prices come from. See public-deals.ts for the
+   * mapping.
    */
   depositAmount: number;
 }
