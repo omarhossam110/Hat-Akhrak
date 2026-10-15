@@ -1,6 +1,7 @@
 import { getTranslations, getLocale } from "next-intl/server";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getDeal } from "@/lib/actions/public-deals";
+import { getSession } from "@/lib/auth/session";
 import { PayNowButton } from "@/components/pay-now-button";
 
 export default async function PaymentPage({
@@ -16,10 +17,20 @@ export default async function PaymentPage({
   const t = await getTranslations();
   const locale = await getLocale();
 
-  const quantity = Math.max(1, Number(qty) || 1);
-  const { deal, depositAmount } = card;
+  // Only a signed-in customer can pay a deposit — a guest who lands here
+  // (e.g. via a shared link) goes through login and comes straight back.
+  const session = await getSession();
+  if (!session) {
+    redirect(
+      `/${locale}/login?redirect=${encodeURIComponent(`/payment/${id}${qty ? `?qty=${qty}` : ""}`)}`,
+    );
+  }
+
+  // 1 or 2 units only (spec 3.3); the backend enforces this too.
+  const quantity = Math.min(2, Math.max(1, Number(qty) || 1));
+  const { deal, cycle, depositAmount } = card;
   const title = locale === "ar" ? deal.title_ar ?? deal.title : deal.title_en ?? deal.title;
-  const amountDue = depositAmount * quantity;
+  const amountDue = Number((depositAmount * quantity).toFixed(2));
 
   const steps = [
     { label: t("payment.stepDeal"), active: true },
@@ -56,7 +67,7 @@ export default async function PaymentPage({
           <h1 className="mb-1.5 text-2xl font-extrabold tracking-tight">{t("payment.title")}</h1>
           <p className="mb-1.5 text-xs font-bold text-ink">{title}</p>
           <p className="text-xs text-muted">{t("payment.methodNote")}</p>
-          <PayNowButton dealId={deal.id} amount={amountDue} />
+          <PayNowButton dealId={deal.id} cycleId={cycle.id} units={quantity} amount={amountDue} />
         </div>
 
         <div className="rounded-[22px] border border-line bg-surface p-7 text-center shadow-[var(--shadow-card)]">

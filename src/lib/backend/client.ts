@@ -8,6 +8,10 @@ export class BackendError extends Error {
   constructor(
     public status: number,
     message: string,
+    // Optional stable machine-readable reason (e.g. "max_units") some
+    // backend business-rule errors carry, so callers can show a translated
+    // message instead of the backend's English text.
+    public code?: string,
   ) {
     super(message);
     this.name = "BackendError";
@@ -36,7 +40,7 @@ export async function backendFetch<T>(path: string, init?: RequestInit): Promise
   if (!res.ok) {
     const rawMessage = body?.message;
     const message = Array.isArray(rawMessage) ? rawMessage.join(" ") : rawMessage;
-    throw new BackendError(res.status, message || "Something went wrong");
+    throw new BackendError(res.status, message || "Something went wrong", body?.code);
   }
 
   return body as T;

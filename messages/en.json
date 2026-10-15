@@ -249,7 +249,14 @@
     "amountDueNow": "Amount due now",
     "subUnits": "{qty} unit(s) × EGP {amount} deposit",
     "secureNote": "Secure encrypted payment via provider",
-    "notFoundTitle": "This deal doesn't exist"
+    "notFoundTitle": "This deal doesn't exist",
+    "errorNotSignedIn": "Please sign in first to complete the payment.",
+    "errorRejected": "We couldn't complete your order — please try again.",
+    "errorGeneric": "Something went wrong — please try again shortly.",
+    "errorMaxUnits": "You've reached the limit: 2 units per customer per cycle.",
+    "errorFrozen": "This cycle is in its final 24 hours, so new joins are closed.",
+    "errorClosed": "This cycle is no longer open for orders.",
+    "errorSoldOut": "Fewer units are left in this cycle than you asked for."
   },
   "merchantSignup": {
     "eyebrow": "Become a merchant",

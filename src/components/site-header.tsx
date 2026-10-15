@@ -7,14 +7,17 @@ import { NotificationsBell } from "@/components/notifications-bell";
 import { buildNotifications } from "@/lib/mock-notifications";
 import { HeaderSearch } from "@/components/header-search";
 import { getDeals } from "@/lib/actions/public-deals";
+import { getMyOrders } from "@/lib/actions/orders";
 import { LogoutButton } from "@/components/logout-button";
 import { getSession } from "@/lib/auth/session";
 
 export async function SiteHeader() {
   const t = await getTranslations();
   const deals = await getDeals();
-  const notifications = buildNotifications(deals);
   const session = await getSession();
+  // Only a signed-in customer has orders; guests/merchants/admins get [].
+  const orders = session?.role === "customer" ? await getMyOrders() : [];
+  const notifications = buildNotifications(deals, orders);
 
   const navItems = [
     { href: "/", label: t("nav.home") },

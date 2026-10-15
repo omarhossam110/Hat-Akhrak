@@ -133,27 +133,13 @@ export default async function DealDetailsPage({
                 {depositAmount} {t("common.egp")}
               </strong>
             </div>
-            <label className="sr-only" htmlFor="qty">
-              {t("deals.quantity")}
-            </label>
-            <select
-              id="qty"
-              className="mb-2.5 w-full rounded-xl border border-line bg-surface p-[11px] outline-none"
-            >
-              {Array.from({ length: maxQty }, (_, i) => i + 1).map((n) => (
-                <option key={n} value={n}>
-                  {n}
-                </option>
-              ))}
-            </select>
             <JoinNowLink
-              href={
-                session
-                  ? `/payment/${deal.id}`
-                  : `/signup?redirect=${encodeURIComponent(`/payment/${deal.id}`)}`
-              }
+              basePath={`/payment/${deal.id}`}
+              signedIn={Boolean(session)}
               dealId={deal.id}
-              value={depositAmount}
+              depositAmount={depositAmount}
+              maxQty={maxQty}
+              quantityLabel={t("deals.quantity")}
             >
               {t("deals.joinNow")} →
             </JoinNowLink>

@@ -1,10 +1,10 @@
 import type { MockDealCard } from "@/lib/mock-deals";
-import { mockOrders } from "@/lib/mock-orders";
+import type { MockOrder } from "@/lib/mock-orders";
 
 /**
  * Derived, not stored: notifications are computed from real deals (passed
- * in by the caller, now backed by GET /deals) plus mock orders (Orders
- * itself isn't wired to the backend yet), rather than a separate
+ * in by the caller, backed by GET /deals) plus the customer's real orders
+ * (GET /orders/mine), rather than a separate
  * hand-authored list, so the "ending soon" half stays consistent with
  * whatever the Deals page actually shows. Once a real `orders` read exists
  * too, this becomes a `notifications` table populated by DB triggers (cycle
@@ -23,7 +23,7 @@ export interface AppNotification {
 
 const ENDING_SOON_HOURS = 24;
 
-export function buildNotifications(deals: MockDealCard[]): AppNotification[] {
+export function buildNotifications(deals: MockDealCard[], orders: MockOrder[]): AppNotification[] {
   const notifications: AppNotification[] = [];
 
   for (const card of deals) {
@@ -47,7 +47,7 @@ export function buildNotifications(deals: MockDealCard[]): AppNotification[] {
     refunded: "notifications.orderRefunded",
   };
 
-  for (const order of mockOrders) {
+  for (const order of orders) {
     const key = ORDER_STATUS_LABEL_KEY[order.status];
     if (!key) continue;
     notifications.push({

@@ -2,7 +2,7 @@ import { getTranslations } from "next-intl/server";
 import { getLocale } from "next-intl/server";
 import { redirect } from "next/navigation";
 import { Link } from "@/i18n/navigation";
-import { mockOrders } from "@/lib/mock-orders";
+import { getMyOrders } from "@/lib/actions/orders";
 import { mockReferralProgram } from "@/lib/mock-referrals";
 import { InviteFriends } from "@/components/invite-friends";
 import { getSession } from "@/lib/auth/session";
@@ -32,9 +32,7 @@ export default async function OrdersPage() {
     redirect(`/${locale}/login?redirect=${encodeURIComponent("/orders")}`);
   }
 
-  // NOTE: still showing mock orders — the real backend's GET /orders/mine
-  // isn't wired up here yet, only auth is. This gate at least makes sure
-  // only a signed-in customer reaches this page.
+  const orders = await getMyOrders();
 
   return (
     <div className="mx-auto max-w-[1180px] px-[22px] py-[30px]">
@@ -42,14 +40,14 @@ export default async function OrdersPage() {
         <h1 className="text-[22px] font-extrabold tracking-tight sm:text-[26px]">
           {t("orders.title")}
         </h1>
-        {mockOrders.length > 0 && (
+        {orders.length > 0 && (
           <span className="rounded-full bg-info-soft px-3 py-1.5 text-xs font-extrabold text-info-text">
-            {t("orders.ordersCount", { count: mockOrders.length })}
+            {t("orders.ordersCount", { count: orders.length })}
           </span>
         )}
       </div>
 
-      {mockOrders.length === 0 ? (
+      {orders.length === 0 ? (
         <div className="flex flex-col items-center gap-3 rounded-[22px] border border-line bg-surface px-6 py-16 text-center shadow-[var(--shadow-card)]">
           <span className="text-[44px]">🧾</span>
           <h2 className="text-base font-extrabold">{t("orders.emptyTitle")}</h2>
@@ -75,7 +73,7 @@ export default async function OrdersPage() {
               </tr>
             </thead>
             <tbody>
-              {mockOrders.map((order) => {
+              {orders.map((order) => {
                 const group = statusGroup(order.status);
                 const title =
                   locale === "ar" ? order.productTitle_ar : order.productTitle_en;

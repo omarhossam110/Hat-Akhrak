@@ -1,8 +1,9 @@
 import type { OrderStatus } from "@/lib/types/database";
 
 /**
- * Placeholder data for the My Orders page until real auth + Supabase
- * queries are wired up (orders scoped to the signed-in customer_id).
+ * Shape of a row on the My Orders page. Originally backed by mock data; now
+ * populated for real from src/lib/actions/orders.ts (GET /orders/mine) —
+ * this type stayed put since the page already renders exactly this shape.
  */
 export interface MockOrder {
   id: string;
@@ -11,27 +12,3 @@ export interface MockOrder {
   status: OrderStatus;
   amount: number;
 }
-
-export const mockOrders: MockOrder[] = [
-  {
-    id: "o1",
-    productTitle_ar: "سماعة بلوتوث لاسلكية",
-    productTitle_en: "Wireless Bluetooth Earbuds",
-    status: "deposit_paid",
-    amount: 60,
-  },
-  {
-    id: "o2",
-    productTitle_ar: "طقم مقالي تيفال",
-    productTitle_en: "Tefal Non-Stick Cookware Set",
-    status: "completed",
-    amount: 680,
-  },
-  {
-    id: "o3",
-    productTitle_ar: "شاحن سريع 65 وات",
-    productTitle_en: "65W Fast Charger",
-    status: "refunded",
-    amount: 45,
-  },
-];
