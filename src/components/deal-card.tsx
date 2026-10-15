@@ -16,7 +16,9 @@ export function DealCard({ card }: { card: MockDealCard }) {
 
   const sold = cycle.units_sold;
   const total = cycle.stock_allocated;
-  const progressPct = Math.min(100, (sold / total) * 100);
+  // A held cycle (stock ran out) has nothing allocated — show an empty bar,
+  // not 0/0 = NaN.
+  const progressPct = total > 0 ? Math.min(100, (sold / total) * 100) : 0;
 
   const firstTier = tiers[0];
   const activeTier = cycle.final_tier_reached

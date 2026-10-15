@@ -63,11 +63,15 @@ type BackendOrder = {
   };
 };
 
+// Statuses from which the balance has actually been paid. Before that,
+// `balanceAmount` is only what the customer still OWES (set when the cycle
+// succeeds), so it must not be counted as paid.
+const BALANCE_PAID: OrderStatus[] = ["balance_paid", "delivered", "completed"];
+
 /** The signed-in customer's real orders (GET /orders/mine), mapped onto the
  * MockOrder shape the My Orders page already renders. `amount` is what the
- * customer has actually paid so far: the deposit, plus the balance once
- * that's been paid (delivery-time payment isn't built yet, so for now it's
- * just the deposit). */
+ * customer has actually paid so far: the deposit, plus the balance only once
+ * it's been paid. */
 export async function getMyOrders(): Promise<MockOrder[]> {
   const token = await getSessionToken();
   if (!token) return [];
@@ -81,7 +85,12 @@ export async function getMyOrders(): Promise<MockOrder[]> {
       productTitle_ar: row.cycle.deal.titleAr ?? row.cycle.deal.title,
       productTitle_en: row.cycle.deal.titleEn ?? row.cycle.deal.title,
       status: row.status,
-      amount: Number((Number(row.depositAmount) + Number(row.balanceAmount ?? 0)).toFixed(2)),
+      amount: Number(
+        (
+          Number(row.depositAmount) +
+          (BALANCE_PAID.includes(row.status) ? Number(row.balanceAmount ?? 0) : 0)
+        ).toFixed(2),
+      ),
     }));
   } catch {
     return [];

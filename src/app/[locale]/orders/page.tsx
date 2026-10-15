@@ -98,7 +98,9 @@ export default async function OrdersPage() {
                       {order.amount} {t("common.egp")}
                     </td>
                     <td className="px-5 py-4">
-                      {group === "running" && (
+                      {/* Only while the cancel window can still be open: once a cycle has
+                          closed (awaiting balance) a deposit can no longer be cancelled. */}
+                      {group === "running" && order.status === "deposit_paid" && (
                         <button
                           type="button"
                           className="rounded-lg border border-line px-3 py-1.5 text-[11px] font-bold text-ink transition hover:bg-paper"
