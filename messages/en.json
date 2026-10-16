@@ -133,7 +133,9 @@
     "inviteShareMessage": "Join Hat Akhrak and buy in bulk with your friends! Use my invite code {code} from this link:",
     "inviteFriendsTitle": "Friends you've invited",
     "friendStatusInvited": "Not signed up yet",
-    "friendStatusJoined": "Signed up"
+    "friendStatusJoined": "Signed up",
+    "actionPayBalance": "Pay the rest",
+    "errorAction": "We couldn't complete that — please try again."
   },
   "merchantDashboard": {
     "title": "Merchant Dashboard",
@@ -157,7 +159,17 @@
     "cycleActive": "Active",
     "dealCreated": "Your deal was published successfully! It'll appear in your deals list soon.",
     "emptyTitle": "You haven't listed any deals yet",
-    "emptyDesc": "Once you add a deal, it will show up here with its stock and cycle status."
+    "emptyDesc": "Once you add a deal, it will show up here with its stock and cycle status.",
+    "ordersTitle": "Orders & delivery",
+    "ordersEmpty": "No orders ready for delivery yet — they'll show up here once a cycle succeeds.",
+    "colCustomer": "Customer",
+    "colUnits": "Units",
+    "statusAwaitingBalance": "Awaiting customer payment",
+    "statusReadyToDeliver": "Ready to deliver",
+    "statusInspection": "Inspection window (48h)",
+    "statusCompleted": "Completed",
+    "actionDelivered": "Mark delivered",
+    "errorAction": "We couldn't record the delivery — please try again."
   },
   "addDeal": {
     "eyebrow": "For merchants",

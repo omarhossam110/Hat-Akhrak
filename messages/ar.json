@@ -133,7 +133,9 @@
     "inviteShareMessage": "انضم لهات آخرك واشتري بالجملة مع صحابك! استخدم كود الدعوة بتاعي {code} من اللينك ده:",
     "inviteFriendsTitle": "الأصحاب اللي دعيتهم",
     "friendStatusInvited": "لسه مسجلش",
-    "friendStatusJoined": "سجّل"
+    "friendStatusJoined": "سجّل",
+    "actionPayBalance": "ادفع الباقي",
+    "errorAction": "مقدرناش نكمل العملية، حاول تاني."
   },
   "merchantDashboard": {
     "title": "داشبورد المورد",
@@ -157,7 +159,17 @@
     "cycleActive": "جارية",
     "dealCreated": "تم نشر صفقتك بنجاح! هتظهر في قايمة صفقاتك قريبًا.",
     "emptyTitle": "لسه معملتش أي صفقة",
-    "emptyDesc": "لما تضيف صفقة، هتلاقيها هنا بكل تفاصيلها وحالة السايكل بتاعتها."
+    "emptyDesc": "لما تضيف صفقة، هتلاقيها هنا بكل تفاصيلها وحالة السايكل بتاعتها.",
+    "ordersTitle": "الطلبات والتسليم",
+    "ordersEmpty": "لسه مفيش طلبات جاهزة للتسليم — هتظهر هنا لما سايكل تنجح.",
+    "colCustomer": "العميل",
+    "colUnits": "الكمية",
+    "statusAwaitingBalance": "في انتظار دفع العميل",
+    "statusReadyToDeliver": "جاهز للتسليم",
+    "statusInspection": "فترة الفحص (48 ساعة)",
+    "statusCompleted": "مكتمل",
+    "actionDelivered": "تم التسليم",
+    "errorAction": "مقدرناش نسجّل التسليم، حاول تاني."
   },
   "addDeal": {
     "eyebrow": "للموردين",

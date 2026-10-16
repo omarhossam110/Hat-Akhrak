@@ -85,6 +85,9 @@ export async function getMyOrders(): Promise<MockOrder[]> {
       productTitle_ar: row.cycle.deal.titleAr ?? row.cycle.deal.title,
       productTitle_en: row.cycle.deal.titleEn ?? row.cycle.deal.title,
       status: row.status,
+      // What's still owed once the cycle has closed — drives "pay the rest".
+      balanceDue:
+        row.status === "awaiting_balance" ? Number(row.balanceAmount ?? 0) : undefined,
       amount: Number(
         (
           Number(row.depositAmount) +
@@ -92,6 +95,110 @@ export async function getMyOrders(): Promise<MockOrder[]> {
         ).toFixed(2),
       ),
     }));
+  } catch {
+    return [];
+  }
+}
+
+export type OrderActionState =
+  | { error: "notSignedIn" | "rejected" | "generic"; code?: string }
+  | undefined;
+
+async function orderAction(
+  path: string,
+  body: Record<string, unknown>,
+  redirectTo: string,
+): Promise<OrderActionState> {
+  const token = await getSessionToken();
+  if (!token) return { error: "notSignedIn" };
+
+  try {
+    await backendFetch(path, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+      body: JSON.stringify(body),
+    });
+  } catch (err) {
+    if (err instanceof BackendError) {
+      if (err.status === 401) return { error: "notSignedIn" };
+      if (err.status === 400 || err.status === 404) {
+        return { error: "rejected", code: err.code };
+      }
+    }
+    return { error: "generic" };
+  }
+
+  // Redirecting to the page we came from re-renders it with fresh data.
+  const locale = await getLocale();
+  redirect(`/${locale}${redirectTo}`);
+}
+
+/** Customer pays the remaining balance once the cycle has closed. Placeholder
+ * payment (no gateway yet) — the backend records it straight away. */
+export async function payBalanceAction(
+  orderId: string,
+  _prev: OrderActionState,
+): Promise<OrderActionState> {
+  return orderAction(`/orders/${orderId}/pay-balance`, {}, "/orders");
+}
+
+/** Merchant marks an order delivered (starts the customer's 48h inspection
+ * window). Needs the balance to have been paid first — the backend enforces it. */
+export async function deliverOrderAction(
+  orderId: string,
+  _prev: OrderActionState,
+): Promise<OrderActionState> {
+  return orderAction(`/orders/${orderId}/deliver`, {}, "/merchant/dashboard");
+}
+
+export type MerchantOrderRow = {
+  id: string;
+  dealTitle_ar: string;
+  dealTitle_en: string;
+  customerName: string;
+  units: number;
+  status: OrderStatus;
+};
+
+type BackendMerchantOrder = {
+  id: string;
+  units: number;
+  status: OrderStatus;
+  dealTitle: string;
+  dealTitleAr: string | null;
+  dealTitleEn: string | null;
+  customerName: string;
+};
+
+// Only orders whose cycle has closed matter for fulfilment; ones still
+// "deposit_paid" are in a running cycle and refunded ones never ship.
+const FULFILMENT_STATUSES: OrderStatus[] = [
+  "awaiting_balance",
+  "balance_paid",
+  "delivered",
+  "completed",
+];
+
+/** Orders on the signed-in merchant's own deals that are past the cycle
+ * stage (GET /orders/merchant), for the dashboard's fulfilment table. */
+export async function getMerchantOrders(): Promise<MerchantOrderRow[]> {
+  const token = await getSessionToken();
+  if (!token) return [];
+
+  try {
+    const rows = await backendFetch<BackendMerchantOrder[]>("/orders/merchant", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return rows
+      .filter((r) => FULFILMENT_STATUSES.includes(r.status))
+      .map((r) => ({
+        id: r.id,
+        dealTitle_ar: r.dealTitleAr ?? r.dealTitle,
+        dealTitle_en: r.dealTitleEn ?? r.dealTitle,
+        customerName: r.customerName,
+        units: r.units,
+        status: r.status,
+      }));
   } catch {
     return [];
   }

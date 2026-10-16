@@ -5,6 +5,7 @@ import { Link } from "@/i18n/navigation";
 import { getMyOrders } from "@/lib/actions/orders";
 import { mockReferralProgram } from "@/lib/mock-referrals";
 import { InviteFriends } from "@/components/invite-friends";
+import { PayBalanceButton } from "@/components/pay-balance-button";
 import { getSession } from "@/lib/auth/session";
 import type { OrderStatus } from "@/lib/types/database";
 
@@ -107,6 +108,9 @@ export default async function OrdersPage() {
                         >
                           {t("orders.actionCancel")}
                         </button>
+                      )}
+                      {order.status === "awaiting_balance" && order.balanceDue !== undefined && (
+                        <PayBalanceButton orderId={order.id} amount={order.balanceDue} />
                       )}
                       {group === "delivered" && (
                         <button

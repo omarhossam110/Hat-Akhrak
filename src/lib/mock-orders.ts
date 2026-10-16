@@ -11,4 +11,6 @@ export interface MockOrder {
   productTitle_en: string;
   status: OrderStatus;
   amount: number;
+  /** Still owed after the cycle closed (only while awaiting the balance). */
+  balanceDue?: number;
 }

@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { getMyDeals } from "@/lib/actions/merchant-deals";
 import { MerchantDealsTable } from "@/components/merchant-deals-table";
+import { MerchantOrdersTable } from "@/components/merchant-orders-table";
+import { getMerchantOrders } from "@/lib/actions/orders";
 import { getSession } from "@/lib/auth/session";
 
 export default async function MerchantDashboardPage({
@@ -21,6 +23,7 @@ export default async function MerchantDashboardPage({
   }
 
   const { rows: merchantDeals, stats: merchantStats, hasAlert: merchantHasAlert } = await getMyDeals();
+  const fulfilmentOrders = await getMerchantOrders();
 
   const stats = [
     { icon: "📦", value: merchantStats.totalDeals, label: t("merchantDashboard.statTotalDeals") },
@@ -84,6 +87,17 @@ export default async function MerchantDashboardPage({
             + {t("merchantDashboard.newDeal")}
           </Link>
         </div>
+      )}
+
+      <h2 className="mb-3 mt-8 text-[19px] font-bold tracking-tight">
+        {t("merchantDashboard.ordersTitle")}
+      </h2>
+      {fulfilmentOrders.length > 0 ? (
+        <MerchantOrdersTable rows={fulfilmentOrders} />
+      ) : (
+        <p className="rounded-[22px] border border-line bg-surface p-6 text-center text-xs text-muted shadow-[var(--shadow-card)]">
+          {t("merchantDashboard.ordersEmpty")}
+        </p>
       )}
     </div>
   );
