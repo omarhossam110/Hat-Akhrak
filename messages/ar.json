@@ -249,7 +249,16 @@
       "dealsByCategory": "الصفقات حسب الكاتيجوري",
       "dealsCount": "{count} صفقة",
       "noData": "مفيش بيانات كافية لعرضها دلوقتي"
-    }
+    },
+    "held": "محجوز (فترة الفحص)",
+    "paidOut": "اتحوّل",
+    "payout": "تسجيل تحويل",
+    "payoutAmount": "المبلغ",
+    "payoutReference": "مرجع التحويل",
+    "payoutRecord": "سجّل",
+    "payoutExceeds": "المبلغ أكبر من المستحق حاليًا",
+    "payoutError": "تعذّر تسجيل التحويل",
+    "ledgerEmpty": "لا يوجد موردون موثّقون بعد"
   },
   "payment": {
     "stepDeal": "الصفقة",

@@ -1,6 +1,7 @@
 import { getTranslations, getLocale } from "next-intl/server";
 import { redirect } from "next/navigation";
-import { merchantLedger } from "@/lib/mock-admin-ledger";
+import { getLedger } from "@/lib/actions/ledger";
+import { RecordPayoutForm } from "@/components/record-payout-form";
 import { addCategoryAction, getCategories } from "@/lib/actions/categories";
 import {
   approveMerchantApplicationAction,
@@ -23,12 +24,15 @@ export default async function SuperAdminPage() {
     redirect(`/${locale}/`);
   }
 
-  // Merchant applications, categories, and now deals are all wired to the
-  // real backend. Only the settlement ledger (merchantLedger) is still
-  // mock — there's no real payout/settlement accounting built yet.
+  // Everything here is real: applications, categories, deals and the
+  // settlement ledger (aggregated from orders/payments, with payouts).
   const { merchants: pendingMerchants } = await getPendingMerchants();
   const pendingCount = pendingMerchants.filter((m) => m.status === "pending").length;
-  const [realCategories, realDeals] = await Promise.all([getCategories(), getDeals()]);
+  const [realCategories, realDeals, merchantLedger] = await Promise.all([
+    getCategories(),
+    getDeals(),
+    getLedger(),
+  ]);
 
   return (
     <div className="mx-auto max-w-[1180px] px-[22px] py-[30px]">
@@ -45,17 +49,27 @@ export default async function SuperAdminPage() {
           </div>
 
           <div className="overflow-auto">
-            <table className="w-full min-w-[620px] text-start text-sm">
+            <table className="w-full min-w-[860px] text-start text-sm">
               <thead>
                 <tr className="border-b border-line text-[10px] font-bold text-muted-2">
                   <th className="px-2.5 py-3.5 text-start">{t("superAdmin.merchant")}</th>
                   <th className="px-2.5 py-3.5 text-start">{t("superAdmin.completed")}</th>
                   <th className="px-2.5 py-3.5 text-start">{t("superAdmin.collected")}</th>
                   <th className="px-2.5 py-3.5 text-start">{t("superAdmin.commission")}</th>
+                  <th className="px-2.5 py-3.5 text-start">{t("superAdmin.held")}</th>
+                  <th className="px-2.5 py-3.5 text-start">{t("superAdmin.paidOut")}</th>
                   <th className="px-2.5 py-3.5 text-start">{t("superAdmin.owed")}</th>
+                  <th className="px-2.5 py-3.5 text-start">{t("superAdmin.payout")}</th>
                 </tr>
               </thead>
               <tbody>
+                {merchantLedger.length === 0 && (
+                  <tr>
+                    <td colSpan={8} className="px-2.5 py-6 text-center text-xs text-muted">
+                      {t("superAdmin.ledgerEmpty")}
+                    </td>
+                  </tr>
+                )}
                 {merchantLedger.map((row) => (
                   <tr key={row.merchantId} className="border-b border-line last:border-0">
                     <td className="px-2.5 py-3.5 font-bold">{row.businessName}</td>
@@ -67,7 +81,20 @@ export default async function SuperAdminPage() {
                       {row.commission.toLocaleString()} {t("common.egp")}
                     </td>
                     <td className="px-2.5 py-3.5 font-sans">
+                      {row.held.toLocaleString()} {t("common.egp")}
+                    </td>
+                    <td className="px-2.5 py-3.5 font-sans">
+                      {row.paidOut.toLocaleString()} {t("common.egp")}
+                    </td>
+                    <td className="px-2.5 py-3.5 font-sans font-bold">
                       {row.owed.toLocaleString()} {t("common.egp")}
+                    </td>
+                    <td className="px-2.5 py-3.5">
+                      {row.owed > 0 ? (
+                        <RecordPayoutForm merchantId={row.merchantId} owed={row.owed} />
+                      ) : (
+                        <span className="text-[10px] text-muted-2">—</span>
+                      )}
                     </td>
                   </tr>
                 ))}

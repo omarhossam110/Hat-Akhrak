@@ -249,7 +249,16 @@
       "dealsByCategory": "Deals by category",
       "dealsCount": "{count} deals",
       "noData": "Not enough data to show yet"
-    }
+    },
+    "held": "Held (inspection)",
+    "paidOut": "Paid out",
+    "payout": "Record transfer",
+    "payoutAmount": "Amount",
+    "payoutReference": "Transfer ref",
+    "payoutRecord": "Record",
+    "payoutExceeds": "Amount exceeds what's currently owed",
+    "payoutError": "Couldn't record the transfer",
+    "ledgerEmpty": "No verified merchants yet"
   },
   "payment": {
     "stepDeal": "Deal",
