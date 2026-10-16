@@ -6,6 +6,7 @@ import { getMyOrders } from "@/lib/actions/orders";
 import { mockReferralProgram } from "@/lib/mock-referrals";
 import { InviteFriends } from "@/components/invite-friends";
 import { PayBalanceButton } from "@/components/pay-balance-button";
+import { CancelOrderButton } from "@/components/cancel-order-button";
 import { getSession } from "@/lib/auth/session";
 import type { OrderStatus } from "@/lib/types/database";
 
@@ -20,7 +21,7 @@ const STATUS_STYLES: Record<
 
 function statusGroup(status: OrderStatus): "running" | "delivered" | "refunded" {
   if (status === "completed" || status === "delivered") return "delivered";
-  if (status === "refunded") return "refunded";
+  if (status === "refunded" || status === "cancelled_by_buyer") return "refunded";
   return "running";
 }
 
@@ -83,7 +84,9 @@ export default async function OrdersPage() {
                     ? t("orders.statusRunning")
                     : group === "delivered"
                       ? t("orders.statusDelivered")
-                      : t("orders.statusRefunded");
+                      : order.status === "cancelled_by_buyer"
+                        ? t("orders.statusCancelled")
+                        : t("orders.statusRefunded");
 
                 return (
                   <tr key={order.id} className="border-b border-line last:border-0">
@@ -99,16 +102,14 @@ export default async function OrdersPage() {
                       {order.amount} {t("common.egp")}
                     </td>
                     <td className="px-5 py-4">
-                      {/* Only while the cancel window can still be open: once a cycle has
-                          closed (awaiting balance) a deposit can no longer be cancelled. */}
-                      {group === "running" && order.status === "deposit_paid" && (
-                        <button
-                          type="button"
-                          className="rounded-lg border border-line px-3 py-1.5 text-[11px] font-bold text-ink transition hover:bg-paper"
-                        >
-                          {t("orders.actionCancel")}
-                        </button>
-                      )}
+                      {/* Cancelling is only offered while the 24h window is open and the
+                          cycle isn't in its final-24h freeze (spec 3.5). */}
+                      {order.status === "deposit_paid" &&
+                        (order.canCancel ? (
+                          <CancelOrderButton orderId={order.id} />
+                        ) : (
+                          <span className="text-[10px] text-muted">{t("orders.cancelClosed")}</span>
+                        ))}
                       {order.status === "awaiting_balance" && order.balanceDue !== undefined && (
                         <PayBalanceButton orderId={order.id} amount={order.balanceDue} />
                       )}

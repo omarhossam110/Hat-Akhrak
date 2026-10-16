@@ -58,7 +58,9 @@ type BackendOrder = {
   balanceAmount: string | null;
   status: OrderStatus;
   createdAt: string;
+  cancelDeadline: string;
   cycle: {
+    freezeAt: string;
     deal: { id: string; title: string; titleAr: string | null; titleEn: string | null };
   };
 };
@@ -85,6 +87,11 @@ export async function getMyOrders(): Promise<MockOrder[]> {
       productTitle_ar: row.cycle.deal.titleAr ?? row.cycle.deal.title,
       productTitle_en: row.cycle.deal.titleEn ?? row.cycle.deal.title,
       status: row.status,
+      // Cancelling is open only while both the order's own 24h window and the
+      // cycle's final-24h freeze allow it (the backend re-checks on submit).
+      canCancel:
+        row.status === "deposit_paid" &&
+        Date.now() < Math.min(Date.parse(row.cancelDeadline), Date.parse(row.cycle.freezeAt)),
       // What's still owed once the cycle has closed — drives "pay the rest".
       balanceDue:
         row.status === "awaiting_balance" ? Number(row.balanceAmount ?? 0) : undefined,
@@ -131,6 +138,14 @@ async function orderAction(
   // Redirecting to the page we came from re-renders it with fresh data.
   const locale = await getLocale();
   redirect(`/${locale}${redirectTo}`);
+}
+
+/** Customer cancels a deposit-stage order (inside the window) for a full refund. */
+export async function cancelOrderAction(
+  orderId: string,
+  _prev: OrderActionState,
+): Promise<OrderActionState> {
+  return orderAction(`/orders/${orderId}/cancel`, {}, "/orders");
 }
 
 /** Customer pays the remaining balance once the cycle has closed. Placeholder

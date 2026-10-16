@@ -136,7 +136,15 @@
     "friendStatusInvited": "لسه مسجلش",
     "friendStatusJoined": "سجّل",
     "actionPayBalance": "ادفع الباقي",
-    "errorAction": "مقدرناش نكمل العملية، حاول تاني."
+    "errorAction": "مقدرناش نكمل العملية، حاول تاني.",
+    "statusCancelled": "ملغي",
+    "cancelConfirm": "هتلغي الطلب وتاخد العربون كامل. تأكيد الإلغاء؟",
+    "cancelClosed": "انتهت مهلة الإلغاء",
+    "cancelErrors": {
+      "cancel_window_passed": "انتهت مهلة الإلغاء (24 ساعة من الدفع).",
+      "cycle_frozen": "الإلغاء متجمّد في آخر 24 ساعة من الدورة.",
+      "not_cancellable": "الطلب ده مينفعش يتلغي دلوقتي."
+    }
   },
   "merchantDashboard": {
     "title": "داشبورد المورد",

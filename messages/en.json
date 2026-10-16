@@ -136,7 +136,15 @@
     "friendStatusInvited": "Not signed up yet",
     "friendStatusJoined": "Signed up",
     "actionPayBalance": "Pay the rest",
-    "errorAction": "We couldn't complete that — please try again."
+    "errorAction": "We couldn't complete that — please try again.",
+    "statusCancelled": "Cancelled",
+    "cancelConfirm": "Cancel this order and get your full deposit back?",
+    "cancelClosed": "Cancellation closed",
+    "cancelErrors": {
+      "cancel_window_passed": "The 24-hour cancellation window has passed.",
+      "cycle_frozen": "Cancellations are frozen in the last 24 hours of a cycle.",
+      "not_cancellable": "This order can't be cancelled right now."
+    }
   },
   "merchantDashboard": {
     "title": "Merchant Dashboard",

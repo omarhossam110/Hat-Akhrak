@@ -13,4 +13,6 @@ export interface MockOrder {
   amount: number;
   /** Still owed after the cycle closed (only while awaiting the balance). */
   balanceDue?: number;
+  /** The deposit can still be cancelled right now (24h window, not frozen). */
+  canCancel?: boolean;
 }
