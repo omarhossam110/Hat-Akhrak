@@ -108,7 +108,8 @@
     "forgotPasswordLink": "نسيت كلمة المرور؟",
     "errorGeneric": "حصل خطأ، حاول تاني.",
     "errorInvalidCredentials": "البريد الإلكتروني أو كلمة المرور غلط.",
-    "errorEmailTaken": "في حساب بالفعل بنفس البريد الإلكتروني."
+    "errorEmailTaken": "في حساب بالفعل بنفس البريد الإلكتروني.",
+    "errorTooManyAttempts": "محاولات كتير ورا بعض. استنى دقيقة وجرّب تاني."
   },
   "orders": {
     "title": "طلباتي",

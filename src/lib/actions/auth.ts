@@ -46,6 +46,9 @@ export async function loginAction(
     if (err instanceof BackendError && err.status === 401) {
       return { error: "errorInvalidCredentials" };
     }
+    if (err instanceof BackendError && err.status === 429) {
+      return { error: "errorTooManyAttempts" };
+    }
     return { error: "errorGeneric" };
   }
 
@@ -83,6 +86,9 @@ export async function signupAction(
   } catch (err) {
     if (err instanceof BackendError && err.status === 409) {
       return { error: "errorEmailTaken" };
+    }
+    if (err instanceof BackendError && err.status === 429) {
+      return { error: "errorTooManyAttempts" };
     }
     return { error: "errorGeneric" };
   }
