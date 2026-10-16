@@ -2,7 +2,25 @@
 // — called from Server Actions and Server Components, never from the
 // browser, so BACKEND_URL never needs a NEXT_PUBLIC_ prefix.
 
+import { headers } from "next/headers";
+
 const BACKEND_URL = process.env.BACKEND_URL ?? "http://localhost:3001/api";
+
+// Every browser request reaches the backend through this server, so without
+// this the backend's rate limiter would see ONE client (us) for everybody.
+// Pass the visitor's address along (the backend only trusts it when
+// TRUST_PROXY is set, i.e. when it's reachable solely through us / Nginx).
+async function clientIpHeader(): Promise<Record<string, string>> {
+  try {
+    const h = await headers();
+    const ip =
+      h.get("x-forwarded-for")?.split(",")[0]?.trim() || h.get("x-real-ip");
+    return ip ? { "X-Forwarded-For": ip } : {};
+  } catch {
+    // Outside a request (no headers available) — nothing to forward.
+    return {};
+  }
+}
 
 export class BackendError extends Error {
   constructor(
@@ -23,11 +41,15 @@ export class BackendError extends Error {
  * (with the backend's HTTP status) on a non-2xx response, so callers can
  * branch on e.g. `err.status === 409` without re-parsing anything.
  */
-export async function backendFetch<T>(path: string, init?: RequestInit): Promise<T> {
+export async function backendFetch<T>(
+  path: string,
+  init?: RequestInit,
+): Promise<T> {
   const res = await fetch(`${BACKEND_URL}${path}`, {
     ...init,
     headers: {
       "Content-Type": "application/json",
+      ...(await clientIpHeader()),
       ...init?.headers,
     },
     // These calls carry a specific user's request (login, signup, /me) —
@@ -39,8 +61,14 @@ export async function backendFetch<T>(path: string, init?: RequestInit): Promise
 
   if (!res.ok) {
     const rawMessage = body?.message;
-    const message = Array.isArray(rawMessage) ? rawMessage.join(" ") : rawMessage;
-    throw new BackendError(res.status, message || "Something went wrong", body?.code);
+    const message = Array.isArray(rawMessage)
+      ? rawMessage.join(" ")
+      : rawMessage;
+    throw new BackendError(
+      res.status,
+      message || "Something went wrong",
+      body?.code,
+    );
   }
 
   return body as T;
