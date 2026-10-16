@@ -11,6 +11,7 @@ import {
 import { getDeals } from "@/lib/actions/public-deals";
 import { AdminAnalytics } from "@/components/admin-analytics";
 import { getSession } from "@/lib/auth/session";
+import { Link } from "@/i18n/navigation";
 
 export default async function SuperAdminPage() {
   const t = await getTranslations();
@@ -36,6 +37,14 @@ export default async function SuperAdminPage() {
 
   return (
     <div className="mx-auto max-w-[1180px] px-[22px] py-[30px]">
+      {!session.mfa && (
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-2 rounded-2xl bg-warning-soft px-4 py-3 text-xs font-bold text-warning">
+          <span>{t("twoFactor.bannerText")}</span>
+          <Link href="/super-admin/security" className="underline">
+            {t("twoFactor.bannerLink")}
+          </Link>
+        </div>
+      )}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_260px]">
         <div className="flex flex-col gap-4">
           <AdminAnalytics ledger={merchantLedger} deals={realDeals} categories={realCategories} />
@@ -233,6 +242,12 @@ export default async function SuperAdminPage() {
           >
             {t("superAdmin.emergencyCancel")}
           </button>
+          <Link
+            href="/super-admin/security"
+            className="mt-2 block rounded-xl border border-[#344054] px-4 py-[11px] text-center text-xs font-bold text-white transition hover:bg-[#1d2939]"
+          >
+            {t("twoFactor.securityLink")}
+          </Link>
         </aside>
       </div>
     </div>

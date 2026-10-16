@@ -401,5 +401,35 @@
     "errorPasswordTooShort": "Password must be at least 8 characters.",
     "backToLogin": "Back to login",
     "errorGeneric": "Something went wrong. Please try again."
+  },
+  "twoFactor": {
+    "title": "Two-factor authentication",
+    "statusOn": "Enabled",
+    "statusOff": "Not enabled",
+    "intro": "Protect the admin account with an authenticator app (Google Authenticator, Authy…). You'll need a code at every sign-in.",
+    "start": "Start setup",
+    "scan": "Scan the code with your authenticator app, then enter the 6-digit code it shows.",
+    "qrAlt": "Two-factor QR code",
+    "manualKey": "Or enter the key manually",
+    "codeLabel": "Verification code",
+    "enable": "Enable",
+    "enabledOk": "Two-factor authentication is on.",
+    "saveCodes": "Save these recovery codes somewhere safe. Each works once and they won't be shown again.",
+    "codesLeft": "Recovery codes left: {count}",
+    "disableHint": "To turn it off, enter a current code from the app (or a recovery code).",
+    "disable": "Turn off two-factor",
+    "loginTitle": "Verification code",
+    "loginDesc": "Enter the code from your authenticator app to finish signing in.",
+    "verify": "Verify",
+    "recoveryHint": "No access to the app? Enter one of your recovery codes.",
+    "bannerText": "The admin account needs two-factor authentication before it can perform admin actions.",
+    "bannerLink": "Enable it now",
+    "securityLink": "Security",
+    "error": {
+      "invalid": "That code isn't right. Try again.",
+      "expired": "Your sign-in timed out. Please start again.",
+      "tooMany": "Too many attempts. Wait a minute and try again.",
+      "generic": "Something went wrong. Please try again."
+    }
   }
 }

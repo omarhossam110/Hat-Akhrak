@@ -9,6 +9,22 @@ export const SESSION_COOKIE = "hat_akhrak_session";
 // .env.example, "7d") — keep in sync if that's ever changed.
 export const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 7;
 
+// Short-lived (5 min) cookie holding the 2FA login challenge between the
+// password step and the code step. Not a session.
+export const TWO_FACTOR_COOKIE = "hat_akhrak_2fa";
+
+export async function setSessionCookie(token: string) {
+  (await cookies()).set(SESSION_COOKIE, token, {
+    httpOnly: true,
+    // Only forced over HTTPS in production — the dev server runs on plain
+    // http://localhost, where a Secure cookie would just never be sent.
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+    maxAge: SESSION_MAX_AGE_SECONDS,
+  });
+}
+
 export type Role = "customer" | "merchant" | "super_admin";
 
 export type SessionUser = {
@@ -16,6 +32,8 @@ export type SessionUser = {
   email: string;
   role: Role;
   merchantId?: string;
+  // True when this session passed a second factor.
+  mfa?: boolean;
 };
 
 /**

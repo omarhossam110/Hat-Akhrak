@@ -4,21 +4,10 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getLocale } from "next-intl/server";
 import { BackendError, backendFetch } from "@/lib/backend/client";
-import { SESSION_COOKIE, SESSION_MAX_AGE_SECONDS } from "@/lib/auth/session";
+import { SESSION_COOKIE, TWO_FACTOR_COOKIE, setSessionCookie } from "@/lib/auth/session";
 
 type SessionResponse = { accessToken: string };
-
-async function setSessionCookie(token: string) {
-  (await cookies()).set(SESSION_COOKIE, token, {
-    httpOnly: true,
-    // Only forced over HTTPS in production — the dev server runs on plain
-    // http://localhost, where a Secure cookie would just never be sent.
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: SESSION_MAX_AGE_SECONDS,
-  });
-}
+type LoginResponse = SessionResponse | { twoFactorRequired: true; challengeToken: string };
 
 export type AuthFormState = { error?: string } | undefined;
 
@@ -36,12 +25,26 @@ export async function loginAction(
     return { error: "errorGeneric" };
   }
 
+  let challenge: string | undefined;
   try {
-    const { accessToken } = await backendFetch<SessionResponse>("/auth/login", {
+    const result = await backendFetch<LoginResponse>("/auth/login", {
       method: "POST",
       body: JSON.stringify({ email, password }),
     });
-    await setSessionCookie(accessToken);
+    if ("twoFactorRequired" in result) {
+      // Password was right but this account has a second factor: keep only the
+      // short-lived challenge and go ask for the code. No session yet.
+      challenge = result.challengeToken;
+      (await cookies()).set(TWO_FACTOR_COOKIE, challenge, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+        maxAge: 5 * 60,
+      });
+    } else {
+      await setSessionCookie(result.accessToken);
+    }
   } catch (err) {
     if (err instanceof BackendError && err.status === 401) {
       return { error: "errorInvalidCredentials" };
@@ -53,6 +56,10 @@ export async function loginAction(
   }
 
   const locale = await getLocale();
+  if (challenge) {
+    const qs = redirectTo ? `?redirect=${encodeURIComponent(redirectTo)}` : "";
+    redirect(`/${locale}/login/verify${qs}`);
+  }
   redirect(`/${locale}${redirectTo ?? "/deals"}`);
 }
 
