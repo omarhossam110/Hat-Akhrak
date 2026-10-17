@@ -28,6 +28,11 @@ export interface MerchantDealRow {
   currentTier: 1 | 2 | 3 | null;
   status: MerchantDealStatus;
   history: MerchantCycleHistoryItem[];
+  dealStatus: "active" | "paused" | "cancelled";
+  /** The running cycle is on hold waiting for stock. */
+  cycleHeld: boolean;
+  /** Customers have put deposits into the running cycle (blocks cancelling). */
+  hasRunningDeposits: boolean;
 }
 
 export interface MerchantDashboardStats {

@@ -7,7 +7,9 @@
     "searchPlaceholder": "Search for a deal...",
     "viewAll": "View all",
     "searchNoResults": "No matching results",
-    "searchSeeAll": "See all results for \"{query}\""
+    "searchSeeAll": "See all results for \"{query}\"",
+    "errorAction": "We couldn't complete that — please try again.",
+    "cancel": "Cancel"
   },
   "nav": {
     "home": "Home",
@@ -144,7 +146,13 @@
       "cancel_window_passed": "The 24-hour cancellation window has passed.",
       "cycle_frozen": "Cancellations are frozen in the last 24 hours of a cycle.",
       "not_cancellable": "This order can't be cancelled right now."
-    }
+    },
+    "statusDisputed": "Disputed",
+    "statusRefused": "Refused",
+    "disputeUnderReview": "Under review",
+    "actionReport": "Report a problem",
+    "reportPlaceholder": "Describe the problem (e.g. item arrived damaged)",
+    "reportSend": "Send"
   },
   "merchantDashboard": {
     "title": "Merchant Dashboard",
@@ -178,7 +186,24 @@
     "statusInspection": "Inspection window (48h)",
     "statusCompleted": "Completed",
     "actionDelivered": "Mark delivered",
-    "errorAction": "We couldn't record the delivery — please try again."
+    "errorAction": "We couldn't record the delivery — please try again.",
+    "statusCancelled": "Cancelled",
+    "statusDisputed": "Disputed",
+    "statusRefused": "Customer refused",
+    "manage": "Manage",
+    "restock": "Add stock",
+    "restockUnits": "Units (multiples of 5)",
+    "cancelDeal": "Cancel deal",
+    "cancelBlocked": "Can't cancel — customers have paid deposits in the running cycle.",
+    "cancelDealConfirm": "Cancel this deal permanently?",
+    "actionRefused": "Customer refused",
+    "refusalNote": "Note (e.g. refused at the door)",
+    "refusalSend": "Report",
+    "errors": {
+      "invalid_units": "Units must be a multiple of 5.",
+      "deal_cancelled": "This deal was cancelled.",
+      "has_active_deposits": "Customers have deposits in the running cycle — it can't be cancelled."
+    }
   },
   "addDeal": {
     "eyebrow": "For merchants",
@@ -267,7 +292,13 @@
     "payoutRecord": "Record",
     "payoutExceeds": "Amount exceeds what's currently owed",
     "payoutError": "Couldn't record the transfer",
-    "ledgerEmpty": "No verified merchants yet"
+    "ledgerEmpty": "No verified merchants yet",
+    "emergencyConfirm": "Emergency cancel: the deal is cancelled and every running deposit refunded. Sure?",
+    "emergencyDeal": "Choose a deal",
+    "emergencyReason": "Reason (required, goes in the audit log)",
+    "errors": {
+      "deal_cancelled": "This deal was already cancelled."
+    }
   },
   "payment": {
     "stepDeal": "Deal",
@@ -438,6 +469,30 @@
       "expired": "Your sign-in timed out. Please start again.",
       "tooMany": "Too many attempts. Wait a minute and try again.",
       "generic": "Something went wrong. Please try again."
+    }
+  },
+  "disputes": {
+    "title": "Disputes",
+    "openCount": "{count} open",
+    "empty": "No disputes yet.",
+    "noneOpen": "No open disputes.",
+    "kindRefusal": "Refused at delivery",
+    "kindComplaint": "Customer complaint",
+    "deposit": "Deposit",
+    "byMerchant": "Merchant",
+    "byCustomer": "Customer",
+    "customerAtFault": "Customer at fault",
+    "merchantAtFault": "Merchant at fault",
+    "shippingCost": "Shipping cost",
+    "returnCost": "Return cost",
+    "resolve": "Resolve",
+    "confirm": "Resolve this dispute with this decision? It can't be undone.",
+    "recentlyResolved": "Recently resolved",
+    "rulesHint": "Customer at fault: shipping, return and 1% of the order value are kept from the deposit. Merchant at fault: full refund, costs charged to the merchant's earnings.",
+    "errors": {
+      "not_disputable": "This order can't be disputed right now.",
+      "inspection_closed": "The 48-hour inspection window has passed.",
+      "already_resolved": "This dispute was already resolved."
     }
   }
 }

@@ -3,6 +3,7 @@
 import { Fragment, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import type { MerchantDealRow } from "@/lib/mock-merchant-dashboard";
+import { DealControls } from "@/components/deal-controls";
 
 const STATUS_STYLES: Record<MerchantDealRow["status"], string> = {
   active: "bg-success-soft text-success",
@@ -21,23 +22,26 @@ export function MerchantDealsTable({ rows }: { rows: MerchantDealRow[] }) {
   const locale = useLocale();
   const [openId, setOpenId] = useState<string | null>(null);
 
-  const statusLabel = (status: MerchantDealRow["status"]) =>
-    status === "active"
+  const statusLabel = (row: MerchantDealRow) =>
+    row.dealStatus === "cancelled"
+      ? t("merchantDashboard.statusCancelled")
+      : row.status === "active"
       ? t("merchantDashboard.statusActive")
-      : status === "needs_stock"
+      : row.status === "needs_stock"
         ? t("merchantDashboard.statusNeedsStock")
         : t("merchantDashboard.statusPaused");
 
   return (
     <div className="overflow-hidden rounded-[22px] border border-line bg-surface shadow-[var(--shadow-card)]">
       <div className="overflow-auto">
-        <table className="w-full min-w-[680px] text-start text-sm">
+        <table className="w-full min-w-[820px] text-start text-sm">
           <thead>
             <tr className="border-b border-line bg-paper text-xs font-bold text-muted">
               <th className="px-5 py-3.5 text-start">{t("merchantDashboard.product")}</th>
               <th className="px-5 py-3.5 text-start">{t("merchantDashboard.stock")}</th>
               <th className="px-5 py-3.5 text-start">{t("merchantDashboard.currentCycle")}</th>
               <th className="px-5 py-3.5 text-start">{t("merchantDashboard.status")}</th>
+              <th className="px-5 py-3.5 text-start">{t("merchantDashboard.manage")}</th>
               <th className="px-5 py-3.5 text-start" />
             </tr>
           </thead>
@@ -66,8 +70,16 @@ export function MerchantDealsTable({ rows }: { rows: MerchantDealRow[] }) {
                       <span
                         className={`inline-block rounded-full px-3 py-1 text-[11px] font-bold ${STATUS_STYLES[row.status]}`}
                       >
-                        {statusLabel(row.status)}
+                        {statusLabel(row)}
                       </span>
+                    </td>
+                    <td className="px-5 py-4">
+                      <DealControls
+                        dealId={row.dealId}
+                        cancelled={row.dealStatus === "cancelled"}
+                        cycleHeld={row.cycleHeld}
+                        hasRunningDeposits={row.hasRunningDeposits}
+                      />
                     </td>
                     <td className="px-5 py-4 text-end">
                       <button
@@ -81,7 +93,7 @@ export function MerchantDealsTable({ rows }: { rows: MerchantDealRow[] }) {
                   </tr>
                   {isOpen && (
                     <tr className="border-b border-line">
-                      <td colSpan={5} className="bg-paper px-5 py-3">
+                      <td colSpan={6} className="bg-paper px-5 py-3">
                         <div className="space-y-1.5 rounded-[14px] bg-surface p-3.5">
                           {row.history.map((item) => (
                             <div

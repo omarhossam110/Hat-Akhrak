@@ -1,12 +1,15 @@
 import { getTranslations, getLocale } from "next-intl/server";
 import type { MerchantOrderRow } from "@/lib/actions/orders";
 import { DeliverOrderButton } from "@/components/deliver-order-button";
+import { RefusalForm } from "@/components/refusal-form";
 
 const STATUS_LABEL: Record<string, string> = {
   awaiting_balance: "merchantDashboard.statusAwaitingBalance",
   balance_paid: "merchantDashboard.statusReadyToDeliver",
   delivered: "merchantDashboard.statusInspection",
   completed: "merchantDashboard.statusCompleted",
+  disputed: "merchantDashboard.statusDisputed",
+  refused_by_buyer: "merchantDashboard.statusRefused",
 };
 
 const STATUS_STYLE: Record<string, string> = {
@@ -14,6 +17,8 @@ const STATUS_STYLE: Record<string, string> = {
   balance_paid: "bg-info-soft text-info-text",
   delivered: "bg-warning-soft text-warning",
   completed: "bg-success-soft text-success",
+  disputed: "bg-danger-soft text-danger",
+  refused_by_buyer: "bg-neutral-soft text-neutral",
 };
 
 /** Orders past the cycle stage, with the one action that's the merchant's:
@@ -52,6 +57,8 @@ export async function MerchantOrdersTable({ rows }: { rows: MerchantOrderRow[] }
               <td className="px-5 py-4">
                 {row.status === "balance_paid" ? (
                   <DeliverOrderButton orderId={row.id} />
+                ) : row.status === "awaiting_balance" ? (
+                  <RefusalForm orderId={row.id} />
                 ) : (
                   <span className="text-muted">—</span>
                 )}

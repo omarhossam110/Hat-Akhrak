@@ -7,7 +7,9 @@
     "searchPlaceholder": "ابحث عن صفقة...",
     "viewAll": "عرض الكل",
     "searchNoResults": "مفيش نتائج مطابقة",
-    "searchSeeAll": "شوف كل نتائج \"{query}\""
+    "searchSeeAll": "شوف كل نتائج \"{query}\"",
+    "errorAction": "ماقدرناش نكمّل — حاول تاني.",
+    "cancel": "إلغاء"
   },
   "nav": {
     "home": "الرئيسية",
@@ -144,7 +146,13 @@
       "cancel_window_passed": "انتهت مهلة الإلغاء (24 ساعة من الدفع).",
       "cycle_frozen": "الإلغاء متجمّد في آخر 24 ساعة من الدورة.",
       "not_cancellable": "الطلب ده مينفعش يتلغي دلوقتي."
-    }
+    },
+    "statusDisputed": "نزاع",
+    "statusRefused": "مرفوض",
+    "disputeUnderReview": "تحت مراجعة الإدارة",
+    "actionReport": "أبلّغ عن مشكلة",
+    "reportPlaceholder": "اشرح المشكلة (مثلاً: المنتج وصل تالف)",
+    "reportSend": "إرسال"
   },
   "merchantDashboard": {
     "title": "داشبورد المورد",
@@ -178,7 +186,24 @@
     "statusInspection": "فترة الفحص (48 ساعة)",
     "statusCompleted": "مكتمل",
     "actionDelivered": "تم التسليم",
-    "errorAction": "مقدرناش نسجّل التسليم، حاول تاني."
+    "errorAction": "مقدرناش نسجّل التسليم، حاول تاني.",
+    "statusCancelled": "ملغية",
+    "statusDisputed": "نزاع",
+    "statusRefused": "العميل رفض",
+    "manage": "إدارة",
+    "restock": "زوّد المخزون",
+    "restockUnits": "عدد الوحدات (مضاعفات 5)",
+    "cancelDeal": "إلغاء الصفقة",
+    "cancelBlocked": "مش ممكن الإلغاء — في عملاء دفعوا عربون في الدورة الجارية.",
+    "cancelDealConfirm": "تلغي الصفقة دي نهائياً؟",
+    "actionRefused": "العميل رفض",
+    "refusalNote": "ملاحظة (مثلاً: رفض الاستلام)",
+    "refusalSend": "تبليغ",
+    "errors": {
+      "invalid_units": "الكمية لازم تكون من مضاعفات 5.",
+      "deal_cancelled": "الصفقة دي اتلغت.",
+      "has_active_deposits": "في عملاء دفعوا عربون في الدورة الجارية — مش ممكن تلغي."
+    }
   },
   "addDeal": {
     "eyebrow": "للموردين",
@@ -267,7 +292,13 @@
     "payoutRecord": "سجّل",
     "payoutExceeds": "المبلغ أكبر من المستحق حاليًا",
     "payoutError": "تعذّر تسجيل التحويل",
-    "ledgerEmpty": "لا يوجد موردون موثّقون بعد"
+    "ledgerEmpty": "لا يوجد موردون موثّقون بعد",
+    "emergencyConfirm": "إلغاء اضطراري: هيتلغي الصفقة وكل العرابين الجارية هتتسترد. متأكد؟",
+    "emergencyDeal": "اختار الصفقة",
+    "emergencyReason": "السبب (إجباري، بيتسجل في سجل المراجعة)",
+    "errors": {
+      "deal_cancelled": "الصفقة دي اتلغت قبل كده."
+    }
   },
   "payment": {
     "stepDeal": "الصفقة",
@@ -438,6 +469,30 @@
       "expired": "انتهت مهلة تسجيل الدخول. ابدأ من جديد.",
       "tooMany": "محاولات كتير. استنى دقيقة وجرّب تاني.",
       "generic": "حصل خطأ. حاول تاني."
+    }
+  },
+  "disputes": {
+    "title": "النزاعات",
+    "openCount": "{count} مفتوحة",
+    "empty": "مفيش نزاعات لحد دلوقتي.",
+    "noneOpen": "مفيش نزاعات مفتوحة.",
+    "kindRefusal": "رفض عند الاستلام",
+    "kindComplaint": "شكوى من العميل",
+    "deposit": "العربون",
+    "byMerchant": "التاجر",
+    "byCustomer": "العميل",
+    "customerAtFault": "الخطأ من العميل",
+    "merchantAtFault": "الخطأ من التاجر",
+    "shippingCost": "تكلفة الشحن",
+    "returnCost": "تكلفة المرتجع",
+    "resolve": "احسم النزاع",
+    "confirm": "تحسم النزاع بالقرار ده؟ مش هينفع ترجع فيه.",
+    "recentlyResolved": "اتحسمت مؤخراً",
+    "rulesHint": "الخطأ من العميل: بنخصم الشحن والمرتجع و1% من قيمة الطلب من العربون. الخطأ من التاجر: استرداد كامل للعميل وتتخصم التكاليف من مستحقات التاجر.",
+    "errors": {
+      "not_disputable": "الطلب ده مينفعش يتفتح عليه نزاع دلوقتي.",
+      "inspection_closed": "مهلة الفحص (48 ساعة) خلصت.",
+      "already_resolved": "النزاع ده اتحسم قبل كده."
     }
   }
 }

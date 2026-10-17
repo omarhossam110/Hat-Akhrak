@@ -9,6 +9,9 @@ import {
   getPendingMerchants,
 } from "@/lib/actions/merchant-applications";
 import { getDeals } from "@/lib/actions/public-deals";
+import { getDisputes } from "@/lib/actions/disputes";
+import { DisputeQueue } from "@/components/dispute-queue";
+import { EmergencyCancelForm } from "@/components/emergency-cancel-form";
 import { AdminAnalytics } from "@/components/admin-analytics";
 import { getSession } from "@/lib/auth/session";
 import { Link } from "@/i18n/navigation";
@@ -29,11 +32,13 @@ export default async function SuperAdminPage() {
   // settlement ledger (aggregated from orders/payments, with payouts).
   const { merchants: pendingMerchants } = await getPendingMerchants();
   const pendingCount = pendingMerchants.filter((m) => m.status === "pending").length;
-  const [realCategories, realDeals, merchantLedger] = await Promise.all([
+  const [realCategories, realDeals, merchantLedger, disputes] = await Promise.all([
     getCategories(),
     getDeals(),
     getLedger(),
+    getDisputes(),
   ]);
+  const openDisputes = disputes.filter((d) => d.status === "open").length;
 
   return (
     <div className="mx-auto max-w-[1180px] px-[22px] py-[30px]">
@@ -110,6 +115,18 @@ export default async function SuperAdminPage() {
               </tbody>
             </table>
           </div>
+        </div>
+
+        <div className="rounded-[22px] border border-line bg-surface p-[22px] shadow-[var(--shadow-card)]">
+          <div className="mb-3.5 flex items-center justify-between">
+            <h2 className="text-[16px] font-bold tracking-tight">{t("disputes.title")}</h2>
+            {openDisputes > 0 && (
+              <span className="inline-flex rounded-full bg-danger-soft px-2.5 py-1.5 text-[10px] font-extrabold text-danger">
+                {t("disputes.openCount", { count: openDisputes })}
+              </span>
+            )}
+          </div>
+          <DisputeQueue disputes={disputes} />
         </div>
 
         <div className="rounded-[22px] border border-line bg-surface p-[22px] shadow-[var(--shadow-card)]">
@@ -236,12 +253,12 @@ export default async function SuperAdminPage() {
           <p className="text-[11px] leading-relaxed text-[#98a2b3]">
             {t("superAdmin.adminControlsDesc")}
           </p>
-          <button
-            type="button"
-            className="mt-2.5 w-full rounded-xl bg-white px-4 py-[11px] text-xs font-black text-[#101828] transition hover:brightness-95"
-          >
-            {t("superAdmin.emergencyCancel")}
-          </button>
+          <EmergencyCancelForm
+            deals={realDeals.map((c) => ({
+              id: c.deal.id,
+              title: locale === "ar" ? (c.deal.title_ar ?? c.deal.title) : (c.deal.title_en ?? c.deal.title),
+            }))}
+          />
           <Link
             href="/super-admin/security"
             className="mt-2 block rounded-xl border border-[#344054] px-4 py-[11px] text-center text-xs font-bold text-white transition hover:bg-[#1d2939]"

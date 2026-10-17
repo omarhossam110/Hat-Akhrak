@@ -1,6 +1,7 @@
 "use server";
 
 import { backendFetch } from "@/lib/backend/client";
+import { postAction, type ActionState } from "@/lib/backend/post-action";
 import { getSessionToken } from "@/lib/auth/session";
 import type {
   MerchantCycleHistoryItem,
@@ -84,6 +85,9 @@ function toRow(deal: BackendDeal): MerchantDealRow {
           ? "needs_stock"
           : "active",
     history: cycleHistory(deal),
+    dealStatus: deal.status,
+    cycleHeld: currentCycle?.status === "held",
+    hasRunningDeposits: currentCycle?.status === "active" && currentCycle.unitsSold > 0,
   };
 }
 
@@ -136,4 +140,22 @@ export async function getMyDeals(): Promise<MerchantDealsData> {
     stats: { totalDeals: rows.length, unitsSold, revenue: Number(revenue.toFixed(2)) },
     hasAlert,
   };
+}
+
+/** Merchant adds stock (multiples of 5). A held cycle resumes if it now has enough. */
+export async function restockDealAction(
+  dealId: string,
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  return postAction(
+    `/deals/${dealId}/restock`,
+    { units: Number(formData.get("units")) },
+    "/merchant/dashboard",
+  );
+}
+
+/** Merchant cancels a deal — the backend blocks it while deposits are running. */
+export async function cancelDealAction(dealId: string, _prev: ActionState): Promise<ActionState> {
+  return postAction(`/deals/${dealId}/cancel`, {}, "/merchant/dashboard");
 }

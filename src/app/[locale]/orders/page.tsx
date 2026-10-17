@@ -7,6 +7,7 @@ import { mockReferralProgram } from "@/lib/mock-referrals";
 import { InviteFriends } from "@/components/invite-friends";
 import { PayBalanceButton } from "@/components/pay-balance-button";
 import { CancelOrderButton } from "@/components/cancel-order-button";
+import { ComplaintForm } from "@/components/complaint-form";
 import { getSession } from "@/lib/auth/session";
 import type { OrderStatus } from "@/lib/types/database";
 
@@ -21,7 +22,8 @@ const STATUS_STYLES: Record<
 
 function statusGroup(status: OrderStatus): "running" | "delivered" | "refunded" {
   if (status === "completed" || status === "delivered") return "delivered";
-  if (status === "refunded" || status === "cancelled_by_buyer") return "refunded";
+  if (status === "refunded" || status === "cancelled_by_buyer" || status === "refused_by_buyer")
+    return "refunded";
   return "running";
 }
 
@@ -80,7 +82,11 @@ export default async function OrdersPage() {
                 const title =
                   locale === "ar" ? order.productTitle_ar : order.productTitle_en;
                 const statusLabel =
-                  group === "running"
+                  order.status === "disputed"
+                    ? t("orders.statusDisputed")
+                    : order.status === "refused_by_buyer"
+                      ? t("orders.statusRefused")
+                      : group === "running"
                     ? t("orders.statusRunning")
                     : group === "delivered"
                       ? t("orders.statusDelivered")
@@ -112,6 +118,10 @@ export default async function OrdersPage() {
                         ))}
                       {order.status === "awaiting_balance" && order.balanceDue !== undefined && (
                         <PayBalanceButton orderId={order.id} amount={order.balanceDue} />
+                      )}
+                      {order.canReport && <ComplaintForm orderId={order.id} />}
+                      {order.status === "disputed" && (
+                        <span className="text-[10px] text-muted">{t("orders.disputeUnderReview")}</span>
                       )}
                       {group === "delivered" && (
                         <button

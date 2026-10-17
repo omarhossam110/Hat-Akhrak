@@ -15,4 +15,6 @@ export interface MockOrder {
   balanceDue?: number;
   /** The deposit can still be cancelled right now (24h window, not frozen). */
   canCancel?: boolean;
+  /** A problem can be reported right now (awaiting balance or inside the inspection window). */
+  canReport?: boolean;
 }

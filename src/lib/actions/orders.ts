@@ -59,6 +59,7 @@ type BackendOrder = {
   status: OrderStatus;
   createdAt: string;
   cancelDeadline: string;
+  inspectionDeadline: string | null;
   cycle: {
     freezeAt: string;
     deal: { id: string; title: string; titleAr: string | null; titleEn: string | null };
@@ -92,6 +93,13 @@ export async function getMyOrders(): Promise<MockOrder[]> {
       canCancel:
         row.status === "deposit_paid" &&
         Date.now() < Math.min(Date.parse(row.cancelDeadline), Date.parse(row.cycle.freezeAt)),
+      // A problem can be reported before paying the rest, or while the 48h
+      // inspection window after delivery is still open.
+      canReport:
+        row.status === "awaiting_balance" ||
+        (row.status === "delivered" &&
+          !!row.inspectionDeadline &&
+          Date.now() <= Date.parse(row.inspectionDeadline)),
       // What's still owed once the cycle has closed — drives "pay the rest".
       balanceDue:
         row.status === "awaiting_balance" ? Number(row.balanceAmount ?? 0) : undefined,
@@ -192,6 +200,8 @@ const FULFILMENT_STATUSES: OrderStatus[] = [
   "balance_paid",
   "delivered",
   "completed",
+  "disputed",
+  "refused_by_buyer",
 ];
 
 /** Orders on the signed-in merchant's own deals that are past the cycle
