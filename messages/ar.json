@@ -374,7 +374,23 @@
     "orderBalancePaid": "تم دفع باقي المبلغ لطلب \"{title}\"",
     "orderDelivered": "تم توصيل طلبك \"{title}\"",
     "orderCompleted": "طلبك \"{title}\" اكتمل بنجاح",
-    "orderRefunded": "تم استرداد مبلغ طلبك \"{title}\""
+    "orderRefunded": "تم استرداد مبلغ طلبك \"{title}\"",
+    "types": {
+      "cycle_succeeded": "أخبار حلوة! عرض \"{title}\" نجح — ادفع المتبقي لتأكيد طلبك",
+      "cycle_failed": "عرض \"{title}\" ماوصلش للهدف — العربون اترد لك",
+      "order_delivered": "طلبك \"{title}\" اتسلم",
+      "dispute_resolved": "الشكوى على \"{title}\" اتحلت",
+      "deal_cancelled_refund": "عرض \"{title}\" اتلغى — العربون اترد لك",
+      "merchant_cycle_succeeded": "عرضك \"{title}\" نجح",
+      "merchant_cycle_failed": "دورة عرضك \"{title}\" انتهت من غير ما توصل للهدف",
+      "merchant_deal_held": "\"{title}\" خلص — زوّد المخزون لبدء دورة جديدة",
+      "merchant_failed_streak": "\"{title}\" فشل أكتر من دورة ورا بعض — راجع السعر أو الهدف",
+      "merchant_ready_to_deliver": "فيه طلب على \"{title}\" مدفوع وجاهز للشحن",
+      "merchant_dispute_opened": "اتفتحت شكوى على طلب \"{title}\"",
+      "merchant_dispute_resolved": "اتحسم نزاع على \"{title}\"",
+      "merchant_deal_cancelled": "عرضك \"{title}\" اتلغى من المنصة",
+      "admin_dispute_opened": "نزاع جديد على \"{title}\" مستني قرارك"
+    }
   },
   "faq": {
     "eyebrow": "مش فاهم حاجة؟",

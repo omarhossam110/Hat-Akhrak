@@ -374,7 +374,23 @@
     "orderBalancePaid": "Balance paid for order \"{title}\"",
     "orderDelivered": "Your order \"{title}\" was delivered",
     "orderCompleted": "Your order \"{title}\" is complete",
-    "orderRefunded": "Your order \"{title}\" was refunded"
+    "orderRefunded": "Your order \"{title}\" was refunded",
+    "types": {
+      "cycle_succeeded": "Great news! The deal \"{title}\" succeeded — pay the remaining balance to confirm your order",
+      "cycle_failed": "The deal \"{title}\" didn't reach its target — your deposit is refunded",
+      "order_delivered": "Your order \"{title}\" was delivered",
+      "dispute_resolved": "The complaint on \"{title}\" was resolved",
+      "deal_cancelled_refund": "The deal \"{title}\" was cancelled — your deposit is refunded",
+      "merchant_cycle_succeeded": "Your deal \"{title}\" succeeded",
+      "merchant_cycle_failed": "Your deal \"{title}\" cycle ended without reaching its target",
+      "merchant_deal_held": "\"{title}\" is sold out — restock to start a new cycle",
+      "merchant_failed_streak": "\"{title}\" has failed cycles in a row — review its price or target",
+      "merchant_ready_to_deliver": "An order on \"{title}\" is paid and ready to ship",
+      "merchant_dispute_opened": "A complaint was opened on an order for \"{title}\"",
+      "merchant_dispute_resolved": "A dispute on \"{title}\" was ruled on",
+      "merchant_deal_cancelled": "Your deal \"{title}\" was cancelled by the platform",
+      "admin_dispute_opened": "New dispute on \"{title}\" awaiting a ruling"
+    }
   },
   "faq": {
     "eyebrow": "Got questions?",

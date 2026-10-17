@@ -5,9 +5,9 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { NavTabs } from "@/components/nav-tabs";
 import { NotificationsBell } from "@/components/notifications-bell";
 import { buildNotifications } from "@/lib/mock-notifications";
+import { getNotifications } from "@/lib/actions/notifications";
 import { HeaderSearch } from "@/components/header-search";
 import { getDeals } from "@/lib/actions/public-deals";
-import { getMyOrders } from "@/lib/actions/orders";
 import { LogoutButton } from "@/components/logout-button";
 import { getSession } from "@/lib/auth/session";
 
@@ -15,9 +15,9 @@ export async function SiteHeader() {
   const t = await getTranslations();
   const deals = await getDeals();
   const session = await getSession();
-  // Only a signed-in customer has orders; guests/merchants/admins get [].
-  const orders = session?.role === "customer" ? await getMyOrders() : [];
-  const notifications = buildNotifications(deals, orders);
+  // "Ending soon" is derived for customers; everything else is stored per user.
+  const derived = session?.role === "customer" ? buildNotifications(deals, []) : [];
+  const stored = session ? await getNotifications() : [];
 
   const navItems = [
     { href: "/", label: t("nav.home") },
@@ -49,7 +49,7 @@ export async function SiteHeader() {
         <div className="ms-auto flex items-center gap-1.5 sm:gap-2">
           <LanguageSwitcher />
           <ThemeToggle />
-          <NotificationsBell notifications={notifications} />
+          <NotificationsBell derived={derived} stored={stored} />
           <Link
             href="/wishlist"
             className="grid h-9 min-w-9 place-items-center rounded-xl border border-line bg-surface text-ink transition hover:border-hover-border hover:bg-hover-soft sm:h-[42px] sm:min-w-[42px]"

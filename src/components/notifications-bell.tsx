@@ -4,22 +4,91 @@ import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { AppNotification } from "@/lib/mock-notifications";
+import {
+  markAllNotificationsReadAction,
+  markNotificationReadAction,
+  type BackendNotification,
+} from "@/lib/actions/notifications";
 
-const KIND_ICON: Record<AppNotification["kind"], string> = {
-  ending_soon: "⏱",
-  order_status: "📦",
+const TYPE_META: Record<string, { href: string; icon: string }> = {
+  cycle_succeeded: { href: "/orders", icon: "🎉" },
+  cycle_failed: { href: "/orders", icon: "↩️" },
+  order_delivered: { href: "/orders", icon: "📦" },
+  dispute_resolved: { href: "/orders", icon: "⚖️" },
+  deal_cancelled_refund: { href: "/orders", icon: "↩️" },
+  merchant_cycle_succeeded: { href: "/merchant/dashboard", icon: "🎉" },
+  merchant_cycle_failed: { href: "/merchant/dashboard", icon: "⚠️" },
+  merchant_deal_held: { href: "/merchant/dashboard", icon: "📉" },
+  merchant_failed_streak: { href: "/merchant/dashboard", icon: "🚨" },
+  merchant_ready_to_deliver: { href: "/merchant/dashboard", icon: "🚚" },
+  merchant_dispute_opened: { href: "/merchant/dashboard", icon: "⚠️" },
+  merchant_dispute_resolved: { href: "/merchant/dashboard", icon: "⚖️" },
+  merchant_deal_cancelled: { href: "/merchant/dashboard", icon: "⛔" },
+  admin_dispute_opened: { href: "/super-admin", icon: "⚖️" },
 };
 
-export function NotificationsBell({ notifications }: { notifications: AppNotification[] }) {
+interface Item {
+  id: string;
+  icon: string;
+  href: string;
+  text: string;
+  createdAt: string;
+  stored: boolean;
+  read: boolean;
+}
+
+export function NotificationsBell({
+  derived,
+  stored,
+}: {
+  derived: AppNotification[];
+  stored: BackendNotification[];
+}) {
   const t = useTranslations();
   const locale = useLocale();
   const [open, setOpen] = useState(false);
   const [readIds, setReadIds] = useState<string[]>([]);
 
-  const unreadCount = notifications.filter((n) => !readIds.includes(n.id)).length;
+  const items: Item[] = [
+    ...stored
+      .filter((n) => TYPE_META[n.type])
+      .map((n) => {
+        const title = String(
+          (locale === "ar" ? n.data.title : n.data.titleEn ?? n.data.title) ?? "",
+        );
+        return {
+          id: n.id,
+          icon: TYPE_META[n.type].icon,
+          href: TYPE_META[n.type].href,
+          text: t(`notifications.types.${n.type}`, { title }),
+          createdAt: n.createdAt,
+          stored: true,
+          read: n.readAt !== null,
+        };
+      }),
+    ...derived.map((n) => ({
+      id: n.id,
+      icon: "⏱",
+      href: n.href,
+      text: t(n.titleKey, n.params),
+      createdAt: n.createdAt,
+      stored: false,
+      read: false,
+    })),
+  ].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+
+  const isRead = (n: Item) => n.read || readIds.includes(n.id);
+  const unreadCount = items.filter((n) => !isRead(n)).length;
+
+  function markRead(n: Item) {
+    if (isRead(n)) return;
+    setReadIds((ids) => [...ids, n.id]);
+    if (n.stored) void markNotificationReadAction(n.id);
+  }
 
   function markAllRead() {
-    setReadIds(notifications.map((n) => n.id));
+    setReadIds(items.map((n) => n.id));
+    void markAllNotificationsReadAction();
   }
 
   return (
@@ -45,7 +114,7 @@ export function NotificationsBell({ notifications }: { notifications: AppNotific
           <div className="absolute end-0 top-[calc(100%+8px)] z-50 w-[320px] rounded-[18px] border border-line bg-surface p-3 shadow-[var(--shadow-card-lg)]">
             <div className="mb-2 flex items-center justify-between px-1">
               <b className="text-xs font-extrabold">{t("notifications.title")}</b>
-              {notifications.length > 0 && unreadCount > 0 && (
+              {items.length > 0 && unreadCount > 0 && (
                 <button
                   type="button"
                   onClick={markAllRead}
@@ -56,29 +125,32 @@ export function NotificationsBell({ notifications }: { notifications: AppNotific
               )}
             </div>
 
-            {notifications.length === 0 ? (
+            {items.length === 0 ? (
               <p className="px-1 py-5 text-center text-xs text-muted">
                 {t("notifications.empty")}
               </p>
             ) : (
               <div className="flex max-h-[360px] flex-col gap-1 overflow-y-auto">
-                {notifications.map((n) => {
-                  const isRead = readIds.includes(n.id);
+                {items.map((n) => {
+                  const read = isRead(n);
                   return (
                     <Link
                       key={n.id}
                       href={n.href}
-                      onClick={() => setOpen(false)}
+                      onClick={() => {
+                        markRead(n);
+                        setOpen(false);
+                      }}
                       className={`flex items-start gap-2.5 rounded-xl p-2.5 text-start text-xs transition hover:bg-hover-soft ${
-                        isRead ? "opacity-60" : ""
+                        read ? "opacity-60" : ""
                       }`}
                     >
                       <span className="mt-0.5 text-sm" aria-hidden>
-                        {KIND_ICON[n.kind]}
+                        {n.icon}
                       </span>
                       <span className="flex-1">
                         <span className="block leading-relaxed">
-                          {t(n.titleKey, n.params)}
+                          {n.text}
                         </span>
                         <span className="mt-0.5 block text-[10px] text-muted-2">
                           {new Date(n.createdAt).toLocaleTimeString(
@@ -87,7 +159,7 @@ export function NotificationsBell({ notifications }: { notifications: AppNotific
                           )}
                         </span>
                       </span>
-                      {!isRead && (
+                      {!read && (
                         <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-brand" />
                       )}
                     </Link>
