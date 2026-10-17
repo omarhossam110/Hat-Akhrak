@@ -3,6 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { getDeal } from "@/lib/actions/public-deals";
 import { getSession } from "@/lib/auth/session";
 import { PayNowButton } from "@/components/pay-now-button";
+import { getLastDelivery } from "@/lib/actions/orders";
 
 export default async function PaymentPage({
   params,
@@ -30,6 +31,7 @@ export default async function PaymentPage({
   const quantity = Math.min(2, Math.max(1, Number(qty) || 1));
   const { deal, cycle, depositAmount } = card;
   const title = locale === "ar" ? deal.title_ar ?? deal.title : deal.title_en ?? deal.title;
+  const lastDelivery = await getLastDelivery();
   const amountDue = Number((depositAmount * quantity).toFixed(2));
 
   const steps = [
@@ -67,7 +69,13 @@ export default async function PaymentPage({
           <h1 className="mb-1.5 text-2xl font-extrabold tracking-tight">{t("payment.title")}</h1>
           <p className="mb-1.5 text-xs font-bold text-ink">{title}</p>
           <p className="text-xs text-muted">{t("payment.methodNote")}</p>
-          <PayNowButton dealId={deal.id} cycleId={cycle.id} units={quantity} amount={amountDue} />
+          <PayNowButton
+            dealId={deal.id}
+            cycleId={cycle.id}
+            units={quantity}
+            amount={amountDue}
+            defaults={lastDelivery ?? { name: "", phone: "", governorate: "", city: "", address: "" }}
+          />
         </div>
 
         <div className="rounded-[22px] border border-line bg-surface p-7 text-center shadow-[var(--shadow-card)]">

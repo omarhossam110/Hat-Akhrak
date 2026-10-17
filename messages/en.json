@@ -203,7 +203,8 @@
       "invalid_units": "Units must be a multiple of 5.",
       "deal_cancelled": "This deal was cancelled.",
       "has_active_deposits": "Customers have deposits in the running cycle — it can't be cancelled."
-    }
+    },
+    "colDelivery": "Delivery details"
   },
   "addDeal": {
     "eyebrow": "For merchants",
@@ -317,7 +318,15 @@
     "errorMaxUnits": "You've reached the limit: 2 units per customer per cycle.",
     "errorFrozen": "This cycle is in its final 24 hours, so new joins are closed.",
     "errorClosed": "This cycle is no longer open for orders.",
-    "errorSoldOut": "Fewer units are left in this cycle than you asked for."
+    "errorSoldOut": "Fewer units are left in this cycle than you asked for.",
+    "deliveryTitle": "Delivery details",
+    "deliveryNote": "The merchant ships your order. They only see these once the cycle has closed.",
+    "deliveryName": "Recipient name",
+    "deliveryPhone": "Mobile number (e.g. 01012345678)",
+    "deliveryPhoneHint": "A valid Egyptian mobile number",
+    "deliveryGovernorate": "Governorate",
+    "deliveryCity": "City / area",
+    "deliveryAddress": "Full address (street, building, apartment)"
   },
   "merchantSignup": {
     "eyebrow": "Become a merchant",

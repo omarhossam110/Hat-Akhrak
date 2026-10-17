@@ -24,6 +24,7 @@ export async function payDepositAction(
 ): Promise<PayDepositState> {
   const cycleId = String(formData.get("cycleId") ?? "");
   const units = Number(formData.get("units")) || 1;
+  const field = (name: string) => String(formData.get(name) ?? "").trim();
 
   const token = await getSessionToken();
   if (!token) return { error: "notSignedIn" };
@@ -32,7 +33,15 @@ export async function payDepositAction(
     await backendFetch("/orders", {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
-      body: JSON.stringify({ cycleId, units }),
+      body: JSON.stringify({
+        cycleId,
+        units,
+        deliveryName: field("deliveryName"),
+        deliveryPhone: field("deliveryPhone"),
+        deliveryGovernorate: field("deliveryGovernorate"),
+        deliveryCity: field("deliveryCity"),
+        deliveryAddress: field("deliveryAddress"),
+      }),
     });
   } catch (err) {
     if (err instanceof BackendError) {
@@ -51,8 +60,21 @@ export async function payDepositAction(
   redirect(`/${locale}/orders`);
 }
 
+export type DeliveryDetails = {
+  name: string;
+  phone: string;
+  governorate: string;
+  city: string;
+  address: string;
+};
+
 type BackendOrder = {
   id: string;
+  deliveryName?: string | null;
+  deliveryPhone?: string | null;
+  deliveryGovernorate?: string | null;
+  deliveryCity?: string | null;
+  deliveryAddress?: string | null;
   units: number;
   depositAmount: string;
   balanceAmount: string | null;
@@ -112,6 +134,30 @@ export async function getMyOrders(): Promise<MockOrder[]> {
     }));
   } catch {
     return [];
+  }
+}
+
+/** The delivery details from the customer's most recent order, to prefill the
+ * next one. Null for a first-time buyer. */
+export async function getLastDelivery(): Promise<DeliveryDetails | null> {
+  const token = await getSessionToken();
+  if (!token) return null;
+  try {
+    const rows = await backendFetch<BackendOrder[]>("/orders/mine", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    // /orders/mine is newest-first.
+    const last = rows.find((r) => r.deliveryName && r.deliveryPhone);
+    if (!last) return null;
+    return {
+      name: last.deliveryName ?? "",
+      phone: last.deliveryPhone ?? "",
+      governorate: last.deliveryGovernorate ?? "",
+      city: last.deliveryCity ?? "",
+      address: last.deliveryAddress ?? "",
+    };
+  } catch {
+    return null;
   }
 }
 
@@ -181,9 +227,16 @@ export type MerchantOrderRow = {
   customerName: string;
   units: number;
   status: OrderStatus;
+  /** Only present once the order is shippable (cycle closed). */
+  delivery: DeliveryDetails | null;
 };
 
 type BackendMerchantOrder = {
+  deliveryName: string | null;
+  deliveryPhone: string | null;
+  deliveryGovernorate: string | null;
+  deliveryCity: string | null;
+  deliveryAddress: string | null;
   id: string;
   units: number;
   status: OrderStatus;
@@ -223,6 +276,16 @@ export async function getMerchantOrders(): Promise<MerchantOrderRow[]> {
         customerName: r.customerName,
         units: r.units,
         status: r.status,
+        delivery:
+          r.deliveryName && r.deliveryPhone
+            ? {
+                name: r.deliveryName,
+                phone: r.deliveryPhone,
+                governorate: r.deliveryGovernorate ?? "",
+                city: r.deliveryCity ?? "",
+                address: r.deliveryAddress ?? "",
+              }
+            : null,
       }));
   } catch {
     return [];

@@ -29,12 +29,13 @@ export async function MerchantOrdersTable({ rows }: { rows: MerchantOrderRow[] }
 
   return (
     <div className="overflow-x-auto rounded-[22px] border border-line bg-surface shadow-[var(--shadow-card)]">
-      <table className="w-full min-w-[560px] text-start text-sm">
+      <table className="w-full min-w-[820px] text-start text-sm">
         <thead>
           <tr className="border-b border-line bg-paper text-xs font-bold text-muted">
             <th className="px-5 py-3.5 text-start">{t("orders.product")}</th>
             <th className="px-5 py-3.5 text-start">{t("merchantDashboard.colCustomer")}</th>
             <th className="px-5 py-3.5 text-start">{t("merchantDashboard.colUnits")}</th>
+            <th className="px-5 py-3.5 text-start">{t("merchantDashboard.colDelivery")}</th>
             <th className="px-5 py-3.5 text-start">{t("orders.status")}</th>
             <th className="px-5 py-3.5 text-start">{t("orders.action")}</th>
           </tr>
@@ -47,6 +48,22 @@ export async function MerchantOrdersTable({ rows }: { rows: MerchantOrderRow[] }
               </td>
               <td className="px-5 py-4">{row.customerName}</td>
               <td className="px-5 py-4 font-sans">{row.units}</td>
+              <td className="px-5 py-4 text-xs">
+                {row.delivery ? (
+                  <div className="flex flex-col gap-0.5" data-testid="delivery-details">
+                    <b>{row.delivery.name}</b>
+                    <a href={`tel:${row.delivery.phone}`} dir="ltr" className="w-fit font-sans text-brand">
+                      {row.delivery.phone}
+                    </a>
+                    <span className="text-muted">
+                      {row.delivery.governorate} — {row.delivery.city}
+                    </span>
+                    <span className="max-w-[220px] text-muted">{row.delivery.address}</span>
+                  </div>
+                ) : (
+                  <span className="text-muted">—</span>
+                )}
+              </td>
               <td className="px-5 py-4">
                 <span
                   className={`inline-block rounded-full px-3 py-1 text-[11px] font-bold ${STATUS_STYLE[row.status]}`}
