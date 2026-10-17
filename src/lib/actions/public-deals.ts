@@ -45,7 +45,7 @@ type BackendDeal = {
   createdAt: string;
   cancelledAt: string | null;
   category: { id: string; slug: string } | null;
-  merchant: { businessName: string; isVerified: boolean; rating: string };
+  merchant: { businessName: string; isVerified: boolean; rating: string; reviewCount: number };
   tiers: BackendTier[];
   cycles: BackendCycle[];
   currentCycle?: BackendCycle;
@@ -132,9 +132,7 @@ function toCard(row: BackendDeal): MockDealCard | null {
       business_name: row.merchant.businessName,
       is_verified: row.merchant.isVerified,
       rating: Number(row.merchant.rating),
-      // Reviews aren't backed by a real table yet (still local/mock from
-      // the earlier reviews feature) — no per-merchant count to show.
-      review_count: 0,
+      review_count: row.merchant.reviewCount ?? 0,
     },
     icon: (categorySlug && CATEGORY_ICONS[categorySlug]) || "🛍️",
     artVariant: ART_VARIANTS[hashIndex(row.id, ART_VARIANTS.length)],

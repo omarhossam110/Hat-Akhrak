@@ -361,10 +361,14 @@
     "countLabel": "{count} reviews",
     "empty": "No reviews yet for this deal — be the first to review it",
     "formTitle": "Share your experience",
-    "fieldName": "Your name",
     "fieldRating": "Your rating",
     "fieldComment": "Tell us about your experience with the product...",
-    "submitBtn": "Submit review"
+    "submitBtn": "Submit review",
+    "onlyBuyers": "Only customers whose order from this deal is complete can leave a review.",
+    "errors": {
+      "already_reviewed": "You've already reviewed this order",
+      "not_reviewable": "This order can't be reviewed yet"
+    }
   },
   "notifications": {
     "title": "Notifications",

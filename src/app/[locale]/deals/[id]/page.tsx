@@ -2,7 +2,7 @@ import { getTranslations, getLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { getDeal } from "@/lib/actions/public-deals";
-import { getReviewsByDealId, getAverageRating } from "@/lib/mock-reviews";
+import { getDealReviews, getReviewableOrderId } from "@/lib/actions/reviews";
 import { CycleCountdown } from "@/components/cycle-countdown";
 import { WhatsAppShareButton } from "@/components/whatsapp-share-button";
 import { WishlistButton } from "@/components/wishlist-button";
@@ -30,8 +30,10 @@ export default async function DealDetailsPage({
     : tiers[0];
   const firstTier = tiers[0];
   const maxQty = Math.min(2, deal.remaining_stock);
-  const reviews = getReviewsByDealId(deal.id);
-  const { average, count } = getAverageRating(deal.id);
+  const [{ items: reviews, average, count }, reviewableOrderId] = await Promise.all([
+    getDealReviews(deal.id),
+    getReviewableOrderId(deal.id),
+  ]);
 
   return (
     <div className="mx-auto max-w-[1180px] px-[22px] py-[30px]">
@@ -153,7 +155,7 @@ export default async function DealDetailsPage({
         </div>
       </div>
 
-      <DealReviews dealId={deal.id} reviews={reviews} average={average} count={count} />
+      <DealReviews dealId={deal.id} reviews={reviews} average={average} count={count} reviewableOrderId={reviewableOrderId} />
     </div>
   );
 }

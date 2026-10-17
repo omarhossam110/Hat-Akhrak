@@ -13,6 +13,7 @@ type BackendMerchant = {
   businessName: string;
   isVerified: boolean;
   rating: string;
+  reviewCount: number;
   memberSince: string;
 };
 
@@ -52,9 +53,7 @@ function toProfile(
     business_name: m.businessName,
     is_verified: m.isVerified,
     rating: Number(m.rating),
-    // No real reviews table yet (the per-deal reviews feature is still
-    // local/mock) — nothing real to count.
-    review_count: 0,
+    review_count: m.reviewCount ?? 0,
     completed_deals: completedDeals,
     member_since: new Date(m.memberSince).getFullYear().toString(),
     bio_ar: GENERIC_BIO_AR,

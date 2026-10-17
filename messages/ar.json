@@ -361,10 +361,14 @@
     "countLabel": "{count} تقييم",
     "empty": "لسه مفيش تقييمات على الصفقة دي، كن أول واحد يقيّم",
     "formTitle": "شارك تجربتك",
-    "fieldName": "اسمك",
     "fieldRating": "تقييمك",
     "fieldComment": "اكتب تجربتك مع المنتج...",
-    "submitBtn": "إرسال التقييم"
+    "submitBtn": "إرسال التقييم",
+    "onlyBuyers": "التقييم متاح بس للعملاء اللي طلبهم من الصفقة دي اتكمل.",
+    "errors": {
+      "already_reviewed": "إنت قيّمت الطلب ده قبل كده",
+      "not_reviewable": "الطلب ده لسه ماينفعش يتقيّم"
+    }
   },
   "notifications": {
     "title": "الإشعارات",

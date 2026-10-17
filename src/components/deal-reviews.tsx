@@ -1,6 +1,6 @@
 import { getTranslations, getLocale } from "next-intl/server";
-import type { Review } from "@/lib/mock-reviews";
-import { submitReviewAction } from "@/lib/actions/reviews";
+import type { Review } from "@/lib/actions/reviews";
+import { ReviewForm } from "@/components/review-form";
 
 function Stars({ rating }: { rating: number }) {
   const full = Math.round(rating);
@@ -17,11 +17,13 @@ export async function DealReviews({
   reviews,
   average,
   count,
+  reviewableOrderId,
 }: {
   dealId: string;
   reviews: Review[];
   average: number;
   count: number;
+  reviewableOrderId: string | null;
 }) {
   const t = await getTranslations();
   const locale = await getLocale();
@@ -62,49 +64,11 @@ export async function DealReviews({
         </div>
       )}
 
-      <form
-        action={submitReviewAction}
-        className="border-t border-line pt-4"
-      >
-        <input type="hidden" name="deal_id" value={dealId} />
-        <h3 className="mb-2.5 text-xs font-bold text-muted">{t("reviews.formTitle")}</h3>
-        <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-[1fr_140px]">
-          <input
-            type="text"
-            name="customer_name"
-            required
-            placeholder={t("reviews.fieldName")}
-            aria-label={t("reviews.fieldName")}
-            className="h-11 rounded-xl border border-line bg-surface px-3.5 text-xs outline-none transition focus:border-focus-border focus:shadow-[0_0_0_3px_var(--color-focus-ring)]"
-          />
-          <select
-            name="rating"
-            defaultValue="5"
-            aria-label={t("reviews.fieldRating")}
-            className="h-11 rounded-xl border border-line bg-surface px-3.5 text-xs font-bold outline-none transition focus:border-brand"
-          >
-            {[5, 4, 3, 2, 1].map((n) => (
-              <option key={n} value={n}>
-                {"★".repeat(n)} ({n})
-              </option>
-            ))}
-          </select>
-        </div>
-        <textarea
-          name="comment"
-          required
-          rows={3}
-          placeholder={t("reviews.fieldComment")}
-          aria-label={t("reviews.fieldComment")}
-          className="mt-2.5 w-full resize-none rounded-xl border border-line bg-surface p-3.5 text-xs outline-none transition focus:border-focus-border focus:shadow-[0_0_0_3px_var(--color-focus-ring)]"
-        />
-        <button
-          type="submit"
-          className="mt-2.5 rounded-xl bg-brand px-5 py-2.5 text-xs font-black text-[#151515] transition hover:brightness-95"
-        >
-          {t("reviews.submitBtn")}
-        </button>
-      </form>
+      {reviewableOrderId ? (
+        <ReviewForm dealId={dealId} orderId={reviewableOrderId} />
+      ) : (
+        <p className="border-t border-line pt-4 text-[11px] text-muted">{t("reviews.onlyBuyers")}</p>
+      )}
     </div>
   );
 }

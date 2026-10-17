@@ -1,24 +1,55 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
-import { addReview } from "@/lib/mock-reviews";
+import { BackendError, backendFetch } from "@/lib/backend/client";
+import { getSessionToken } from "@/lib/auth/session";
+import { postAction, type ActionState } from "@/lib/backend/post-action";
 
-/**
- * Submits a review for a deal. Placeholder until real Supabase auth is
- * wired up (the customer name will come from the signed-in profile instead
- * of a free-text field) — for now it just appends to the in-memory list.
- */
-export async function submitReviewAction(formData: FormData) {
-  const dealId = String(formData.get("deal_id") ?? "");
-  const customerName = String(formData.get("customer_name") ?? "").trim();
-  const ratingRaw = Number(formData.get("rating") ?? 0);
+export interface Review {
+  id: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
+  /** "First L." — the backend never sends a full name or email. */
+  customerName: string;
+}
+
+export interface DealReviews {
+  average: number;
+  count: number;
+  items: Review[];
+}
+
+export async function getDealReviews(dealId: string): Promise<DealReviews> {
+  try {
+    return await backendFetch<DealReviews>(`/reviews/deal/${encodeURIComponent(dealId)}`);
+  } catch {
+    return { average: 0, count: 0, items: [] };
+  }
+}
+
+/** The signed-in customer's completed, not-yet-reviewed order on this deal, if any. */
+export async function getReviewableOrderId(dealId: string): Promise<string | null> {
+  const token = await getSessionToken();
+  if (!token) return null;
+  try {
+    const res = await backendFetch<{ orderId: string | null }>(
+      `/reviews/deal/${encodeURIComponent(dealId)}/mine`,
+      { headers: { Authorization: `Bearer ${token}` } },
+    );
+    return res.orderId;
+  } catch (err) {
+    if (err instanceof BackendError) return null;
+    return null;
+  }
+}
+
+export async function submitReviewAction(
+  dealId: string,
+  orderId: string,
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const rating = Number(formData.get("rating") ?? 0);
   const comment = String(formData.get("comment") ?? "").trim();
-
-  if (!dealId || !customerName || !comment) return;
-  if (ratingRaw < 1 || ratingRaw > 5) return;
-  const rating = ratingRaw as 1 | 2 | 3 | 4 | 5;
-
-  addReview({ dealId, customerName, rating, comment });
-
-  revalidatePath("/[locale]/deals/[id]", "page");
+  return postAction("/reviews", { orderId, rating, comment }, `/deals/${dealId}`);
 }
