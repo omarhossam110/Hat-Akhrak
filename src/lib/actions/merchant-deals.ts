@@ -124,10 +124,18 @@ export async function getMyDeals(): Promise<MerchantDealsData> {
     (sum, deal) => sum + deal.cycles.reduce((s, c) => s + c.unitsSold, 0),
     0,
   );
-  const revenue = rows.reduce(
-    (sum, row) => sum + row.history.reduce((s, h) => s + (h.amount ?? 0), 0),
-    0,
-  );
+  // Revenue = what the merchant has actually earned: paid out + payable now
+  // (completed orders, net of dispute adjustments) — not price x units sold.
+  let revenue = 0;
+  try {
+    const mine = await backendFetch<{ owed: number; paidOut: number }>("/ledger/mine", {
+      headers: { Authorization: `Bearer ${token}` },
+      cache: "no-store",
+    });
+    revenue = mine.owed + mine.paidOut;
+  } catch {
+    revenue = 0;
+  }
   // Flags when a deal's two most-recent cycles both failed — same "repeated
   // consecutive failures" rule as the original spec's merchant alert.
   const hasAlert = rows.some((row) => {
