@@ -1,11 +1,14 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { getDeals } from "@/lib/actions/public-deals";
+import { getSavedThisWeek } from "@/lib/actions/public-stats";
 import { DealCard } from "@/components/deal-card";
 
 export default async function HomePage() {
   const t = await getTranslations();
   const deals = await getDeals();
+  // Real number, or null while it is too small to be worth showing.
+  const saved = await getSavedThisWeek();
 
   const endingSoon = [...deals]
     .sort((a, b) => new Date(a.cycle.ends_at).getTime() - new Date(b.cycle.ends_at).getTime())
@@ -24,10 +27,12 @@ export default async function HomePage() {
             className="pointer-events-none absolute -bottom-[130px] -start-[70px] h-[240px] w-[240px] rounded-full border border-white/10"
             aria-hidden
           />
-          <div className="relative font-sans text-[17px] font-extrabold text-[#ffc15a]">
-            {t("home.heroNumber")}
-          </div>
-          <h1 className="relative mb-3.5 mt-2 max-w-[590px] text-[28px] leading-tight tracking-tight sm:text-[37px]">
+          {saved !== null && (
+            <div className="relative mb-2 font-sans text-[17px] font-extrabold text-[#ffc15a]">
+              {saved.toLocaleString("en-US")}+
+            </div>
+          )}
+          <h1 className="relative mb-3.5 max-w-[590px] text-[28px] leading-tight tracking-tight sm:text-[37px]">
             {t("home.heroTitle")}
           </h1>
           <p className="relative max-w-[540px] text-[#d0d5dd] leading-7">
@@ -43,20 +48,35 @@ export default async function HomePage() {
 
         <aside className="flex flex-col justify-between rounded-[28px] border border-line bg-surface p-[25px] shadow-[var(--shadow-card)]">
           <div className="flex items-center justify-between">
-            <div>
-              <strong className="font-sans text-[30px]">{t("home.heroNumber")}</strong>
-              <small className="mt-0.5 block text-xs text-muted">
-                {t("home.heroMetric")}
-              </small>
-            </div>
+            {saved !== null ? (
+              <div>
+                <strong className="font-sans text-[30px]">{saved.toLocaleString("en-US")}+</strong>
+                <small className="mt-0.5 block text-xs text-muted">{t("home.heroMetric")}</small>
+              </div>
+            ) : (
+              <ul className="flex flex-col gap-3 text-sm font-bold">
+                {t("home.sideNote")
+                  .split("•")
+                  .map((point) => (
+                    <li key={point} className="flex items-center gap-2">
+                      <span className="text-brand" aria-hidden>
+                        ✓
+                      </span>
+                      {point.trim()}
+                    </li>
+                  ))}
+              </ul>
+            )}
             <div className="grid h-12 w-12 place-items-center rounded-2xl bg-brand-soft text-[22px]">
               ↗
             </div>
           </div>
-          <div>
-            <div className="my-[17px] h-px bg-line" />
-            <div className="text-[11px] text-muted">{t("home.sideNote")}</div>
-          </div>
+          {saved !== null && (
+            <div>
+              <div className="my-[17px] h-px bg-line" />
+              <div className="text-[11px] text-muted">{t("home.sideNote")}</div>
+            </div>
+          )}
         </aside>
       </section>
 
