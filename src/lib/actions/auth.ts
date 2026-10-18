@@ -50,7 +50,7 @@ export async function loginAction(
       return { error: "errorInvalidCredentials" };
     }
     if (err instanceof BackendError && err.status === 429) {
-      return { error: "errorTooManyAttempts" };
+      return { error: err.code === "account_locked" ? "errorAccountLocked" : "errorTooManyAttempts" };
     }
     return { error: "errorGeneric" };
   }

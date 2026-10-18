@@ -111,7 +111,8 @@
     "errorGeneric": "Something went wrong. Please try again.",
     "errorInvalidCredentials": "Incorrect email or password.",
     "errorEmailTaken": "An account with this email already exists.",
-    "errorTooManyAttempts": "Too many attempts. Please wait a minute and try again."
+    "errorTooManyAttempts": "Too many attempts. Please wait a minute and try again.",
+    "errorAccountLocked": "Too many failed sign-ins, so this account is locked for 15 minutes. You can also reset your password to unlock it now."
   },
   "orders": {
     "title": "My Orders",
