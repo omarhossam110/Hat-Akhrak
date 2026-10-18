@@ -26,6 +26,9 @@ const csp = [
 ].join("; ");
 
 const nextConfig: NextConfig = {
+  // Self-contained server bundle (.next/standalone) so the Docker image doesn't
+  // need node_modules — see Dockerfile and deploy/.
+  output: "standalone",
   // Don't advertise the framework version.
   poweredByHeader: false,
   async headers() {
