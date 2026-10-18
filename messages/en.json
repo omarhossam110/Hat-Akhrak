@@ -524,5 +524,13 @@
       "inspection_closed": "The 48-hour inspection window has passed.",
       "already_resolved": "This dispute was already resolved."
     }
+  },
+  "errors": {
+    "notFoundTitle": "We couldn't find that page",
+    "notFoundDesc": "The link may be old or mistyped.",
+    "backHome": "Back to home",
+    "somethingWrongTitle": "Something went wrong",
+    "somethingWrongDesc": "We couldn't load this page. Please try again — if it keeps happening, come back in a few minutes.",
+    "tryAgain": "Try again"
   }
 }

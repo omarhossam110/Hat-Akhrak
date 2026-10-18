@@ -524,5 +524,13 @@
       "inspection_closed": "مهلة الفحص (48 ساعة) خلصت.",
       "already_resolved": "النزاع ده اتحسم قبل كده."
     }
+  },
+  "errors": {
+    "notFoundTitle": "مش لاقيين الصفحة دي",
+    "notFoundDesc": "ممكن اللينك قديم أو فيه غلطة في الكتابة.",
+    "backHome": "الرجوع للرئيسية",
+    "somethingWrongTitle": "حصلت مشكلة",
+    "somethingWrongDesc": "ماقدرناش نحمّل الصفحة دي. جرّب تاني، ولو المشكلة مستمرة ارجع بعد دقايق.",
+    "tryAgain": "جرّب تاني"
   }
 }
