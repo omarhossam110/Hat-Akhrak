@@ -1,10 +1,10 @@
 # Deploying Hat Akhrak (one VPS, Docker Compose)
 
 ```
-Internet → nginx :80/:443 → frontend (Next.js) → backend (NestJS) → Postgres
+Internet → nginx :80/:443 → frontend (Next.js) → backend (NestJS) → Postgres (same server)
 ```
 
-Only **nginx** is published. The backend is reachable from the frontend container
+Only **nginx** is published. Postgres is never exposed (no `ports:` on it) and the backend is reachable from the frontend container
 only; that is what makes `TRUST_PROXY=1` safe (the backend trusts the frontend's
 `X-Forwarded-For`, and nginx overwrites that header with the real visitor IP).
 
@@ -23,15 +23,13 @@ cp .env.example .env
 # fill in every secret; generate each with: openssl rand -base64 48
 ```
 
-Pick one database option in `.env` (see the comments there): Postgres inside the stack
-(`--profile local-db`) or a hosted one such as Supabase.
+Everything runs on this one server, including PostgreSQL (no external database service). `DB_PASSWORD` is the only database setting: letters and digits only, e.g. `openssl rand -hex 24`.
 
 ## 3. First start
 
 ```bash
-docker compose up -d --build                      # hosted database
-docker compose --profile local-db up -d --build   # database in this stack
-docker compose ps                                 # all "healthy" / migrate "exited (0)"
+docker compose up -d --build
+docker compose ps          # everything "healthy", migrate "exited (0)"
 ```
 
 Order is enforced: database → **migrate** (applies the SQL migrations, then exits) →
@@ -44,7 +42,6 @@ There is no public admin sign-up, by design.
 1. Sign up as a normal customer on the site.
 2. Promote that account in the database:
    `docker compose exec db psql -U hat hat_akhrak -c "update profiles set role='super_admin' where email='you@example.com'"`
-   (hosted database: run the same `update` from its SQL console).
 3. Log in, open `/super-admin/security` and enrol the authenticator app. Save the recovery codes.
 4. Only now keep `REQUIRE_ADMIN_2FA=true` (the default here).
 
@@ -81,14 +78,31 @@ docker compose up -d --build          # rebuilds, migrates, restarts
 - [ ] All secrets set and **backed up somewhere safe** (losing `TAX_ID_ENCRYPTION_KEY` / `TOTP_ENCRYPTION_KEY` makes that data unreadable)
 - [ ] Admin 2FA enrolled, `REQUIRE_ADMIN_2FA=true`
 - [ ] SMTP configured and the sending domain verified (otherwise reset/notification emails are only logged)
-- [ ] Database backups scheduled (`pg_dump`, or your host's backups)
+- [ ] Backups: the `backup` container writes a daily dump to `deploy/backups/` — also **copy that folder off the server** (rsync/rclone to another machine or storage) and do one test restore
 - [ ] The Content-Security-Policy is still **report-only**: check `/api/csp-report` logs on the real domain, then enforce it in `next.config.ts`
 - [ ] A real payment gateway is wired in (payments are currently recorded as paid immediately)
+
+## Backups and restore
+
+A daily `pg_dump` (gzip) lands in `deploy/backups/` and the last 14 days are kept
+(`BACKUP_KEEP_DAYS` in `.env`). Check it is working: `docker compose logs backup`.
+
+Restore into a **stopped** app (this replaces the current data):
+
+```bash
+docker compose stop backend frontend nginx
+docker compose exec db psql -U hat -d postgres -c "drop database hat_akhrak" -c "create database hat_akhrak"
+gunzip -c backups/hat_akhrak_YYYYMMDD_HHMMSS.sql.gz | docker compose exec -T db psql -U hat hat_akhrak
+docker compose up -d
+```
+
+Never run `docker compose down -v` on a live system: `-v` deletes the database volume.
 
 ## Useful commands
 
 ```bash
 docker compose logs -f backend          # follow logs
 docker compose exec backend sh          # shell in the API container
-docker compose --profile local-db exec db pg_dump -U hat hat_akhrak > backup.sql
+docker compose exec db psql -U hat hat_akhrak    # SQL prompt
+docker compose exec backup sh -c 'ls -lh /backups'   # list backups
 ```

@@ -9,7 +9,7 @@ import type { Category } from "@/lib/types/database";
 // super_admin-only) — the old in-memory mock list is gone. Backend rows are
 // camelCase (Drizzle's convention); this app's `Category` type is the
 // snake_case shape the rest of the UI already expects (matches the
-// Supabase-style schema these components were originally built against),
+// older-style schema these components were originally built against),
 // so every row is mapped on the way in.
 
 type BackendCategory = {

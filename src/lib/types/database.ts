@@ -1,9 +1,6 @@
 /**
- * Hand-authored types mirroring supabase/migrations/0001_init.sql.
- *
- * Once a real Supabase project is connected, regenerate this file with:
- *   npx supabase gen types typescript --project-id <id> > src/lib/types/database.ts
- * and re-apply the domain type aliases below if you want to keep them.
+ * Hand-authored types for the data the backend returns. The source of truth
+ * for the schema is hat-akhrak-backend/src/database/schema.ts.
  */
 
 export type UserRole = "customer" | "merchant" | "super_admin";
@@ -155,29 +152,4 @@ export interface MerchantAlert {
   message: string;
   acknowledged: boolean;
   created_at: string;
-}
-
-/** Minimal Supabase-client-compatible schema shape. */
-export interface Database {
-  public: {
-    Tables: {
-      profiles: { Row: Profile; Insert: Partial<Profile>; Update: Partial<Profile> };
-      merchants: { Row: Merchant; Insert: Partial<Merchant>; Update: Partial<Merchant> };
-      categories: { Row: Category; Insert: Partial<Category>; Update: Partial<Category> };
-      deals: { Row: Deal; Insert: Partial<Deal>; Update: Partial<Deal> };
-      deal_tiers: { Row: DealTier; Insert: Partial<DealTier>; Update: Partial<DealTier> };
-      cycles: { Row: Cycle; Insert: Partial<Cycle>; Update: Partial<Cycle> };
-      orders: { Row: Order; Insert: Partial<Order>; Update: Partial<Order> };
-      payments: { Row: Payment; Insert: Partial<Payment>; Update: Partial<Payment> };
-      disputes: { Row: Dispute; Insert: Partial<Dispute>; Update: Partial<Dispute> };
-      merchant_alerts: {
-        Row: MerchantAlert;
-        Insert: Partial<MerchantAlert>;
-        Update: Partial<MerchantAlert>;
-      };
-    };
-    Views: {
-      merchant_public_profiles: { Row: MerchantPublicProfile };
-    };
-  };
 }

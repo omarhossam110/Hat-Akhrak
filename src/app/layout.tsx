@@ -51,7 +51,7 @@ export default async function RootLayout({
         <Script src="/theme-init.js" strategy="beforeInteractive" />
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground transition-colors duration-200">
-        {/* Guarded like the Supabase client: no-ops until a real pixel ID is configured. */}
+        {/* No-ops until a real pixel ID is configured. */}
         {metaPixelId && <MetaPixel pixelId={metaPixelId} />}
         {children}
       </body>

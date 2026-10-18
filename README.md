@@ -11,7 +11,7 @@ Egyptian group-buying marketplace — merchants list deals with stock, buyers jo
 - **Styling:** Tailwind CSS v4 (navy + orange design tokens — see `src/app/globals.css`)
 - **i18n:** next-intl — full Arabic (default, RTL) / English (LTR) support via `/ar` and `/en` routes
 - **Fonts:** Tajawal (Arabic) + Plus Jakarta Sans (Latin), self-hosted via `@fontsource`
-- **Database (planned):** PostgreSQL via Supabase
+- **Backend / database:** the separate `hat-akhrak-backend` API (NestJS) on PostgreSQL, self-hosted on the same server — see `deploy/`
 - **Payments (planned):** abstracted payment-gateway provider (TBD)
 - **Ad tracking (planned):** Meta Pixel
 

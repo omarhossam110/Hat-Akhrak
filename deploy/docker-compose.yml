@@ -1,40 +1,56 @@
-# Hat Akhrak on a single VPS:  nginx (public) -> frontend (Next.js) -> backend (NestJS) -> Postgres
+# Hat Akhrak on a single VPS:
+#   nginx (public) -> frontend (Next.js) -> backend (NestJS) -> Postgres (same server, in this stack)
 #
 #   cp .env.example .env     # fill it in
-#   docker compose up -d --build                        # Postgres hosted elsewhere (e.g. Supabase)
-#   docker compose --profile local-db up -d --build     # ...or with Postgres in this stack
+#   docker compose up -d --build
 #
-# Only nginx is published. The backend is reachable from the frontend container
-# only, which is what makes TRUST_PROXY=1 safe. See README.md in this folder.
+# Only nginx is published. Postgres and the backend are reachable from other
+# containers only (the backend being private is what makes TRUST_PROXY=1 safe).
+# See README.md in this folder.
 name: hat-akhrak
 
 services:
   db:
-    profiles: ["local-db"]
     image: postgres:16-alpine
     restart: unless-stopped
     environment:
       POSTGRES_USER: hat
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-}   # required when using the local-db profile (postgres refuses to start without it)
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?set DB_PASSWORD}
       POSTGRES_DB: hat_akhrak
     volumes:
       - dbdata:/var/lib/postgresql/data
+    # No `ports:` on purpose — the database is never exposed outside this stack.
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U hat -d hat_akhrak"]
       interval: 5s
       timeout: 5s
       retries: 10
 
+  # Daily compressed dump into ./backups (kept KEEP_DAYS days). Copy that folder
+  # off the server too — a backup on the same disk doesn't survive losing the disk.
+  backup:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      PGPASSWORD: ${DB_PASSWORD:?set DB_PASSWORD}
+      KEEP_DAYS: ${BACKUP_KEEP_DAYS:-14}
+    volumes:
+      - ./backup/backup.sh:/backup.sh:ro
+      - ./backups:/backups
+    entrypoint: ["sh", "/backup.sh"]
+    depends_on:
+      db:
+        condition: service_healthy
+
   # Applies the SQL migrations, then exits. Runs on every `up`; already-applied ones are skipped.
   migrate:
     build: ${BACKEND_CONTEXT:-../../hat-akhrak-backend}
     command: ["node", "dist/database/migrate.js"]
     environment:
-      DATABASE_URL: ${DATABASE_URL:?set DATABASE_URL}
+      DATABASE_URL: postgresql://hat:${DB_PASSWORD}@db:5432/hat_akhrak
     depends_on:
       db:
         condition: service_healthy
-        required: false
     restart: "no"
 
   backend:
@@ -43,7 +59,7 @@ services:
     environment:
       NODE_ENV: production
       PORT: "3001"
-      DATABASE_URL: ${DATABASE_URL:?set DATABASE_URL}
+      DATABASE_URL: postgresql://hat:${DB_PASSWORD}@db:5432/hat_akhrak
       JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET}
       TOTP_ENCRYPTION_KEY: ${TOTP_ENCRYPTION_KEY:?set TOTP_ENCRYPTION_KEY}
       TAX_ID_ENCRYPTION_KEY: ${TAX_ID_ENCRYPTION_KEY:?set TAX_ID_ENCRYPTION_KEY}

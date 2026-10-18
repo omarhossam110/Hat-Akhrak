@@ -8,8 +8,7 @@ import Script from "next/script";
  * Base Meta Pixel loader (fbq init + the standard automatic PageView),
  * mounted once in the locale-agnostic root layout so it survives every
  * locale switch. Only rendered when NEXT_PUBLIC_META_PIXEL_ID is set (see
- * src/app/layout.tsx) — same guarded-until-configured pattern as the
- * Supabase client.
+ * src/app/layout.tsx) — guarded until a real pixel ID is configured.
  *
  * The base snippet's own PageView only fires on the very first load; the
  * App Router's client-side navigations never trigger another one on their

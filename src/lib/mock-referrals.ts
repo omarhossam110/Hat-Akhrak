@@ -1,6 +1,6 @@
 /**
  * Placeholder data for the "Invite a friend" sharing feature until real
- * auth + Supabase queries are wired up (see `referral_code`/`referred_by`
+ * auth + backend queries are wired up (see `referral_code`/`referred_by`
  * on the `profiles` table in 0001_init.sql).
  *
  * No reward/credit mechanic yet — this is just a shareable invite
