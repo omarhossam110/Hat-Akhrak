@@ -17,4 +17,6 @@ export interface MockOrder {
   canCancel?: boolean;
   /** A problem can be reported right now (awaiting balance or inside the inspection window). */
   canReport?: boolean;
+  /** Delivery invoice photo the merchant attached, if any (http/https only). */
+  invoiceUrl?: string;
 }

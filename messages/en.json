@@ -153,7 +153,8 @@
     "disputeUnderReview": "Under review",
     "actionReport": "Report a problem",
     "reportPlaceholder": "Describe the problem (e.g. item arrived damaged)",
-    "reportSend": "Send"
+    "reportSend": "Send",
+    "inviteNoFriends": "None of your friends have joined yet — share your link and they'll show up here."
   },
   "merchantDashboard": {
     "title": "Merchant Dashboard",
@@ -205,7 +206,12 @@
       "deal_cancelled": "This deal was cancelled.",
       "has_active_deposits": "Customers have deposits in the running cycle — it can't be cancelled."
     },
-    "colDelivery": "Delivery details"
+    "colDelivery": "Delivery details",
+    "bioTitle": "About your store",
+    "bioHint": "Shown on your public merchant page.",
+    "bioSave": "Save",
+    "bioSaved": "Saved ✓",
+    "bioError": "Couldn't save — please try again."
   },
   "addDeal": {
     "eyebrow": "For merchants",
@@ -345,7 +351,8 @@
     "backHome": "Back to home",
     "fieldPassword": "Password",
     "errorGeneric": "Something went wrong submitting your application. Please try again.",
-    "errorEmailTaken": "An account with this email already exists — try logging in instead."
+    "errorEmailTaken": "An account with this email already exists — try logging in instead.",
+    "fieldBio": "About your business (optional)"
   },
   "wishlist": {
     "title": "Wishlist",

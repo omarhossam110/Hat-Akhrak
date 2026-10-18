@@ -3,7 +3,7 @@ import { getLocale } from "next-intl/server";
 import { redirect } from "next/navigation";
 import { Link } from "@/i18n/navigation";
 import { getMyOrders } from "@/lib/actions/orders";
-import { mockReferralProgram } from "@/lib/mock-referrals";
+import { getReferrals } from "@/lib/actions/referrals";
 import { InviteFriends } from "@/components/invite-friends";
 import { PayBalanceButton } from "@/components/pay-balance-button";
 import { CancelOrderButton } from "@/components/cancel-order-button";
@@ -37,6 +37,7 @@ export default async function OrdersPage() {
   }
 
   const orders = await getMyOrders();
+  const referrals = await getReferrals();
   type Order = (typeof orders)[number];
 
   function view(order: Order) {
@@ -76,13 +77,15 @@ export default async function OrdersPage() {
         {order.status === "disputed" && (
           <span className="text-[10px] text-muted">{t("orders.disputeUnderReview")}</span>
         )}
-        {group === "delivered" && (
-          <button
-            type="button"
+        {group === "delivered" && order.invoiceUrl && (
+          <a
+            href={order.invoiceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             className="rounded-lg border border-line px-3 py-1.5 text-[11px] font-bold text-ink transition hover:bg-paper"
           >
             {t("orders.actionInvoice")}
-          </button>
+          </a>
         )}
         {group === "refunded" && <span className="text-muted">—</span>}
       </>
@@ -180,7 +183,7 @@ export default async function OrdersPage() {
         </>
       )}
 
-      <InviteFriends program={mockReferralProgram} />
+      {referrals && <InviteFriends program={referrals} />}
     </div>
   );
 }

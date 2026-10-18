@@ -86,6 +86,18 @@ export default async function MerchantSignupPage({
               required={false}
             />
           </div>
+          <div className="sm:col-span-2">
+            <label htmlFor="bio" className="mb-1.5 block text-[11px] font-extrabold text-neutral">
+              {t("merchantSignup.fieldBio")}
+            </label>
+            <textarea
+              id="bio"
+              name="bio"
+              rows={3}
+              maxLength={500}
+              className="w-full rounded-xl border border-line px-3 py-2.5 text-sm outline-none transition focus:border-focus-border focus:shadow-[0_0_0_3px_var(--color-focus-ring)]"
+            />
+          </div>
         </div>
 
         <div className="my-3.5 rounded-xl bg-info-soft p-3 text-[11px] leading-relaxed text-info-text">

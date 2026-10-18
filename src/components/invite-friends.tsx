@@ -2,13 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import type { ReferralProgram } from "@/lib/mock-referrals";
+import type { ReferralProgram } from "@/lib/actions/referrals";
 import { WhatsAppShareButton } from "@/components/whatsapp-share-button";
-
-const STATUS_STYLES: Record<string, string> = {
-  invited: "bg-neutral-soft text-neutral",
-  joined: "bg-info-soft text-info-text",
-};
 
 export function InviteFriends({ program }: { program: ReferralProgram }) {
   const t = useTranslations();
@@ -33,9 +28,6 @@ export function InviteFriends({ program }: { program: ReferralProgram }) {
     }
   }
 
-  const statusLabel = (status: string) =>
-    status === "joined" ? t("orders.friendStatusJoined") : t("orders.friendStatusInvited");
-
   return (
     <div className="mt-6 rounded-[22px] border border-line bg-surface p-[22px] shadow-[var(--shadow-card)]">
       <h2 className="mb-1 text-[16px] font-bold tracking-tight">{t("orders.inviteTitle")}</h2>
@@ -59,21 +51,25 @@ export function InviteFriends({ program }: { program: ReferralProgram }) {
       </div>
 
       <h3 className="mb-2 text-xs font-bold text-muted">{t("orders.inviteFriendsTitle")}</h3>
-      <div className="flex flex-col gap-2">
-        {program.friends.map((friend) => (
-          <div
-            key={friend.id}
-            className="flex items-center justify-between rounded-xl border border-line px-3.5 py-2.5 text-xs"
-          >
-            <span className="font-bold">{friend.name}</span>
-            <span
-              className={`rounded-full px-2.5 py-1 text-[10px] font-extrabold ${STATUS_STYLES[friend.status]}`}
+      {program.friends.length === 0 ? (
+        <p className="rounded-xl border border-dashed border-line px-3.5 py-3 text-xs text-muted">
+          {t("orders.inviteNoFriends")}
+        </p>
+      ) : (
+        <div className="flex flex-col gap-2">
+          {program.friends.map((friend) => (
+            <div
+              key={friend.id}
+              className="flex items-center justify-between rounded-xl border border-line px-3.5 py-2.5 text-xs"
             >
-              {statusLabel(friend.status)}
-            </span>
-          </div>
-        ))}
-      </div>
+              <span className="font-bold">{friend.name}</span>
+              <span className="rounded-full bg-info-soft px-2.5 py-1 text-[10px] font-extrabold text-info-text">
+                {t("orders.friendStatusJoined")}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

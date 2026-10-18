@@ -167,3 +167,33 @@ export async function restockDealAction(
 export async function cancelDealAction(dealId: string, _prev: ActionState): Promise<ActionState> {
   return postAction(`/deals/${dealId}/cancel`, {}, "/merchant/dashboard");
 }
+
+/** Merchant's own public bio (PATCH /merchants/me); empty clears it. */
+export async function updateBioAction(
+  _prev: ActionState,
+  formData: FormData,
+): Promise<ActionState> {
+  const token = await getSessionToken();
+  if (!token) return { error: "notSignedIn" };
+  const bio = String(formData.get("bio") ?? "").trim().slice(0, 500);
+  try {
+    await backendFetch("/merchants/me", {
+      method: "PATCH",
+      headers: { Authorization: `Bearer ${token}` },
+      body: JSON.stringify({ bio }),
+    });
+    return { ok: true };
+  } catch {
+    return { error: "generic" };
+  }
+}
+
+/** The merchant's current public bio, for the dashboard form. */
+export async function getMyBio(merchantId: string): Promise<string> {
+  try {
+    const m = await backendFetch<{ bio?: string | null }>(`/merchants/${merchantId}`);
+    return m.bio ?? "";
+  } catch {
+    return "";
+  }
+}

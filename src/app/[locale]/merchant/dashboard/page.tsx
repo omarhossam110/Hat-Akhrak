@@ -1,8 +1,9 @@
 import { getTranslations, getLocale } from "next-intl/server";
 import { redirect } from "next/navigation";
 import { Link } from "@/i18n/navigation";
-import { getMyDeals } from "@/lib/actions/merchant-deals";
+import { getMyBio, getMyDeals } from "@/lib/actions/merchant-deals";
 import { MerchantDealsTable } from "@/components/merchant-deals-table";
+import { MerchantBioForm } from "@/components/merchant-bio-form";
 import { MerchantOrdersTable } from "@/components/merchant-orders-table";
 import { getMerchantOrders } from "@/lib/actions/orders";
 import { getSession } from "@/lib/auth/session";
@@ -24,6 +25,7 @@ export default async function MerchantDashboardPage({
 
   const { rows: merchantDeals, stats: merchantStats, hasAlert: merchantHasAlert } = await getMyDeals();
   const fulfilmentOrders = await getMerchantOrders();
+  const bio = session.merchantId ? await getMyBio(session.merchantId) : "";
 
   const stats = [
     { icon: "📦", value: merchantStats.totalDeals, label: t("merchantDashboard.statTotalDeals") },
@@ -61,6 +63,8 @@ export default async function MerchantDashboardPage({
           </div>
         ))}
       </div>
+
+      <MerchantBioForm initialBio={bio} />
 
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-[22px] font-extrabold tracking-tight sm:text-[26px]">

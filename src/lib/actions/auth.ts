@@ -119,6 +119,7 @@ export async function merchantSignupAction(formData: FormData) {
   const phone = String(formData.get("phone") ?? "").trim();
   const email = String(formData.get("email") ?? "").trim();
   const taxId = String(formData.get("tax_id") ?? "").trim();
+  const bio = String(formData.get("bio") ?? "").trim().slice(0, 500);
   const password = String(formData.get("password") ?? "");
 
   if (!businessName || !ownerName || !email || !password) {
@@ -135,6 +136,7 @@ export async function merchantSignupAction(formData: FormData) {
         password,
         phone: phone || undefined,
         taxId: taxId || undefined,
+        bio: bio || undefined,
       }),
     });
     await setSessionCookie(accessToken);

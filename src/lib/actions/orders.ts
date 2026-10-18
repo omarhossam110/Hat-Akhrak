@@ -82,6 +82,7 @@ type BackendOrder = {
   createdAt: string;
   cancelDeadline: string;
   inspectionDeadline: string | null;
+  deliveryInvoicePhotoUrl?: string | null;
   cycle: {
     freezeAt: string;
     deal: { id: string; title: string; titleAr: string | null; titleEn: string | null };
@@ -110,6 +111,9 @@ export async function getMyOrders(): Promise<MockOrder[]> {
       productTitle_ar: row.cycle.deal.titleAr ?? row.cycle.deal.title,
       productTitle_en: row.cycle.deal.titleEn ?? row.cycle.deal.title,
       status: row.status,
+      invoiceUrl: /^https?:\/\//i.test(row.deliveryInvoicePhotoUrl ?? "")
+        ? (row.deliveryInvoicePhotoUrl ?? undefined)
+        : undefined,
       // Cancelling is open only while both the order's own 24h window and the
       // cycle's final-24h freeze allow it (the backend re-checks on submit).
       canCancel:

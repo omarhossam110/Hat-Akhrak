@@ -15,6 +15,7 @@ type BackendMerchant = {
   rating: string;
   reviewCount: number;
   memberSince: string;
+  bio?: string | null;
 };
 
 // Cosmetic only, same reasoning as public-deals.ts's icon/artVariant: the
@@ -27,10 +28,8 @@ function hashIndex(id: string, mod: number) {
   return hash % mod;
 }
 
-// No bio field exists on the backend yet (merchant signup never asked for
-// one) — a real per-merchant bio needs a schema change + a new signup-form
-// field, which is its own separate piece of work, not something to invent
-// silently here. Generic placeholder text until that's built.
+// Merchants write their own bio (signup / dashboard). One text, shown in both
+// languages; merchants who haven't written one get this generic line.
 const GENERIC_BIO_AR = "تاجر على هات آخرك، بيبيع بسعر الجملة من خلال صفقات جماعية.";
 const GENERIC_BIO_EN = "A merchant on Hat Akhrak, selling at wholesale prices through group deals.";
 
@@ -56,8 +55,8 @@ function toProfile(
     review_count: m.reviewCount ?? 0,
     completed_deals: completedDeals,
     member_since: new Date(m.memberSince).getFullYear().toString(),
-    bio_ar: GENERIC_BIO_AR,
-    bio_en: GENERIC_BIO_EN,
+    bio_ar: m.bio || GENERIC_BIO_AR,
+    bio_en: m.bio || GENERIC_BIO_EN,
     avatarVariant: AVATAR_VARIANTS[hashIndex(m.id, AVATAR_VARIANTS.length)],
   };
 }
