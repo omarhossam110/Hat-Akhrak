@@ -5,6 +5,9 @@ import { routing } from "@/i18n/routing";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { HtmlLocaleSync } from "@/components/html-locale-sync";
+import { WishlistProvider } from "@/lib/use-wishlist";
+import { getWishlistIds } from "@/lib/actions/wishlist";
+import { getSession } from "@/lib/auth/session";
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -21,13 +24,17 @@ export default async function LocaleLayout({
   }
 
   const messages = await getMessages();
+  const session = await getSession();
+  const wishlistIds = session?.role === "customer" ? await getWishlistIds() : null;
 
   return (
     <NextIntlClientProvider messages={messages}>
       <HtmlLocaleSync />
-      <SiteHeader />
-      <main className="flex-1">{children}</main>
-      <SiteFooter />
+      <WishlistProvider key={session?.sub ?? "guest"} serverIds={wishlistIds}>
+        <SiteHeader />
+        <main className="flex-1">{children}</main>
+        <SiteFooter />
+      </WishlistProvider>
     </NextIntlClientProvider>
   );
 }
