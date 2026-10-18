@@ -77,6 +77,7 @@ docker compose up -d --build          # rebuilds, migrates, restarts
 - [ ] `PUBLIC_URL` is the real `https://` address
 - [ ] All secrets set and **backed up somewhere safe** (losing `TAX_ID_ENCRYPTION_KEY` / `TOTP_ENCRYPTION_KEY` makes that data unreadable)
 - [ ] Admin 2FA enrolled, `REQUIRE_ADMIN_2FA=true`
+- [ ] SMTP working (a confirmation email really arrives), then `REQUIRE_EMAIL_VERIFICATION=true`
 - [ ] SMTP configured and the sending domain verified (otherwise reset/notification emails are only logged)
 - [ ] Backups: the `backup` container writes a daily dump to `deploy/backups/` — also **copy that folder off the server** (rsync/rclone to another machine or storage) and do one test restore
 - [ ] The Content-Security-Policy is still **report-only**: check `/api/csp-report` logs on the real domain, then enforce it in `next.config.ts`

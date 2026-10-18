@@ -49,7 +49,7 @@ export async function payDepositAction(
       // 400/404: a business rule said no (frozen cycle, over the 2-unit cap,
       // out of stock, cycle closed) — the stable `code` says which, so the
       // UI can show it translated.
-      if (err.status === 400 || err.status === 404) {
+      if (err.status === 400 || err.status === 404 || err.status === 403) {
         return { error: "rejected", code: err.code };
       }
     }

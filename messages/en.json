@@ -227,7 +227,8 @@
     "errorGeneric": "Something went wrong, please try again.",
     "errorNotVerified": "Your merchant account isn't verified yet — a super admin needs to approve it before you can publish deals.",
     "errorValidation": "Please check what you entered and try again.",
-    "notVerifiedBanner": "Your account is still under review by our team. You'll be able to add deals once it's approved."
+    "notVerifiedBanner": "Your account is still under review by our team. You'll be able to add deals once it's approved.",
+    "errorEmailNotVerified": "Confirm your email first — use the link we emailed you (or resend it from the banner at the top)."
   },
   "howItWorks": {
     "eyebrow": "How it works",
@@ -332,7 +333,8 @@
     "deliveryPhoneHint": "A valid Egyptian mobile number",
     "deliveryGovernorate": "Governorate",
     "deliveryCity": "City / area",
-    "deliveryAddress": "Full address (street, building, apartment)"
+    "deliveryAddress": "Full address (street, building, apartment)",
+    "errorEmailNotVerified": "Confirm your email first — we sent you a link (check the banner at the top to resend it)."
   },
   "merchantSignup": {
     "eyebrow": "Become a merchant",
@@ -538,5 +540,18 @@
     "somethingWrongTitle": "Something went wrong",
     "somethingWrongDesc": "We couldn't load this page. Please try again — if it keeps happening, come back in a few minutes.",
     "tryAgain": "Try again"
+  },
+  "verifyEmail": {
+    "title": "Confirm your email",
+    "desc": "Press the button to confirm this email address for your Hat Akhrak account.",
+    "confirm": "Confirm email",
+    "success": "Your email is confirmed. Thank you!",
+    "continue": "Browse deals",
+    "invalid": "This confirmation link is invalid or has expired. Use the banner at the top of the site to get a new one.",
+    "generic": "Something went wrong. Please try again.",
+    "banner": "Please confirm your email — we sent you a link.",
+    "bannerResend": "Resend the link",
+    "bannerSent": "Sent — check your inbox.",
+    "bannerAlready": "Your email is already confirmed. Refresh the page."
   }
 }

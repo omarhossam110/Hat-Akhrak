@@ -34,6 +34,8 @@ export type SessionUser = {
   merchantId?: string;
   // True when this session passed a second factor.
   mfa?: boolean;
+  // False until they click the emailed confirmation link.
+  emailVerified?: boolean;
 };
 
 /**

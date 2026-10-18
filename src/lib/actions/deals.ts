@@ -5,7 +5,7 @@ import { getLocale } from "next-intl/server";
 import { BackendError, backendFetch } from "@/lib/backend/client";
 import { getSessionToken } from "@/lib/auth/session";
 
-export type AddDealFormState = { error?: "notVerified" | "validation" | "generic" } | undefined;
+export type AddDealFormState = { error?: "notVerified" | "emailNotVerified" | "validation" | "generic" } | undefined;
 
 /** Merchant publishes a new deal. Only the title, wholesale price,
  * stock count, and an optional category come from the form — the backend
@@ -42,7 +42,9 @@ export async function createDealAction(
     });
   } catch (err) {
     if (err instanceof BackendError) {
-      if (err.status === 403) return { error: "notVerified" };
+      if (err.status === 403) {
+        return { error: err.code === "email_not_verified" ? "emailNotVerified" : "notVerified" };
+      }
       if (err.status === 400) return { error: "validation" };
     }
     return { error: "generic" };

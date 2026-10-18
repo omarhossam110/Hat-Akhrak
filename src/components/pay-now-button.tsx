@@ -80,7 +80,9 @@ export function PayNowButton({
           {state.error === "notSignedIn" && t("payment.errorNotSignedIn")}
           {state.error === "generic" && t("payment.errorGeneric")}
           {state.error === "rejected" &&
-            (state.code === "max_units"
+            (state.code === "email_not_verified"
+              ? t("payment.errorEmailNotVerified")
+              : state.code === "max_units"
               ? t("payment.errorMaxUnits")
               : state.code === "cycle_frozen"
                 ? t("payment.errorFrozen")

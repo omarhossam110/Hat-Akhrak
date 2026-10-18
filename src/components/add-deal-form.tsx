@@ -50,7 +50,7 @@ export function AddDealForm({ categories }: { categories: Category[] }) {
   const suggestedDeposit = useMemo(() => estimateDeposit(priceNumber), [priceNumber]);
 
   const errorKey = state?.error
-    ? ({ notVerified: "errorNotVerified", validation: "errorValidation", generic: "errorGeneric" } as const)[
+    ? ({ notVerified: "errorNotVerified", emailNotVerified: "errorEmailNotVerified", validation: "errorValidation", generic: "errorGeneric" } as const)[
         state.error
       ]
     : undefined;
