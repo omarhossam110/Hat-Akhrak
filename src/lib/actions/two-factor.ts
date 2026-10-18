@@ -5,7 +5,12 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getLocale } from "next-intl/server";
 import { BackendError, backendFetch } from "@/lib/backend/client";
-import { getSessionToken, setSessionCookie, TWO_FACTOR_COOKIE } from "@/lib/auth/session";
+import {
+  getSessionToken,
+  setSessionCookie,
+  TWO_FACTOR_COOKIE,
+  type SessionTokens,
+} from "@/lib/auth/session";
 
 export type TwoFactorState =
   | { error: "expired" | "invalid" | "tooMany" | "generic" }
@@ -47,12 +52,12 @@ export async function verifyTwoFactorAction(
   if (!code) return { error: "invalid" };
 
   try {
-    const { accessToken } = await backendFetch<{ accessToken: string }>("/auth/2fa/verify", {
+    const session = await backendFetch<SessionTokens>("/auth/2fa/verify", {
       method: "POST",
       body: JSON.stringify({ challengeToken, code }),
     });
     jar.delete(TWO_FACTOR_COOKIE);
-    await setSessionCookie(accessToken);
+    await setSessionCookie(session);
   } catch (err) {
     return { error: mapError(err) };
   }
@@ -96,7 +101,7 @@ export async function enableTwoFactorAction(
   const headers = await authHeader();
   if (!headers) return { error: "generic" };
   try {
-    const result = await backendFetch<{ accessToken: string; recoveryCodes: string[] }>(
+    const result = await backendFetch<SessionTokens & { recoveryCodes: string[] }>(
       "/auth/2fa/enable",
       {
         method: "POST",
@@ -104,7 +109,7 @@ export async function enableTwoFactorAction(
         body: JSON.stringify({ code: String(formData.get("code") ?? "").trim() }),
       },
     );
-    await setSessionCookie(result.accessToken);
+    await setSessionCookie(result);
     return { recoveryCodes: result.recoveryCodes };
   } catch (err) {
     const e = mapError(err);
@@ -119,12 +124,12 @@ export async function disableTwoFactorAction(
   const headers = await authHeader();
   if (!headers) return { error: "expired" };
   try {
-    const { accessToken } = await backendFetch<{ accessToken: string }>("/auth/2fa/disable", {
+    const session = await backendFetch<SessionTokens>("/auth/2fa/disable", {
       method: "POST",
       headers,
       body: JSON.stringify({ code: String(formData.get("code") ?? "").trim() }),
     });
-    await setSessionCookie(accessToken);
+    await setSessionCookie(session);
   } catch (err) {
     return { error: mapError(err) };
   }

@@ -1,28 +1,23 @@
 import { cookies } from "next/headers";
 import { cache } from "react";
 import { BACKEND_URL } from "@/lib/backend/client";
+import {
+  REFRESH_COOKIE,
+  SESSION_COOKIE,
+  sessionCookieOptions,
+  type SessionTokens,
+} from "@/lib/auth/cookie-names";
 
-// The one place that names the session cookie / its lifetime, so the
-// Server Actions that set it and the helpers that read it never drift.
-export const SESSION_COOKIE = "hat_akhrak_session";
-// Mirrors the backend's JWT_EXPIRES_IN default (see hat-akhrak-backend's
-// .env.example, "7d") — keep in sync if that's ever changed.
-export const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 7;
+export { SESSION_COOKIE, REFRESH_COOKIE, type SessionTokens } from "@/lib/auth/cookie-names";
 
 // Short-lived (5 min) cookie holding the 2FA login challenge between the
 // password step and the code step. Not a session.
 export const TWO_FACTOR_COOKIE = "hat_akhrak_2fa";
 
-export async function setSessionCookie(token: string) {
-  (await cookies()).set(SESSION_COOKIE, token, {
-    httpOnly: true,
-    // Only forced over HTTPS in production — the dev server runs on plain
-    // http://localhost, where a Secure cookie would just never be sent.
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: SESSION_MAX_AGE_SECONDS,
-  });
+export async function setSessionCookie(tokens: SessionTokens) {
+  const jar = await cookies();
+  jar.set(SESSION_COOKIE, tokens.accessToken, sessionCookieOptions());
+  jar.set(REFRESH_COOKIE, tokens.refreshToken, sessionCookieOptions());
 }
 
 export type Role = "customer" | "merchant" | "super_admin";

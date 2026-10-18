@@ -4,9 +4,15 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getLocale } from "next-intl/server";
 import { BackendError, backendFetch } from "@/lib/backend/client";
-import { SESSION_COOKIE, TWO_FACTOR_COOKIE, setSessionCookie } from "@/lib/auth/session";
+import {
+  REFRESH_COOKIE,
+  SESSION_COOKIE,
+  TWO_FACTOR_COOKIE,
+  setSessionCookie,
+  type SessionTokens,
+} from "@/lib/auth/session";
 
-type SessionResponse = { accessToken: string };
+type SessionResponse = SessionTokens;
 type LoginResponse = SessionResponse | { twoFactorRequired: true; challengeToken: string };
 
 export type AuthFormState = { error?: string } | undefined;
@@ -43,7 +49,7 @@ export async function loginAction(
         maxAge: 5 * 60,
       });
     } else {
-      await setSessionCookie(result.accessToken);
+      await setSessionCookie(result);
     }
   } catch (err) {
     if (err instanceof BackendError && err.status === 401) {
@@ -79,7 +85,7 @@ export async function signupAction(
   }
 
   try {
-    const { accessToken } = await backendFetch<SessionResponse>("/auth/signup", {
+    const session = await backendFetch<SessionResponse>("/auth/signup", {
       method: "POST",
       body: JSON.stringify({
         fullName,
@@ -89,7 +95,7 @@ export async function signupAction(
         referredByCode: referredByCode || undefined,
       }),
     });
-    await setSessionCookie(accessToken);
+    await setSessionCookie(session);
   } catch (err) {
     if (err instanceof BackendError && err.status === 409) {
       return { error: "errorEmailTaken" };
@@ -127,7 +133,7 @@ export async function merchantSignupAction(formData: FormData) {
   }
 
   try {
-    const { accessToken } = await backendFetch<SessionResponse>("/auth/merchant-signup", {
+    const session = await backendFetch<SessionResponse>("/auth/merchant-signup", {
       method: "POST",
       body: JSON.stringify({
         businessName,
@@ -139,7 +145,7 @@ export async function merchantSignupAction(formData: FormData) {
         bio: bio || undefined,
       }),
     });
-    await setSessionCookie(accessToken);
+    await setSessionCookie(session);
   } catch (err) {
     const code = err instanceof BackendError && err.status === 409 ? "email_taken" : "generic";
     redirect(`/${locale}/merchant/signup?error=${code}`);
@@ -149,7 +155,16 @@ export async function merchantSignupAction(formData: FormData) {
 }
 
 export async function logoutAction() {
-  (await cookies()).delete(SESSION_COOKIE);
+  const jar = await cookies();
+  const refreshToken = jar.get(REFRESH_COOKIE)?.value;
+  if (refreshToken) {
+    // Ends this login server-side too; the person is logged out either way.
+    await backendFetch("/auth/logout", { method: "POST", body: JSON.stringify({ refreshToken }) }).catch(
+      () => undefined,
+    );
+  }
+  jar.delete(SESSION_COOKIE);
+  jar.delete(REFRESH_COOKIE);
   const locale = await getLocale();
   redirect(`/${locale}/`);
 }
