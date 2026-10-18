@@ -50,7 +50,31 @@ async function refreshSession(request: NextRequest): Promise<Refreshed> {
   }
 }
 
-export default async function middleware(request: NextRequest) {
+const isDev = process.env.NODE_ENV === "development";
+
+// Enforced Content-Security-Policy with a fresh nonce per request. Next reads
+// the nonce out of the request's CSP header and stamps it on its own scripts
+// (and on <Script>), 'strict-dynamic' lets those load their chunks and the Meta
+// Pixel loader, and anything injected without the nonce is refused.
+// Styles keep 'unsafe-inline' because React/Tailwind use style="" attributes,
+// which nonces can't cover (inline styles can't run code; scripts are the risk).
+function buildCsp(nonce: string) {
+  return [
+    "default-src 'self'",
+    `script-src 'self' 'nonce-${nonce}' 'strict-dynamic'${isDev ? " 'unsafe-eval'" : ""}`,
+    "style-src 'self' 'unsafe-inline'",
+    "img-src 'self' data: blob: https:",
+    "font-src 'self' data:",
+    "connect-src 'self' https://www.facebook.com https://connect.facebook.net",
+    "object-src 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+    "frame-ancestors 'none'",
+    "report-uri /api/csp-report",
+  ].join("; ");
+}
+
+export default async function proxy(request: NextRequest) {
   const refreshed = await refreshSession(request);
 
   // Make the pages rendered for THIS request see the new cookies.
@@ -62,7 +86,14 @@ export default async function middleware(request: NextRequest) {
     request.cookies.delete(REFRESH_COOKIE);
   }
 
+  // Hand the nonce to Next through the request headers it renders from.
+  const nonce = btoa(crypto.randomUUID());
+  const csp = buildCsp(nonce);
+  request.headers.set("x-nonce", nonce);
+  request.headers.set("Content-Security-Policy", csp);
+
   const response = intlMiddleware(request) ?? NextResponse.next();
+  response.headers.set("Content-Security-Policy", csp);
 
   if (refreshed && "tokens" in refreshed) {
     response.cookies.set(SESSION_COOKIE, refreshed.tokens.accessToken, sessionCookieOptions());

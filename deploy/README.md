@@ -80,7 +80,7 @@ docker compose up -d --build          # rebuilds, migrates, restarts
 - [ ] SMTP working (a confirmation email really arrives), then `REQUIRE_EMAIL_VERIFICATION=true`
 - [ ] SMTP configured and the sending domain verified (otherwise reset/notification emails are only logged)
 - [ ] Backups: the `backup` container writes a daily dump to `deploy/backups/` — also **copy that folder off the server** (rsync/rclone to another machine or storage) and do one test restore
-- [ ] The Content-Security-Policy is still **report-only**: check `/api/csp-report` logs on the real domain, then enforce it in `next.config.ts`
+- [ ] The Content-Security-Policy is **enforced** (per-request nonce, `src/proxy.ts`). After the first real visits, grep the frontend logs for `[csp-report]` — any line is something the policy blocked (e.g. a new third-party script you added)
 - [ ] A real payment gateway is wired in (payments are currently recorded as paid immediately)
 
 ## Backups and restore
