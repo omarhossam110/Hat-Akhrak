@@ -50,7 +50,16 @@ export default async function DealDetailsPage({
           <div
             className={`product-art-${artVariant} relative grid h-[300px] place-items-center rounded-[20px] text-[90px] text-white sm:h-[430px] sm:text-[125px]`}
           >
-            <span>{icon}</span>
+            {deal.images[0] ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={deal.images[0]}
+                alt={deal.title}
+                className="absolute inset-0 h-full w-full rounded-[20px] object-cover"
+              />
+            ) : (
+              <span>{icon}</span>
+            )}
             <b className="absolute start-6 top-6 rounded-[9px] bg-white px-2.5 py-2 text-[10px] font-black tracking-wide text-ink">
               {t("deals.limited").toUpperCase()}
             </b>

@@ -47,6 +47,8 @@ services:
     volumes:
       - ./backup/backup.sh:/backup.sh:ro
       - ./backups:/backups
+      # Uploaded images are archived next to the database dump.
+      - uploads:/uploads:ro
     entrypoint: ["sh", "/backup.sh"]
     depends_on:
       db:
@@ -87,6 +89,9 @@ services:
       SMTP_USER: ${SMTP_USER:-}
       SMTP_PASS: ${SMTP_PASS:-}
       MAIL_FROM: ${MAIL_FROM:-}
+    volumes:
+      # Deal photos + delivery invoice photos (see UPLOAD_DIR in the backend image).
+      - uploads:/app/uploads
     depends_on:
       migrate:
         condition: service_completed_successfully
@@ -122,3 +127,4 @@ services:
 
 volumes:
   dbdata:
+  uploads:

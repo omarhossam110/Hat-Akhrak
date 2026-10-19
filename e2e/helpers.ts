@@ -98,3 +98,9 @@ export async function joinDeal(page: Page, dealId: string, units = 1) {
 
 /** Orders/dashboard render a phone card AND a desktop table row; this is the one that's actually shown. */
 export const shown = (page: Page, text: string | RegExp) => page.getByText(text).locator("visible=true").first();
+
+/** A valid 1x1 PNG, for upload tests. */
+export const PNG_BYTES = Buffer.from(
+  "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==",
+  "base64",
+);

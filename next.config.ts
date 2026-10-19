@@ -11,6 +11,8 @@ const nextConfig: NextConfig = {
   output: "standalone",
   // Don't advertise the framework version.
   poweredByHeader: false,
+  // Deal photos (up to 4 x 5 MB) are posted through a Server Action.
+  experimental: { serverActions: { bodySizeLimit: "20mb" } },
   async headers() {
     return [
       {

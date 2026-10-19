@@ -97,7 +97,15 @@ gunzip -c backups/hat_akhrak_YYYYMMDD_HHMMSS.sql.gz | docker compose exec -T db 
 docker compose up -d
 ```
 
-Never run `docker compose down -v` on a live system: `-v` deletes the database volume.
+Uploaded images (deal photos, invoice photos) live in the `uploads` volume and are archived next to the
+dump as `backups/uploads_YYYYMMDD_HHMMSS.tar.gz`. To restore them:
+
+```bash
+docker compose run --rm --no-deps -v "$PWD/backups:/backups:ro" --entrypoint sh backend \
+  -c 'tar -xzf /backups/uploads_YYYYMMDD_HHMMSS.tar.gz -C /app/uploads'
+```
+
+Never run `docker compose down -v` on a live system: `-v` deletes the database **and** the uploaded images.
 
 ## Useful commands
 

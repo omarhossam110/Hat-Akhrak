@@ -16,6 +16,17 @@ while true; do
     rm -f "$file.tmp"
     echo "BACKUP FAILED at $(date)" >&2
   fi
-  find /backups -name 'hat_akhrak_*.sql.gz' -mtime +"$KEEP_DAYS" -delete
+  # Uploaded images (deal photos, invoice photos), archived the same way.
+  if [ -d /uploads ]; then
+    imgs="/backups/uploads_$(date +%Y%m%d_%H%M%S).tar.gz"
+    if tar -czf "$imgs.tmp" -C /uploads . ; then
+      mv "$imgs.tmp" "$imgs"
+      echo "uploads archived: $imgs ($(du -h "$imgs" | cut -f1))"
+    else
+      rm -f "$imgs.tmp"
+      echo "UPLOADS BACKUP FAILED at $(date)" >&2
+    fi
+  fi
+  find /backups \( -name 'hat_akhrak_*.sql.gz' -o -name 'uploads_*.tar.gz' \) -mtime +"$KEEP_DAYS" -delete
   sleep "$INTERVAL"
 done

@@ -1,5 +1,5 @@
-import { expect, test } from "@playwright/test";
-import { shown, createVerifiedMerchant, joinDeal, loginAndWait, logout, publishDeal, signupCustomer, sql, uniqueEmail } from "./helpers";
+import { expect, request as playwrightRequest, test } from "@playwright/test";
+import { PNG_BYTES, shown, createVerifiedMerchant, joinDeal, loginAndWait, logout, publishDeal, signupCustomer, sql, uniqueEmail } from "./helpers";
 
 // The whole money path: 5 units are bought, the cycle closes (the scheduler runs
 // every minute), the buyers pay the rest, the merchant delivers.
@@ -38,6 +38,7 @@ test("a deal that reaches 5 units closes, is paid in full and delivered", async 
   await page.goto("/en/merchant/dashboard");
   await expect(shown(page, "Ready to deliver")).toBeVisible();
   await expect(page.getByTestId("delivery-details").locator("visible=true").first()).toContainText("01012345678");
+  await page.locator('input[name="invoice"]').locator("visible=true").first().setInputFiles({ name: "invoice.png", mimeType: "image/png", buffer: PNG_BYTES });
   await page.getByRole("button", { name: "Mark delivered" }).locator("visible=true").first().click();
   await expect(shown(page, /Inspection window/)).toBeVisible({ timeout: 15_000 });
   await logout(page);
@@ -45,4 +46,16 @@ test("a deal that reaches 5 units closes, is paid in full and delivered", async 
   await loginAndWait(page, buyers[0]);
   await page.goto("/en/orders");
   await expect(shown(page, "Delivered")).toBeVisible();
+
+  // The invoice photo is visible to the buyer, but not to a signed-out visitor.
+  const invoice = page.getByRole("link", { name: "Invoice" }).locator("visible=true").first();
+  await expect(invoice).toBeVisible();
+  const href = (await invoice.getAttribute("href"))!;
+  expect(href).toMatch(/^\/uploads\/invoice\/[0-9a-f-]{36}$/);
+  const mine = await page.request.get(href);
+  expect(mine.status()).toBe(200);
+  expect(mine.headers()["content-type"]).toContain("image/png");
+  const stranger = await playwrightRequest.newContext({ baseURL: test.info().project.use.baseURL });
+  expect((await stranger.get(href)).status()).toBe(404);
+  await stranger.dispose();
 });

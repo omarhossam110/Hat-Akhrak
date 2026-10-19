@@ -1,7 +1,6 @@
 "use client";
 
-import { useActionState, useMemo, useState } from "react";
-import { useFormStatus } from "react-dom";
+import { useActionState, useMemo, useState, useTransition } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { createDealAction, type AddDealFormState } from "@/lib/actions/deals";
 import type { Category } from "@/lib/types/database";
@@ -22,8 +21,7 @@ function estimateDeposit(wholesalePrice: number) {
 
 const ALLOWED_TOTAL_STOCK = [5, 10, 15, 20];
 
-function SubmitButton({ label }: { label: string }) {
-  const { pending } = useFormStatus();
+function SubmitButton({ label, pending }: { label: string; pending: boolean }) {
   return (
     <button
       type="submit"
@@ -43,21 +41,50 @@ export function AddDealForm({ categories }: { categories: Category[] }) {
 
   const initialState: AddDealFormState = undefined;
   const [state, formAction] = useActionState(createDealAction, initialState);
+  const [pending, startTransition] = useTransition();
 
   const priceNumber = Number(wholesalePrice) || 0;
   const stockNumber = Number(totalStock) || 0;
   const stockInvalid = totalStock !== "" && !ALLOWED_TOTAL_STOCK.includes(stockNumber);
   const suggestedDeposit = useMemo(() => estimateDeposit(priceNumber), [priceNumber]);
 
+  const [pickError, setPickError] = useState<"count" | "size" | null>(null);
+
+  // Checked in the browser too so a too-big pick fails right away, not after upload.
+  const onPickImages = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files ?? []);
+    if (files.length > 4) {
+      setPickError("count");
+      e.target.value = "";
+    } else if (files.some((f) => f.size > 5 * 1024 * 1024)) {
+      setPickError("size");
+      e.target.value = "";
+    } else {
+      setPickError(null);
+    }
+  };
+
   const errorKey = state?.error
-    ? ({ notVerified: "errorNotVerified", emailNotVerified: "errorEmailNotVerified", validation: "errorValidation", generic: "errorGeneric" } as const)[
-        state.error
-      ]
+    ? ({
+        notVerified: "errorNotVerified",
+        emailNotVerified: "errorEmailNotVerified",
+        validation: "errorValidation",
+        invalidImage: "errorInvalidImage",
+        imageTooLarge: "errorImageTooLarge",
+        generic: "errorGeneric",
+      } as const)[state.error]
     : undefined;
 
   return (
     <form
-      action={formAction}
+      // Submitted by hand (not via the `action` prop) so that a rejected photo
+      // doesn't wipe everything the merchant typed — React resets uncontrolled
+      // fields after a form action completes.
+      onSubmit={(e) => {
+        e.preventDefault();
+        const data = new FormData(e.currentTarget);
+        startTransition(() => formAction(data));
+      }}
       className="max-w-[620px] rounded-[22px] border border-line bg-surface p-[22px] shadow-[var(--shadow-card)]"
     >
       <div className="mb-1.5 text-xs font-extrabold uppercase tracking-wide text-brand">
@@ -103,6 +130,27 @@ export function AddDealForm({ categories }: { categories: Category[] }) {
               </option>
             ))}
           </select>
+        </div>
+
+        <div className="sm:col-span-2">
+          <label htmlFor="images" className="mb-1.5 block text-[11px] font-extrabold text-neutral">
+            {t("addDeal.fieldImages")}
+          </label>
+          <input
+            id="images"
+            name="images"
+            type="file"
+            multiple
+            accept="image/jpeg,image/png,image/webp"
+            onChange={onPickImages}
+            className="block w-full text-xs file:me-3 file:rounded-lg file:border file:border-line file:bg-paper file:px-3 file:py-2 file:text-[11px] file:font-bold"
+          />
+          <p className="mt-1.5 text-[11px] text-muted">{t("addDeal.imagesHint")}</p>
+          {pickError && (
+            <p className="mt-1.5 text-[11px] font-bold text-danger">
+              {pickError === "count" ? t("addDeal.errorTooManyImages") : t("addDeal.errorImageTooLarge")}
+            </p>
+          )}
         </div>
 
         <div>
@@ -153,7 +201,7 @@ export function AddDealForm({ categories }: { categories: Category[] }) {
         ✓ {t("addDeal.autoNote", { amount: suggestedDeposit || "—" })}
       </div>
 
-      <SubmitButton label={`${t("addDeal.publishBtn")} →`} />
+      <SubmitButton label={`${t("addDeal.publishBtn")} →`} pending={pending} />
     </form>
   );
 }

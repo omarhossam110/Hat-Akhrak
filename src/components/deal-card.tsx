@@ -30,7 +30,17 @@ export function DealCard({ card }: { card: MockDealCard }) {
       <div
         className={`product-art-${artVariant} relative grid h-[175px] place-items-center text-[66px] text-white`}
       >
-        <span>{icon}</span>
+        {deal.images[0] ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={deal.images[0]}
+            alt={deal.title}
+            loading="lazy"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        ) : (
+          <span>{icon}</span>
+        )}
         {merchant.is_verified && (
           <b className="absolute end-3 top-3 rounded-full bg-white px-2.5 py-1.5 text-[10px] font-black text-danger">
             ✓ {t("deals.verifiedMerchant")}

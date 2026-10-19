@@ -210,7 +210,10 @@
     "bioHint": "Shown on your public merchant page.",
     "bioSave": "Save",
     "bioSaved": "Saved ✓",
-    "bioError": "Couldn't save — please try again."
+    "bioError": "Couldn't save — please try again.",
+    "invoicePhoto": "Invoice photo (optional)",
+    "errorInvalidImage": "That file isn't a valid JPEG, PNG or WebP image.",
+    "errorImageTooLarge": "The image must be 5 MB or less."
   },
   "addDeal": {
     "eyebrow": "For merchants",
@@ -228,7 +231,12 @@
     "errorNotVerified": "Your merchant account isn't verified yet — a super admin needs to approve it before you can publish deals.",
     "errorValidation": "Please check what you entered and try again.",
     "notVerifiedBanner": "Your account is still under review by our team. You'll be able to add deals once it's approved.",
-    "errorEmailNotVerified": "Confirm your email first — use the link we emailed you (or resend it from the banner at the top)."
+    "errorEmailNotVerified": "Confirm your email first — use the link we emailed you (or resend it from the banner at the top).",
+    "fieldImages": "Product photos (optional)",
+    "imagesHint": "Up to 4 images (JPEG, PNG or WebP), 5 MB each.",
+    "errorInvalidImage": "One of the files isn't a valid JPEG, PNG or WebP image.",
+    "errorImageTooLarge": "Each image must be 5 MB or less.",
+    "errorTooManyImages": "You can add up to 4 images."
   },
   "howItWorks": {
     "eyebrow": "How it works",

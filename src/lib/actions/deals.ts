@@ -4,8 +4,9 @@ import { redirect } from "next/navigation";
 import { getLocale } from "next-intl/server";
 import { BackendError, backendFetch } from "@/lib/backend/client";
 import { getSessionToken } from "@/lib/auth/session";
+import { MAX_DEAL_IMAGES, filesFrom, uploadImage } from "@/lib/backend/upload";
 
-export type AddDealFormState = { error?: "notVerified" | "emailNotVerified" | "validation" | "generic" } | undefined;
+export type AddDealFormState = { error?: "notVerified" | "emailNotVerified" | "validation" | "invalidImage" | "imageTooLarge" | "generic" } | undefined;
 
 /** Merchant publishes a new deal. Only the title, wholesale price,
  * stock count, and an optional category come from the form — the backend
@@ -29,6 +30,16 @@ export async function createDealAction(
     return { error: "generic" };
   }
 
+  // Photos first: each is stored by the backend and referenced by its path.
+  const files = filesFrom(formData, "images");
+  if (files.length > MAX_DEAL_IMAGES) return { error: "validation" };
+  const images: string[] = [];
+  for (const file of files) {
+    const up = await uploadImage(file, "deal", token);
+    if ("error" in up) return { error: up.error };
+    images.push(up.url);
+  }
+
   try {
     await backendFetch("/deals", {
       method: "POST",
@@ -38,6 +49,7 @@ export async function createDealAction(
         wholesaleUnitPrice,
         totalStock,
         categoryId: categoryId || undefined,
+        ...(images.length ? { images } : {}),
       }),
     });
   } catch (err) {

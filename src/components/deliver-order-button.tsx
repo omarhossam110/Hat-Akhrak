@@ -27,10 +27,23 @@ export function DeliverOrderButton({ orderId }: { orderId: string }) {
 
   return (
     <form action={formAction} className="flex flex-col items-start gap-1">
+      <label className="text-[10px] font-bold text-muted">
+        {t("merchantDashboard.invoicePhoto")}
+        <input
+          type="file"
+          name="invoice"
+          accept="image/jpeg,image/png,image/webp"
+          className="mt-0.5 block w-full max-w-[190px] text-[10px] file:me-2 file:rounded-md file:border file:border-line file:bg-paper file:px-2 file:py-1 file:text-[10px] file:font-bold"
+        />
+      </label>
       <Submit label={t("merchantDashboard.actionDelivered")} />
       {state?.error && (
         <span className="text-[10px] font-bold text-danger">
-          {t("merchantDashboard.errorAction")}
+          {state.code === "invalidImage"
+            ? t("merchantDashboard.errorInvalidImage")
+            : state.code === "imageTooLarge"
+              ? t("merchantDashboard.errorImageTooLarge")
+              : t("merchantDashboard.errorAction")}
         </span>
       )}
     </form>

@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { getLocale } from "next-intl/server";
 import { BackendError, backendFetch } from "@/lib/backend/client";
 import { getSessionToken } from "@/lib/auth/session";
+import { filesFrom, uploadImage } from "@/lib/backend/upload";
 import type { MockOrder } from "@/lib/mock-orders";
 import type { OrderStatus } from "@/lib/types/database";
 
@@ -111,7 +112,7 @@ export async function getMyOrders(): Promise<MockOrder[]> {
       productTitle_ar: row.cycle.deal.titleAr ?? row.cycle.deal.title,
       productTitle_en: row.cycle.deal.titleEn ?? row.cycle.deal.title,
       status: row.status,
-      invoiceUrl: /^https?:\/\//i.test(row.deliveryInvoicePhotoUrl ?? "")
+      invoiceUrl: /^(https?:\/\/|\/uploads\/invoice\/)/i.test(row.deliveryInvoicePhotoUrl ?? "")
         ? (row.deliveryInvoicePhotoUrl ?? undefined)
         : undefined,
       // Cancelling is open only while both the order's own 24h window and the
@@ -220,8 +221,19 @@ export async function payBalanceAction(
 export async function deliverOrderAction(
   orderId: string,
   _prev: OrderActionState,
+  formData: FormData,
 ): Promise<OrderActionState> {
-  return orderAction(`/orders/${orderId}/deliver`, {}, "/merchant/dashboard");
+  // Optional photo of the invoice / proof of delivery.
+  const [photo] = filesFrom(formData, "invoice");
+  const body: Record<string, unknown> = {};
+  if (photo) {
+    const token = await getSessionToken();
+    if (!token) return { error: "notSignedIn" };
+    const up = await uploadImage(photo, "invoice", token);
+    if ("error" in up) return { error: up.error === "generic" ? "generic" : "rejected", code: up.error };
+    body.invoicePhotoUrl = up.url;
+  }
+  return orderAction(`/orders/${orderId}/deliver`, body, "/merchant/dashboard");
 }
 
 export type MerchantOrderRow = {
