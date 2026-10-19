@@ -27,8 +27,53 @@ export async function MerchantOrdersTable({ rows }: { rows: MerchantOrderRow[] }
   const t = await getTranslations();
   const locale = await getLocale();
 
+  const action = (row: MerchantOrderRow) =>
+    row.status === "balance_paid" ? (
+      <DeliverOrderButton orderId={row.id} />
+    ) : row.status === "awaiting_balance" ? (
+      <RefusalForm orderId={row.id} />
+    ) : null;
+
   return (
-    <div className="overflow-x-auto rounded-[22px] border border-line bg-surface shadow-[var(--shadow-card)]">
+    <>
+      {/* Phones: one card per order. */}
+      <div className="flex flex-col gap-3 sm:hidden">
+        {rows.map((row) => (
+          <div
+            key={row.id}
+            className="rounded-[18px] border border-line bg-surface p-4 shadow-[var(--shadow-card)]"
+          >
+            <div className="flex items-start justify-between gap-3">
+              <b className="min-w-0 break-words text-sm">
+                {locale === "ar" ? row.dealTitle_ar : row.dealTitle_en}
+              </b>
+              <span
+                className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-bold ${STATUS_STYLE[row.status]}`}
+              >
+                {t(STATUS_LABEL[row.status])}
+              </span>
+            </div>
+            <p className="mt-2 text-xs text-muted">
+              {row.customerName} · <span className="font-sans">×{row.units}</span>
+            </p>
+            {row.delivery && (
+              <div className="mt-2 flex flex-col gap-0.5 text-xs" data-testid="delivery-details">
+                <b>{row.delivery.name}</b>
+                <a href={`tel:${row.delivery.phone}`} dir="ltr" className="w-fit font-sans text-brand">
+                  {row.delivery.phone}
+                </a>
+                <span className="text-muted">
+                  {row.delivery.governorate} — {row.delivery.city}
+                </span>
+                <span className="text-muted">{row.delivery.address}</span>
+              </div>
+            )}
+            {action(row) && <div className="mt-3">{action(row)}</div>}
+          </div>
+        ))}
+      </div>
+
+    <div className="hidden overflow-x-auto rounded-[22px] border border-line bg-surface shadow-[var(--shadow-card)] sm:block">
       <table className="w-full min-w-[820px] text-start text-sm">
         <thead>
           <tr className="border-b border-line bg-paper text-xs font-bold text-muted">
@@ -85,5 +130,6 @@ export async function MerchantOrdersTable({ rows }: { rows: MerchantOrderRow[] }
         </tbody>
       </table>
     </div>
+    </>
   );
 }
