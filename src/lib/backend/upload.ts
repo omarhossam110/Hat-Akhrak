@@ -5,7 +5,7 @@ export const MAX_DEAL_IMAGES = 4;
 
 export type UploadResult =
   | { url: string }
-  | { error: "invalidImage" | "imageTooLarge" | "generic" };
+  | { error: "invalidImage" | "imageTooLarge" | "notVerified" | "generic" };
 
 /** Sends one image to the backend (POST /uploads). Returns the stored
  * same-site path (e.g. /uploads/deal/<id>) to save on the deal / order. */
@@ -26,6 +26,7 @@ export async function uploadImage(
     });
     if (res.ok) return { url: ((await res.json()) as { url: string }).url };
     if (res.status === 413) return { error: "imageTooLarge" };
+    if (res.status === 403) return { error: "notVerified" };
     if (res.status === 400) return { error: "invalidImage" };
   } catch {
     /* fall through */
