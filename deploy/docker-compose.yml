@@ -9,8 +9,17 @@
 # See README.md in this folder.
 name: hat-akhrak
 
+# Container logs would otherwise grow without limit and eventually fill the
+# disk (and the database lives on it): keep 5 files of 10 MB per service.
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "5"
+
 services:
   db:
+    logging: *default-logging
     image: postgres:16-alpine
     restart: unless-stopped
     environment:
@@ -29,6 +38,7 @@ services:
   # Daily compressed dump into ./backups (kept KEEP_DAYS days). Copy that folder
   # off the server too — a backup on the same disk doesn't survive losing the disk.
   backup:
+    logging: *default-logging
     image: postgres:16-alpine
     restart: unless-stopped
     environment:
@@ -44,6 +54,7 @@ services:
 
   # Applies the SQL migrations, then exits. Runs on every `up`; already-applied ones are skipped.
   migrate:
+    logging: *default-logging
     build: ${BACKEND_CONTEXT:-../../hat-akhrak-backend}
     command: ["node", "dist/database/migrate.js"]
     environment:
@@ -54,6 +65,7 @@ services:
     restart: "no"
 
   backend:
+    logging: *default-logging
     build: ${BACKEND_CONTEXT:-../../hat-akhrak-backend}
     restart: unless-stopped
     environment:
@@ -80,6 +92,7 @@ services:
     expose: ["3001"]
 
   frontend:
+    logging: *default-logging
     build:
       context: ..
       args:
@@ -93,6 +106,7 @@ services:
     expose: ["3000"]
 
   nginx:
+    logging: *default-logging
     image: nginx:1.27-alpine
     restart: unless-stopped
     ports:

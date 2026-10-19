@@ -107,3 +107,12 @@ docker compose exec backend sh          # shell in the API container
 docker compose exec db psql -U hat hat_akhrak    # SQL prompt
 docker compose exec backup sh -c 'ls -lh /backups'   # list backups
 ```
+
+## Logs and tracing a problem
+
+Logs are capped (5 × 10 MB per container) so they can't fill the disk. Backend lines are JSON; every
+request has an id that nginx also returns to the browser as the `X-Request-Id` response header.
+
+    docker compose logs --since 1h backend | grep '"level":"error"'     # server errors
+    docker compose logs backend | grep <request-id>                      # one request, from a screenshot / DevTools
+    docker compose logs frontend | grep render_error                     # a page that crashed (its `digest` = the "Error ID" on the error page)
