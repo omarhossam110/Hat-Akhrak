@@ -62,7 +62,51 @@ export default async function SuperAdminPage() {
             </span>
           </div>
 
-          <div className="overflow-auto">
+          <div className="space-y-3 sm:hidden">
+            {merchantLedger.length === 0 && (
+              <p className="py-6 text-center text-xs text-muted">{t("superAdmin.ledgerEmpty")}</p>
+            )}
+            {merchantLedger.map((row) => (
+              <div key={row.merchantId} className="rounded-[16px] border border-line p-3.5">
+                <div className="mb-2.5 flex items-center justify-between gap-2">
+                  <span className="font-bold">{row.businessName}</span>
+                  <span className="font-sans text-xs text-muted">
+                    {t("superAdmin.completed")}: {row.completedDeals}
+                  </span>
+                </div>
+                <dl className="grid grid-cols-2 gap-x-3 gap-y-2 text-xs">
+                  {(
+                    [
+                      ["collected", row.collected],
+                      ["commission", row.commission],
+                      ["held", row.held],
+                      ["paidOut", row.paidOut],
+                    ] as const
+                  ).map(([key, value]) => (
+                    <div key={key}>
+                      <dt className="text-[10px] font-bold text-muted-2">{t(`superAdmin.${key}`)}</dt>
+                      <dd className="font-sans">
+                        {value.toLocaleString()} {t("common.egp")}
+                      </dd>
+                    </div>
+                  ))}
+                  <div className="col-span-2 border-t border-line pt-2">
+                    <dt className="text-[10px] font-bold text-muted-2">{t("superAdmin.owed")}</dt>
+                    <dd className="font-sans font-bold">
+                      {row.owed.toLocaleString()} {t("common.egp")}
+                    </dd>
+                  </div>
+                </dl>
+                {row.owed > 0 && (
+                  <div className="mt-3">
+                    <RecordPayoutForm merchantId={row.merchantId} owed={row.owed} />
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div className="hidden overflow-auto sm:block">
             <table className="w-full min-w-[860px] text-start text-sm">
               <thead>
                 <tr className="border-b border-line text-[10px] font-bold text-muted-2">
