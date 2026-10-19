@@ -40,6 +40,14 @@ server {
   gzip_types text/plain text/css application/json application/javascript text/xml image/svg+xml;
   gzip_min_length 1024;
 
+  # Hashed build assets: many per page, so not rate limited.
+  location /_next/static/ {
+    proxy_pass http://frontend;
+    proxy_http_version 1.1;
+    proxy_set_header Host $host;
+    proxy_set_header Connection "";
+  }
+
   location / {
     limit_req zone=perip burst=60 nodelay;
 
